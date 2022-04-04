@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "YS0e1p0tqZL5gDcS3FNPOLBbgoCVKfApkk55U0Bf0c78Cqw3ay7XVdRivJwqBJtM6M5eQ8szqq/AQvvLTByPIw==",
+  "dgSpecHash": "K0T9Jds+CcfzN3YzbHiW+pBXYYeyoKumzb49Z5L/IPdaKI8GQjpbWXxZwR7uJ5g0GBnJKHZj11Jm82Kn7DeaCw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\xPatreon\\xPatreon\\xPatreon.csproj",
+  "projectFilePath": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipxPatreon\\xPatreon\\xPatreon\\xPatreon.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\SwitchTechnology\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\SwitchTechnology\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",

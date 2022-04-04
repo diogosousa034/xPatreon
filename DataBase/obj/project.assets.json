@@ -8610,11 +8610,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\xPatreon\\DataBase\\DataBase.csproj",
+      "projectUniqueName": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipxPatreon\\xPatreon\\DataBase\\DataBase.csproj",
       "projectName": "DataBase",
-      "projectPath": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\xPatreon\\DataBase\\DataBase.csproj",
+      "projectPath": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipxPatreon\\xPatreon\\DataBase\\DataBase.csproj",
       "packagesPath": "C:\\Users\\SwitchTechnology\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\xPatreon\\DataBase\\obj\\",
+      "outputPath": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipxPatreon\\xPatreon\\DataBase\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\SwitchTechnology\\AppData\\Roaming\\NuGet\\NuGet.Config",

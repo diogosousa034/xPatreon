@@ -1,14 +1,15 @@
-﻿@using Microsoft.AspNetCore.Http
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
-@model IEnumerable<DataBase.UserContent>
+﻿@model IEnumerable<DataBase.UserContent>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "contentlist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h1>contentlist</h1>
+
+
 <div class="container">
-    <h1>Hi, @HttpContextAccessor.HttpContext.Session.GetString("Username").ToString()</h1>
+    @*<h1>Hi, @HttpContextAccessor.HttpContext.Session.GetString("Username").ToString()</h1>*@
     <div class="row">
         <div class="col-7">
             <p class="text-muted">Overview</p>
@@ -54,7 +55,7 @@
 
             <div class="border p-3 mb-5 bg-white rounded font-weight-bold">
                 <p>Ideas for promoting on social media</p>
-                <p class="text-muted font-weight-normal">To help you build your audience and get your amazing works out to more people, here are 8 quick tips for posting on social media.</p>
+                <p class="text-muted">To help you build your audience and get your amazing works out to more people, here are 8 quick tips for posting on social media.</p>
                 <a href="#" class="btn btn-outline-secondary rounded-pill">Get examples</a>
             </div>
         </div>
@@ -72,6 +73,8 @@
                     RECENT POSTS
                 </div>
             </div>
+
+
             @if (Model.Count() < 1)
             {
                 <div class="border p-3 rounded-bottom bg-white">
@@ -91,8 +94,8 @@
                         <tr>
                             <th class="border border-top-0">
                                 <div class="d-flex">
-                                    <div class="bg-secondary rounded m-2" style="width:80px; height:80px;">
-                                        <img src="/imgs/find_creators.png" style="width:80px; height:80px;" alt="Alternate Text" />
+                                    <div class="bg-secondary rounded m-2" style="width:60px; height:60px;">
+                                        <img src="/imgs/find_creators.png" style="width:60px; height:60px;" alt="Alternate Text" />
                                     </div>
                                     <div class="p-2">
                                         @Html.DisplayFor(modelItem => item.Title)
@@ -104,6 +107,9 @@
                     }
                 </table>
             }
+
         </div>
     </div>
 </div>
+
+

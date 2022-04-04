@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4QUgX+AfytFPa4pDH0+jWpaX9RNVNf/mQXHpkEpvbpbp1BgLnHlQi4XM+hP3O+W0iAiGBpu/8ao8I+8ziOHlXQ==",
+  "dgSpecHash": "kqTHGLYGjDPDuNuBe75AG+/HL/mAQSqt8ZbdFnfhfawUrp8Fv/iYhEG6d2TXU7LqqSN6aWH3e4bqHyeVOZ/KyQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\xPatreon\\DataBase\\DataBase.csproj",
+  "projectFilePath": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipxPatreon\\xPatreon\\DataBase\\DataBase.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\SwitchTechnology\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\SwitchTechnology\\.nuget\\packages\\microsoft.aspnetcore.mvc.razor.extensions\\3.1.22\\microsoft.aspnetcore.mvc.razor.extensions.3.1.22.nupkg.sha512",
