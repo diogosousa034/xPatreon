@@ -1,115 +1,51 @@
 ﻿@model IEnumerable<DataBase.UserContent>
 
 @{
-    ViewData["Title"] = "contentlist";
+    ViewData["Title"] = "Contentlist";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>contentlist</h1>
+<h1>Contentlist</h1>
 
-
-<div class="container">
-    @*<h1>Hi, @HttpContextAccessor.HttpContext.Session.GetString("Username").ToString()</h1>*@
-    <div class="row">
-        <div class="col-7">
-            <p class="text-muted">Overview</p>
-            <div class="border p-3  mb-5 bg-white rounded">
-                <table class="table table-borderless">
-                    <tr>
-                        <th>
-                            <p>0</p>
-                            <p class="text-muted">active patreons</p>
-                            <a href="#">View relationship manager</a>
-                        </th>
-                        <th class="border-left" style="padding-left:60px;">
-                            <p>$0</p>
-                            <p>per month</p>
-                            <a href="#">View earnings dashboard</a>
-                        </th>
-                    </tr>
-                </table>
-            </div>
-
-            <p class="text-muted">Next steps</p>
-            <div class="border p-3 mb-5 bg-white rounded font-weight-bold">
-                <p>Need ideas for a post?</p>
-                <table class="table table-borderless">
-                    <tr>
-                        <th>
-                            <ul>
-                                <li><a href="#">Behind the scenes</a></li>
-                                <li><a href="#">Livestream, Q&A</a></li>
-                                <li><a href="#">Early access</a></li>
-                            </ul>
-                        </th>
-                        <th>
-                            <ul>
-                                <li><a href="#">Polls</a></li>
-                                <li><a href="#">Exclusive downloads</a></li>
-                                <li><a href="#">Life & work updates</a></li>
-                            </ul>
-                        </th>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="border p-3 mb-5 bg-white rounded font-weight-bold">
-                <p>Ideas for promoting on social media</p>
-                <p class="text-muted">To help you build your audience and get your amazing works out to more people, here are 8 quick tips for posting on social media.</p>
-                <a href="#" class="btn btn-outline-secondary rounded-pill">Get examples</a>
-            </div>
-        </div>
-
-
-        <div class="col-5">
-            <p class="text-muted">Recent activity</p>
-            <div class="border p-3 mb-5 bg-white rounded font-weight-bold">
-                <p>No unread messages from patrons</p>
-                <a href="#">View messages</a>
-            </div>
-
-            <div class="border p-2 mt-3 bg-white font-weight-bold">
-                <div class="p-2">
-                    RECENT POSTS
-                </div>
-            </div>
-
-
-            @if (Model.Count() < 1)
-            {
-                <div class="border p-3 rounded-bottom bg-white">
-                    <div class="d-flex justify-content-center">
-                        <p class="text-muted">You haven't posted anything yet</p>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <a asp-controller="Home" asp-action="CreateContent" class="btn btn-info btn-lg rounded-pill">Make a post</a>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <table class="table table-borderless">
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <th class="border border-top-0">
-                                <div class="d-flex">
-                                    <div class="bg-secondary rounded m-2" style="width:60px; height:60px;">
-                                        <img src="/imgs/find_creators.png" style="width:60px; height:60px;" alt="Alternate Text" />
-                                    </div>
-                                    <div class="p-2">
-                                        @Html.DisplayFor(modelItem => item.Title)
-                                        <p class="text-muted font-weight-normal">hora(falta meter)</p>
-                                    </div>
-                                </div>
-                            </th>
-                        </tr>
-                    }
-                </table>
-            }
-
-        </div>
-    </div>
-</div>
-
-
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MainContent)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @if (item.Image != null)
+                {
+                    <img src="~/images/@item.Image" class="rounded" style="width:80px; height:80px;" alt="" />
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MainContent)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Content_ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Content_ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Content_ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -59,7 +59,6 @@ namespace Services.Implementation
             return contentList;
         }
 
-
         public int CreateContent(string Title, string mainContent, string Image, int Userid)
         {
             UserContent newContent = new UserContent
@@ -74,11 +73,23 @@ namespace Services.Implementation
             return _context.SaveChanges();
         }
 
-        //public void SaveImage(string Title)
-        //{
+        public string UploadedFile(UserContent content)
+        {
+            string uniqueFileName = null;
 
-        //    return _context.SaveChanges();
-        //}
+            if (content.FrontImage != null)
+            {
+                string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + content.FrontImage.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    content.FrontImage.CopyTo(fileStream);
+                }
+            }
+
+            return uniqueFileName;
+        }
 
         public int getNumberofUsers()
         {

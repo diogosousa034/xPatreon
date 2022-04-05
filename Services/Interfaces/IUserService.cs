@@ -11,7 +11,7 @@ namespace Services.Interfaces
         public int RegisterUser(string Username, string email, string password, string confirm, string role);
         public bool LoginUser(string Username, string password);
         public int CreateContent(string Title, string mainContent, string Image, int Userid);
-        //public void SaveImage(string Title);
+        public string UploadedFile(UserContent content);
         public int UserId(string Username);
         public IEnumerable<UserContent> ContentList(int userid);
     }

@@ -870,4 +870,4 @@ C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\ob
 C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\obj\Debug\netcoreapp3.1\xPatreon.genruntimeconfig.cache
 C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\obj\Debug\netcoreapp3.1\Razor\Views\Home\CreateImageContent.cshtml.g.cs
 C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\obj\Debug\netcoreapp3.1\Razor\Views\Home\CreateTextContent.cshtml.g.cs
-C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\obj\Debug\netcoreapp3.1\Razor\Views\Home\contentlist.cshtml.g.cs
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\obj\Debug\netcoreapp3.1\Razor\Views\Home\Contentlist.cshtml.g.cs

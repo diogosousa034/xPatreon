@@ -67,43 +67,51 @@
                 <a href="#">View messages</a>
             </div>
 
-            <div class="border p-2 mt-3 bg-white font-weight-bold">
-                <div class="p-2">
+            <div class="border bg-white font-weight-bold rounded">
+                <div class="p-3">
                     RECENT POSTS
+
+                    <a class="font-weight-normal text-right" asp-controller="Home" asp-action="ContentList">View all posts</a>
                 </div>
+                @if (Model.Count() < 1)
+                {
+                    <div class="border p-3 rounded-bottom bg-white">
+                        <div class="d-flex justify-content-center">
+                            <p class="text-muted">You haven't posted anything yet</p>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <a asp-controller="Home" asp-action="CreateContent" class="btn btn-info btn-lg rounded-pill">Make a post</a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <table class="table table-borderless">
+                        @foreach (var item in Model)
+                        {
+                            <tr class="border-top">
+                                <th>
+                                    <div class="d-flex">
+                                        <div class="bg-secondary rounded m-2" style="width:80px; height:80px;">
+                                            @if (item.Image != null)
+                                            {
+                                                <div class="bg-white" style="width:80px; height:80px;">
+                                                    <img src="~/images/@item.Image" class="rounded" style="width:80px; height:80px;" alt="" />
+                                                </div>
+                                            }
+                                        </div>
+                                        <div class="p-2">
+                                            @Html.DisplayFor(modelItem => item.Title)
+                                            <p class="text-muted font-weight-normal">hora(falta meter)</p>
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
+                        }
+                    </table>
+                }
             </div>
-            @if (Model.Count() < 1)
-            {
-                <div class="border p-3 rounded-bottom bg-white">
-                    <div class="d-flex justify-content-center">
-                        <p class="text-muted">You haven't posted anything yet</p>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <a asp-controller="Home" asp-action="CreateContent" class="btn btn-info btn-lg rounded-pill">Make a post</a>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <table class="table table-borderless">
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <th class="border border-top-0">
-                                <div class="d-flex">
-                                    <div class="bg-secondary rounded m-2" style="width:80px; height:80px;">
-                                        <img src="/imgs/find_creators.png" style="width:80px; height:80px;" alt="Alternate Text" />
-                                    </div>
-                                    <div class="p-2">
-                                        @Html.DisplayFor(modelItem => item.Title)
-                                        <p class="text-muted font-weight-normal">hora(falta meter)</p>
-                                    </div>
-                                </div>
-                            </th>
-                        </tr>
-                    }
-                </table>
-            }
+
         </div>
     </div>
 </div>
