@@ -1,4 +1,4 @@
-﻿@model DataBase.UserContent
+﻿@model Services.Dto.CreateContentDto
 
 @{
     ViewData["Title"] = "CreateImageContent";
@@ -7,8 +7,7 @@
 
 <h1>CreateImageContent</h1>
 
-<h4>UserContent</h4>
-<hr />
+
 <div class="row">
     <div class="col-md-4">
         <form enctype="multipart/form-data" asp-action="CreateImageContent">
@@ -33,7 +32,6 @@
                 <span asp-validation-for="FrontImage" class="text-danger"></span>
 
                 <img id="FrontImagePrv" src="" alt="Image" width="150" height="150"/>
-
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

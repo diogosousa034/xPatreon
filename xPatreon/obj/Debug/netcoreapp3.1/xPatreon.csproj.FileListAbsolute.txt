@@ -871,3 +871,11 @@ C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\ob
 C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\obj\Debug\netcoreapp3.1\Razor\Views\Home\CreateImageContent.cshtml.g.cs
 C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\obj\Debug\netcoreapp3.1\Razor\Views\Home\CreateTextContent.cshtml.g.cs
 C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\obj\Debug\netcoreapp3.1\Razor\Views\Home\Contentlist.cshtml.g.cs
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\obj\Debug\netcoreapp3.1\Razor\Views\Home\Settings.cshtml.g.cs
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\bin\Debug\netcoreapp3.1\System.Web.Mvc.dll
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\bin\Debug\netcoreapp3.1\System.Web.Razor.dll
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\bin\Debug\netcoreapp3.1\System.Web.Helpers.dll
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\bin\Debug\netcoreapp3.1\System.Web.WebPages.Deployment.dll
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\bin\Debug\netcoreapp3.1\System.Web.WebPages.Razor.dll
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\bin\Debug\netcoreapp3.1\System.Web.WebPages.dll
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\bin\Debug\netcoreapp3.1\Microsoft.Web.Infrastructure.dll

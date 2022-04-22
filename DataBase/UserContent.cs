@@ -20,6 +20,9 @@ namespace DataBase
         [Column(TypeName = "nvarchar(200)")]
         public string Image { get; set; }
 
+        [Column(TypeName = "datetime2")]
+        public DateTime PublicationData { get; set; }
+
         [NotMapped]
         public IFormFile FrontImage { get; set; }
 

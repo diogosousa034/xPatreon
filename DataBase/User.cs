@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,6 +18,9 @@ namespace DataBase
         [Required(ErrorMessage = "Email is required.")]
         public string Email { get; set; }
 
+        [Column(TypeName = "nvarchar(200)")]
+        public string Image { get; set; }
+
         [Column(TypeName = "nvarchar(100)")]
         [Required(ErrorMessage = "Password is required.")]
         [DataType(DataType.Password)]
@@ -31,6 +35,12 @@ namespace DataBase
         [Column(TypeName = "nvarchar(30)")]
         [Required(ErrorMessage = "Role is required.")]
         public string Role { get; set; }
+
+        [Column(TypeName = "datetime2")]
+        public DateTime RegistrationData { get; set; }
+
+        [NotMapped]
+        public IFormFile FrontImage { get; set; }
 
         public virtual IEnumerable<UserContent> Contents { get; set; }
     }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DataBase;
 using Services;
 using Services.Interfaces;
+using Services.Dto;
 
 namespace xPatreon.Controllers
 {
@@ -30,16 +31,17 @@ namespace xPatreon.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(User account)
+        public IActionResult Register(UserDto account)
         {
             if (ModelState.IsValid)
             {
-                _userService.RegisterUser(account.UserName, account.Email, account.Password, account.ConfirmPassword, account.Role);
+                string default_image = "/imgs/default user.png";
+                account.Image = default_image;
+                _userService.RegisterUser(account);
 
                 ModelState.Clear();
-                ViewBag.Message = account.UserName + " successfuly registered";
             }
-            return View();
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult Login()
@@ -48,9 +50,9 @@ namespace xPatreon.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(User user)
+        public IActionResult Login(UserDto user)
         {
-            if (_userService.LoginUser(user.UserName, user.Password) == true)
+            if (_userService.LoginUser(user) == true)
             {
                 HttpContext.Session.SetString("UserID", _userService.UserId(user.UserName).ToString());
                 HttpContext.Session.SetString("Username", user.UserName.ToString());

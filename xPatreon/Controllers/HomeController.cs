@@ -12,6 +12,7 @@ using Services.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
+using Services.Dto;
 
 namespace xPatreon.Controllers
 {
@@ -19,8 +20,6 @@ namespace xPatreon.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private IUserService _userService;
-        private readonly xPatreonDbContext _context;
-        private readonly IWebHostEnvironment _hostEnvironment;
 
         public HomeController(ILogger<HomeController> logger, IUserService userService)
         {
@@ -36,9 +35,9 @@ namespace xPatreon.Controllers
                 var userid = 0;
                 int.TryParse(HttpContext.Session.GetString("UserID"), out userid);
                 var items = _userService.ContentList(userid);
-                var last5items = items.Reverse().Take(4);
+                var last4items = items.Reverse().Take(4);
 
-                return View(last5items);
+                return View(last4items);
             }
             else
                 return RedirectToAction("Login", "Account");
@@ -78,35 +77,38 @@ namespace xPatreon.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateTextContent(UserContent content, User user)
+        public IActionResult CreateTextContent(CreateContentDto content)
         {
             var userid = 0;
             int.TryParse(HttpContext.Session.GetString("UserID"), out userid);
-
-            _userService.CreateContent(content.Title, content.MainContent, content.Image, userid);
+            content.User_ID = userid;
+            _userService.CreateContent(content);
 
             return RedirectToAction("Index", "Home");
         }
 
         public IActionResult CreateImageContent()
         {
-            if (HttpContext.Session.GetString("UserID") != null)
-            {
-                return View();
-            }
-            else
-                return RedirectToAction("Login", "Account");
+            //if (HttpContext.Session.GetString("UserID") != null)
+            //{
+            //    return View();
+            //}
+            //else
+            //    return RedirectToAction("Login", "Account");
+            return View();
         }
 
         [HttpPost]
-        public IActionResult CreateImageContent(UserContent content)
+        public IActionResult CreateImageContent(CreateContentDto content)
         {
             var userid = 0;
             int.TryParse(HttpContext.Session.GetString("UserID"), out userid);
             string uniqueFileName = _userService.UploadedFile(content);
-            _userService.CreateContent(content.Title, content.MainContent, uniqueFileName, userid);
+            content.User_ID = userid;
+            content.Image = uniqueFileName;
+            _userService.CreateContent(content);
             return RedirectToAction("Index", "Home");
-        }    
+        }
 
         public IActionResult Contentlist()
         {
@@ -119,6 +121,37 @@ namespace xPatreon.Controllers
             }
             else
                 return RedirectToAction("Login", "Account");
+        }
+
+        public IActionResult Settings()
+        {
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                var userid = 0;
+                int.TryParse(HttpContext.Session.GetString("UserID"), out userid);
+                ViewBag.image = _userService.UserInfo(userid).Image;
+                ViewBag.username = _userService.UserInfo(userid).UserName;
+                ViewBag.email = _userService.UserInfo(userid).Email;
+
+                return View();
+            }
+            else
+                return RedirectToAction("Login", "Account");
+        }
+
+        [HttpPost]
+        public IActionResult Settings(UserDto  user)
+        {
+            var userid = 0;
+            int.TryParse(HttpContext.Session.GetString("UserID"), out userid);
+            string uniqueFileName = _userService.UploadedFileUser(user);
+
+            user.User_ID = userid;
+            user.Image = uniqueFileName;
+
+            _userService.EditUser(user);
+
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Privacy()

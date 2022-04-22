@@ -8,6 +8,7 @@ using System.Text;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
+using Services.Dto;
 
 namespace Services.Implementation
 {
@@ -22,29 +23,51 @@ namespace Services.Implementation
             this._hostEnvironment = hostEnvironment;
         }
 
-        public int RegisterUser(string Username, string email, string password, string confirm, string role)
+        public int RegisterUser(UserDto model)
         {
-            User newUser = new User
+            var newUser = new User()
             {
-                UserName = Username,
-                Email = email,
-                Password = password,
-                ConfirmPassword = confirm,
-                Role = role
+                UserName = model.UserName,
+                Email = model.Email,
+                Password = model.Password,
+                ConfirmPassword = model.ConfirmPassword,
+                Image = model.Image,
+                Role = model.Role,
+                RegistrationData = DateTime.Now,
             };
 
             _context.User.Add(newUser);
             return _context.SaveChanges();
         }
 
-        public bool LoginUser(string Username, string password)
+        public bool LoginUser(UserDto model)
         {
-            var usr = _context.User.Single(u => u.UserName == Username && u.Password == password);
+            var usr = _context.User.Single(u => u.UserName == model.UserName && u.Password == model.Password);
             if (usr != null)
                 return true;
             else
                 return false;
 
+        }
+
+        public int EditUser(UserDto model)
+        {
+
+            var user = _context.User.Single(u => u.User_ID == model.User_ID);
+
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+            if (model.Password != null)
+            {
+                user.Password = model.Password;
+                user.ConfirmPassword = model.ConfirmPassword;
+            }
+            user.Image = model.Image;
+            user.Role = model.Role;
+
+            _context.Update(user);
+
+            return _context.SaveChanges();
         }
 
         public int UserId(string Username)
@@ -59,21 +82,22 @@ namespace Services.Implementation
             return contentList;
         }
 
-        public int CreateContent(string Title, string mainContent, string Image, int Userid)
+        public int CreateContent(CreateContentDto model)
         {
-            UserContent newContent = new UserContent
+            var newContent = new UserContent
             {
-                Title = Title,
-                MainContent = mainContent,
-                Image = Image,
-                User_ID = Userid,
+                Title = model.Title,
+                MainContent = model.MainContent,
+                Image = model.Image,
+                PublicationData = DateTime.Now,
+                User_ID = model.User_ID,
             };
 
             _context.UserContents.Add(newContent);
             return _context.SaveChanges();
         }
 
-        public string UploadedFile(UserContent content)
+        public string UploadedFile(CreateContentDto content)
         {
             string uniqueFileName = null;
 
@@ -91,9 +115,46 @@ namespace Services.Implementation
             return uniqueFileName;
         }
 
-        public int getNumberofUsers()
+        public string UploadedFileUser(UserDto content)
         {
-            return _context.User.Count();
+            string uniqueFileName = null;
+
+            if (content.FrontImage != null)
+            {
+                string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + content.FrontImage.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    content.FrontImage.CopyTo(fileStream);
+                }
+            }
+
+            string PathUniqueFileName = "/images/" + uniqueFileName;
+
+            return PathUniqueFileName;
+        }
+
+        public UserDto UserInfo(int userid)
+        {
+            var model = _context.User.Single(c => c.User_ID == userid);
+
+            var user = new UserDto()
+            {
+                UserName = model.UserName,
+                Email = model.Email,
+                Password = model.Password,
+                ConfirmPassword = model.ConfirmPassword,
+                Image = model.Image,
+                Role = model.Role
+            };
+            return user;
+        }
+
+        public IEnumerable<User> GetListOfSearchedUsers(string search)
+        {
+            var searchedUser = _context.User.ToList().Where(u => u.UserName.Contains(search)).Take(5);
+            return searchedUser;
         }
     }
 }
