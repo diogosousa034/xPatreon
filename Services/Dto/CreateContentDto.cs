@@ -22,7 +22,7 @@ namespace Services.Dto
         [NotMapped]
         public IFormFile FrontImage { get; set; }
 
-        public int User_ID { get; set; }
-        public virtual User User { get; set; }
+        public int Page_ID { get; set; }
+        public virtual Page Page { get; set; }
     }
 }

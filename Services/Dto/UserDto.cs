@@ -29,6 +29,6 @@ namespace Services.Dto
         [NotMapped]
         public IFormFile FrontImage { get; set; }
 
-        public virtual IEnumerable<UserContent> Contents { get; set; }
+        public virtual IEnumerable<PageContent> Contents { get; set; }
     }
 }

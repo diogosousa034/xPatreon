@@ -20,20 +20,33 @@ namespace Services
                 .Property(e => e.User_ID)
                 .ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<UserContent>()
-                    .HasKey(o => o.Content_ID);
-            modelBuilder.Entity<UserContent>()
-                .Property(e => e.Content_ID)
+            modelBuilder.Entity<Page>()
+                    .HasKey(o => o.Page_ID);
+            modelBuilder.Entity<Page>()
+                .Property(e => e.Page_ID)
                 .ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<UserContent>()
+            modelBuilder.Entity<PageContent>()
+                    .HasKey(o => o.Content_ID);
+            modelBuilder.Entity<PageContent>()
+                .Property(e => e.Content_ID)
+                .ValueGeneratedOnAdd();
+       
+            modelBuilder.Entity<Page>()
                 .HasOne<User>(s => s.User)
+                .WithOne(g => g.Page)
+                .HasForeignKey<Page>(s => s.User_ID)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<PageContent>()
+                .HasOne<Page>(s => s.Page)
                 .WithMany(g => g.Contents)
-                .HasForeignKey(s => s.User_ID)
+                .HasForeignKey(s => s.Page_ID)
                 .OnDelete(DeleteBehavior.Cascade);
         }
 
         public DbSet<User> User { get; set; }
-        public DbSet<UserContent> UserContents { get; set; }
+        public DbSet<Page> Page { get; set; }
+        public DbSet<PageContent> PageContents { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
-@model IEnumerable<DataBase.UserContent>
+@model IEnumerable<DataBase.PageContent>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -71,7 +71,7 @@
                 <div class="p-3">
                     RECENT POSTS
 
-                    <a class="font-weight-normal text-right" asp-controller="Home" asp-action="ContentList">View all posts</a>
+                    <div class="float-right"><a class="font-weight-normal text-right" asp-controller="Home" asp-action="ContentList">View all posts</a></div>
                 </div>
                 @if (Model.Count() < 1)
                 {
@@ -102,7 +102,7 @@
                                         </div>
                                         <div class="p-2">
                                             @Html.DisplayFor(modelItem => item.Title)
-                                            <p class="text-muted font-weight-normal">hora(falta meter)</p>
+                                            <p class="text-muted font-weight-normal mt-1">@Html.DisplayFor(modelItem => item.PublicationData)</p>
                                         </div>
                                     </div>
                                 </th>

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DataBase
 {
-    class Page
+    public class Page
     {
         public int Page_ID { get; set; }
 
@@ -25,17 +25,25 @@ namespace DataBase
         [Column(TypeName = "nvarchar(200)")]
         public string CoverImage { get; set; }
 
-        [Column(TypeName = "nvarchar(100)")]
-        public string Password { get; set; }
-
         public int Patrons { get; set; }
+
+        public bool active { get; set; }
+
+        [Column(TypeName = "nvarchar(1000)")]
+        public string AboutPage { get; set; }
 
         [Column(TypeName = "datetime2")]
         public DateTime PageCreationData { get; set; }
 
         [NotMapped]
-        public IFormFile FrontImage { get; set; }
+        public IFormFile FrontImageProfile { get; set; }
 
-        public virtual IEnumerable<Page> page { get; set; }
+        [NotMapped]
+        public IFormFile FrontImageCover { get; set; }
+
+        public virtual IEnumerable<PageContent> Contents { get; set; }
+
+        public int User_ID { get; set; }
+        public virtual User User { get; set; }
     }
 }

@@ -32,9 +32,9 @@ namespace xPatreon.Controllers
         {
             if (HttpContext.Session.GetString("UserID") != null)
             {
-                var userid = 0;
-                int.TryParse(HttpContext.Session.GetString("UserID"), out userid);
-                var items = _userService.ContentList(userid);
+                var pageid = 0;
+                int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
+                var items = _userService.ContentList(pageid);
                 var last4items = items.Reverse().Take(4);
 
                 return View(last4items);
@@ -79,9 +79,9 @@ namespace xPatreon.Controllers
         [HttpPost]
         public IActionResult CreateTextContent(CreateContentDto content)
         {
-            var userid = 0;
-            int.TryParse(HttpContext.Session.GetString("UserID"), out userid);
-            content.User_ID = userid;
+            var pageid = 0;
+            int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
+            content.Page_ID = pageid;
             _userService.CreateContent(content);
 
             return RedirectToAction("Index", "Home");
@@ -89,22 +89,21 @@ namespace xPatreon.Controllers
 
         public IActionResult CreateImageContent()
         {
-            //if (HttpContext.Session.GetString("UserID") != null)
-            //{
-            //    return View();
-            //}
-            //else
-            //    return RedirectToAction("Login", "Account");
-            return View();
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                return View();
+            }
+            else
+                return RedirectToAction("Login", "Account");            
         }
 
         [HttpPost]
         public IActionResult CreateImageContent(CreateContentDto content)
         {
-            var userid = 0;
-            int.TryParse(HttpContext.Session.GetString("UserID"), out userid);
+            var pageid = 0;
+            int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
             string uniqueFileName = _userService.UploadedFile(content);
-            content.User_ID = userid;
+            content.Page_ID = pageid;
             content.Image = uniqueFileName;
             _userService.CreateContent(content);
             return RedirectToAction("Index", "Home");
@@ -114,13 +113,50 @@ namespace xPatreon.Controllers
         {
             if (HttpContext.Session.GetString("UserID") != null)
             {
-                var userid = 0;
-                int.TryParse(HttpContext.Session.GetString("UserID"), out userid);
-                var items = _userService.ContentList(userid);
+                var pageid = 0;
+                int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
+                var items = _userService.ContentList(pageid);
                 return View(items);
             }
             else
                 return RedirectToAction("Login", "Account");
+        }
+
+
+        public IActionResult Page()
+        {
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                var pageid = 0;
+                int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
+                ViewBag.PageName = _userService.PageInfo(pageid).PageName;
+                ViewBag.CreatingWhat = _userService.PageInfo(pageid).CreatingWhat;
+                ViewBag.ProfileImage = _userService.PageInfo(pageid).ProfileImage;
+                ViewBag.CoverImage = _userService.PageInfo(pageid).CoverImage;                
+                ViewBag.AboutPage = _userService.PageInfo(pageid).AboutPage;
+                ViewBag.IsAre = _userService.PageInfo(pageid).IsAreCreating;
+
+                return View();
+            }
+            else
+                return RedirectToAction("Login", "Account");
+        }
+
+        [HttpPost]
+        public IActionResult Page(PageEditDto page)
+        {
+            var pageid = 0;
+            int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
+            string ProfileImageFileName = _userService.UploadedpageProfilePhoto(page);
+            string CoverImageFileName = _userService.UploadedpageCoverPhoto(page);
+
+            page.Page_ID = pageid;
+            page.ProfileImage = ProfileImageFileName;
+            page.CoverImage = CoverImageFileName;
+
+            _userService.EditPage(page);
+
+            return RedirectToAction("Page", "Home");
         }
 
         public IActionResult Settings()

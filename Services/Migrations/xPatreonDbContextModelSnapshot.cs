@@ -19,45 +19,52 @@ namespace Services.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DataBase.User", b =>
+            modelBuilder.Entity("DataBase.Page", b =>
                 {
-                    b.Property<int>("User_ID")
+                    b.Property<int>("Page_ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ConfirmPassword")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<string>("AboutPage")
+                        .HasColumnType("nvarchar(1000)");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Image")
+                    b.Property<string>("CoverImage")
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
+                    b.Property<string>("CreatingWhat")
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime>("RegistrationData")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
+                    b.Property<string>("IsAreCreating")
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
+                    b.Property<DateTime>("PageCreationData")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PageName")
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("User_ID");
+                    b.Property<int>("Patrons")
+                        .HasColumnType("int");
 
-                    b.ToTable("User");
+                    b.Property<string>("ProfileImage")
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("User_ID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("active")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Page_ID");
+
+                    b.HasIndex("User_ID")
+                        .IsUnique();
+
+                    b.ToTable("Page");
                 });
 
-            modelBuilder.Entity("DataBase.UserContent", b =>
+            modelBuilder.Entity("DataBase.PageContent", b =>
                 {
                     b.Property<int>("Content_ID")
                         .ValueGeneratedOnAdd()
@@ -68,31 +75,71 @@ namespace Services.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("MainContent")
-                        .IsRequired()
                         .HasColumnType("nvarchar(MAX)");
+
+                    b.Property<int>("Page_ID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("PublicationData")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(150)");
-
-                    b.Property<int>("User_ID")
-                        .HasColumnType("int");
 
                     b.HasKey("Content_ID");
 
-                    b.HasIndex("User_ID");
+                    b.HasIndex("Page_ID");
 
-                    b.ToTable("UserContents");
+                    b.ToTable("PageContents");
                 });
 
-            modelBuilder.Entity("DataBase.UserContent", b =>
+            modelBuilder.Entity("DataBase.User", b =>
+                {
+                    b.Property<int>("User_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ConfirmPassword")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("RegistrationData")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("User_ID");
+
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("DataBase.Page", b =>
                 {
                     b.HasOne("DataBase.User", "User")
+                        .WithOne("Page")
+                        .HasForeignKey("DataBase.Page", "User_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataBase.PageContent", b =>
+                {
+                    b.HasOne("DataBase.Page", "Page")
                         .WithMany("Contents")
-                        .HasForeignKey("User_ID")
+                        .HasForeignKey("Page_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

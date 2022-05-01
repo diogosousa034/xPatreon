@@ -34,10 +34,9 @@ namespace xPatreon.Controllers
         public IActionResult Register(UserDto account)
         {
             if (ModelState.IsValid)
-            {
-                string default_image = "/imgs/default user.png";
-                account.Image = default_image;
+            {                
                 _userService.RegisterUser(account);
+                _userService.CreatePage(account.UserName);
 
                 ModelState.Clear();
             }
@@ -55,6 +54,7 @@ namespace xPatreon.Controllers
             if (_userService.LoginUser(user) == true)
             {
                 HttpContext.Session.SetString("UserID", _userService.UserId(user.UserName).ToString());
+                HttpContext.Session.SetString("PageID", _userService.PageId(_userService.UserId(user.UserName)).ToString());
                 HttpContext.Session.SetString("Username", user.UserName.ToString());
 
                 return RedirectToAction("Index", "Home");

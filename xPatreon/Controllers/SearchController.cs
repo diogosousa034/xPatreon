@@ -33,14 +33,6 @@ namespace xPatreon.Controllers
             var userSearched = from name in allSearch
                         select name.UserName;
 
-
-            //string value = string.Empty;
-            //value = JsonConvert.SerializeObject(userSearched, Formatting.Indented, new JsonSerializerSettings
-            //{
-            //    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            //});
-
-
             return Json(userSearched.ToList());
         }
     }
