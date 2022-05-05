@@ -20,11 +20,19 @@ namespace Services
                 .Property(e => e.User_ID)
                 .ValueGeneratedOnAdd();
 
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.UserName)
+                .IsUnique();
+
             modelBuilder.Entity<Page>()
                     .HasKey(o => o.Page_ID);
             modelBuilder.Entity<Page>()
                 .Property(e => e.Page_ID)
                 .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Page>()
+                .HasIndex(u => u.PageName)
+                .IsUnique();
 
             modelBuilder.Entity<PageContent>()
                     .HasKey(o => o.Content_ID);

@@ -5,38 +5,40 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>CreateImageContent</h1>
+<div class="container mt-3">
+    <h1>CreateImageContent</h1>
 
 
-<div class="row">
-    <div class="col-md-4">
-        <form enctype="multipart/form-data" asp-action="CreateImageContent">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MainContent" class="control-label"></label>
-                <input asp-for="MainContent" class="form-control" />
-                <span asp-validation-for="MainContent" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <div class="custom-file">
-                    <input asp-for="FrontImage" class="custom-file-input" id="FLFrontImage" 
-                           onchange="document.getElementById('FrontImagePrv').src = window.URL.createObjectURL(this.files[0])"/>
-                    <label class="custom-file-label" for="FLFrontImage">Choose file</label>
+    <div class="row">
+        <div class="col-md-4">
+            <form enctype="multipart/form-data" asp-action="CreateImageContent">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
-                <span asp-validation-for="FrontImage" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="MainContent" class="control-label"></label>
+                    <input asp-for="MainContent" class="form-control" />
+                    <span asp-validation-for="MainContent" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Image" class="control-label"></label>
+                    <div class="custom-file">
+                        <input asp-for="FrontImage" class="custom-file-input" id="FLFrontImage"
+                               onchange="document.getElementById('FrontImagePrv').src = window.URL.createObjectURL(this.files[0])" />
+                        <label class="custom-file-label" for="FLFrontImage">Choose file</label>
+                    </div>
+                    <span asp-validation-for="FrontImage" class="text-danger"></span>
 
-                <img id="FrontImagePrv" src="" alt="Image" width="150" height="150"/>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                    <img id="FrontImagePrv" src="" alt="Image" width="150" height="150" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

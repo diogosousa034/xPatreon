@@ -880,3 +880,4 @@ C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\bi
 C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\bin\Debug\netcoreapp3.1\System.Web.WebPages.dll
 C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\bin\Debug\netcoreapp3.1\Microsoft.Web.Infrastructure.dll
 C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\obj\Debug\netcoreapp3.1\Razor\Views\Home\Page.cshtml.g.cs
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\obj\Debug\netcoreapp3.1\Razor\Views\Home\LaunchedPage.cshtml.g.cs

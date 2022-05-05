@@ -117,10 +117,27 @@ namespace Services.Implementation
             return _context.SaveChanges();
         }
 
+        public int LaunchPage(int pageid)
+        {
+            var page = _context.Page.Single(u => u.Page_ID == pageid);
+
+            page.active = true;
+
+            _context.Update(page);
+
+            return _context.SaveChanges();
+        }
+
         public int UserId(string Username)
         {
             var usr = _context.User.Single(u => u.UserName == Username);
             return usr.User_ID;
+        }
+
+        public int PageIdWithPageName(string pagename)
+        {
+            var usr = _context.Page.Single(u => u.PageName == pagename);
+            return usr.Page_ID;
         }
 
         public int PageId(int userid)
@@ -129,9 +146,9 @@ namespace Services.Implementation
             return usr.Page_ID;
         }
 
-        public IEnumerable<PageContent> ContentList(int userid)
+        public IEnumerable<PageContent> ContentList(int pageid)
         {
-            var contentList = _context.PageContents.ToList().Where(c => c.Page_ID == userid);
+            var contentList = _context.PageContents.ToList().Where(c => c.Page_ID == pageid);
             return contentList;
         }
 
@@ -266,9 +283,9 @@ namespace Services.Implementation
             return page;
         }
 
-        public IEnumerable<User> GetListOfSearchedUsers(string search)
+        public IEnumerable<Page> GetListOfSearchedPages(string search)
         {
-            var searchedUser = _context.User.ToList().Where(u => u.UserName.Contains(search)).Take(5);
+            var searchedUser = _context.Page.ToList().Where(u => u.PageName.Contains(search) && u.active == true).Take(5);
             return searchedUser;
         }
     }

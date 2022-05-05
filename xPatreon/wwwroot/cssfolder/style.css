@@ -1,0 +1,61 @@
+﻿
+/*launchedPage.cshtml css*/
+
+.coverImage {
+    position: relative;
+}
+
+.coverImage__Image {
+    display: block;
+    max-height:400px;
+}
+
+.ProfileImage {
+    position: absolute;
+    bottom: -15%;
+    width: 154px;
+    height: 154px;
+    border: 4px solid white;
+}
+
+.buttons {
+    width: 160px;
+}
+
+
+/*page.cshtml css*/
+
+.teste {
+    display: none;
+}
+
+.edit {
+    opacity: 0;
+    transition: opacity 0.50s;
+}
+
+
+    .edit:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
+
+.image {
+    position: relative;
+    width: 100%;
+}
+
+.image__img {
+    display: block;
+    width: 100%;
+}
+
+.image__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    color: black;
+}

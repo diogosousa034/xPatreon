@@ -8,12 +8,13 @@ namespace Services.Interfaces
 {
     public interface IUserService
     {
-        public IEnumerable<User> GetListOfSearchedUsers(string search);
+        public IEnumerable<Page> GetListOfSearchedPages(string search);
         public int RegisterUser(UserDto model);
         public int CreatePage(string username);
         public bool LoginUser(UserDto model);
         public int EditUser(UserDto model);
         public int EditPage(PageEditDto model);
+        public int LaunchPage(int pageid);
         public int CreateContent(CreateContentDto model);
         public string UploadedFile(CreateContentDto content);
         public string UploadedFileUser(UserDto content);
@@ -21,8 +22,9 @@ namespace Services.Interfaces
         public string UploadedpageCoverPhoto(PageEditDto content);
         public int UserId(string Username);
         public int PageId(int userid);
+        public int PageIdWithPageName(string pagename);
         public UserDto UserInfo(int userid);
         public PageEditDto PageInfo(int pageid);
-        public IEnumerable<PageContent> ContentList(int userid);
+        public IEnumerable<PageContent> ContentList(int pageid);
     }
 }

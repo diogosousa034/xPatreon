@@ -123,6 +123,34 @@ namespace xPatreon.Controllers
         }
 
 
+        public IActionResult LaunchedPage()
+        {
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                string nome = Convert.ToString(HttpContext.Request.Query["UserPageName"]);
+                int pageid = _userService.PageIdWithPageName(Convert.ToString(HttpContext.Request.Query["UserPageName"]));
+                if (pageid > 0)
+                {
+                    ViewBag.PageName = _userService.PageInfo(pageid).PageName;
+                    ViewBag.CreatingWhat = _userService.PageInfo(pageid).CreatingWhat;
+                    ViewBag.ProfileImage = _userService.PageInfo(pageid).ProfileImage;
+                    ViewBag.CoverImage = _userService.PageInfo(pageid).CoverImage;
+                    ViewBag.AboutPage = _userService.PageInfo(pageid).AboutPage;
+                    ViewBag.IsAre = _userService.PageInfo(pageid).IsAreCreating;
+
+                    var items = _userService.ContentList(pageid);
+    
+                    return View(items);
+                }               
+                return RedirectToAction("Index", "Home");
+            }
+            else
+                return RedirectToAction("Login", "Account");
+
+            
+        }
+
+
         public IActionResult Page()
         {
             if (HttpContext.Session.GetString("UserID") != null)
@@ -132,9 +160,9 @@ namespace xPatreon.Controllers
                 ViewBag.PageName = _userService.PageInfo(pageid).PageName;
                 ViewBag.CreatingWhat = _userService.PageInfo(pageid).CreatingWhat;
                 ViewBag.ProfileImage = _userService.PageInfo(pageid).ProfileImage;
-                ViewBag.CoverImage = _userService.PageInfo(pageid).CoverImage;                
+                ViewBag.CoverImage = _userService.PageInfo(pageid).CoverImage;
                 ViewBag.AboutPage = _userService.PageInfo(pageid).AboutPage;
-                ViewBag.IsAre = _userService.PageInfo(pageid).IsAreCreating;
+                ViewBag.IsAre = _userService.PageInfo(pageid).IsAreCreating;            
 
                 return View();
             }
@@ -143,18 +171,27 @@ namespace xPatreon.Controllers
         }
 
         [HttpPost]
-        public IActionResult Page(PageEditDto page)
+        public IActionResult Page(PageEditDto page, string submit)
         {
             var pageid = 0;
             int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
-            string ProfileImageFileName = _userService.UploadedpageProfilePhoto(page);
-            string CoverImageFileName = _userService.UploadedpageCoverPhoto(page);
+            if (submit == "Save changes")
+            {
+                string ProfileImageFileName = _userService.UploadedpageProfilePhoto(page);
+                string CoverImageFileName = _userService.UploadedpageCoverPhoto(page);
 
-            page.Page_ID = pageid;
-            page.ProfileImage = ProfileImageFileName;
-            page.CoverImage = CoverImageFileName;
+                page.Page_ID = pageid;
+                page.ProfileImage = ProfileImageFileName;
+                page.CoverImage = CoverImageFileName;
 
-            _userService.EditPage(page);
+                _userService.EditPage(page);
+                return RedirectToAction("Page", "Home");
+            }
+            else if(submit == "Launch")
+            {
+                _userService.LaunchPage(pageid);
+                return RedirectToAction("Page", "Home");
+            }
 
             return RedirectToAction("Page", "Home");
         }

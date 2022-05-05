@@ -25,13 +25,15 @@ namespace xPatreon.Controllers
             return View();
         }
 
-         [HttpPost]
+        [HttpPost]
         public JsonResult GetSearchValue(string search)
         {
-            var allSearch = _userService.GetListOfSearchedUsers(search);
+            var allSearch = _userService.GetListOfSearchedPages(search);
 
-            var userSearched = from name in allSearch
-                        select name.UserName;
+            var activePages = allSearch.Where(a => a.active == true);
+
+            var userSearched = from name in activePages
+                               select name.PageName;
 
             return Json(userSearched.ToList());
         }

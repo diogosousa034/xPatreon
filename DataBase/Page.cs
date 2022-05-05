@@ -25,8 +25,6 @@ namespace DataBase
         [Column(TypeName = "nvarchar(200)")]
         public string CoverImage { get; set; }
 
-        public int Patrons { get; set; }
-
         public bool active { get; set; }
 
         [Column(TypeName = "nvarchar(1000)")]

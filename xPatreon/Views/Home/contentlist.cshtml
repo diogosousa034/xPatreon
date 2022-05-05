@@ -5,44 +5,47 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Contentlist</h1>
+<div class="container mt-3">
+    <h1>Contentlist</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MainContent)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @if (item.Image != null)
-                {
-                    <img src="~/images/@item.Image" class="rounded" style="width:80px; height:80px;" alt="" />
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MainContent)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Content_ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Content_ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Content_ID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Image)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MainContent)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (item.Image != null)
+                        {
+                            <img src="~/images/@item.Image" class="rounded" style="width:80px; height:80px;" alt="" />
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MainContent)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Content_ID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Content_ID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Content_ID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

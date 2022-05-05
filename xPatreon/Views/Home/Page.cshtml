@@ -1,222 +1,192 @@
-﻿@model DataBase.Page
+﻿@model Services.Dto.PageEditDto
 
 @{
     ViewData["Title"] = "Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<style>
-    .teste {
-        display: none;
-    }
-
-    .edit {
-        opacity: 0;
-        transition: opacity 0.50s;
-    }
-
-
-        .edit:hover {
-            opacity: 1;
-            cursor: pointer;
-        }
-
-    .image {
-        position: relative;
-        width: 100%;
-    }
-
-    .image__img {
-        display: block;
-        width: 100%;
-    }
-
-    .image__overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.4);
-        color: black;
-    }
-</style>
+<link href="~/cssfolder/style.css" rel="stylesheet" />
 
 <link href="~/cssfolder/radiobuttonstyle.css" rel="stylesheet" />
 
+<div class="container mt-3">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-7">
+            <form id="form" asp-action="Page" enctype="multipart/form-data">
 
-<div class="row justify-content-center align-items-center">
-    <div class="col-md-7">
-        <form asp-action="Page" enctype="multipart/form-data">
-
-            <div class="d-flex justify-content-center">
-                <p class="font-weight-bold h3">Basics</p>
-            </div>
-            <div class="d-flex justify-content-center">
-                <p class="text-muted">Set your creator details</p>
-            </div>
-
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="border p-3 mb-3 bg-white rounded mt-4">
-                <table class="table table-borderless">
-                    <tr>
-                        <td class="w-25">
-                            <label class="control-label font-weight-bold mb-0">Name of Patreon page</label>
-                            <p class="text-muted m-0">Required</p>
-                        </td>
-                        <td class="w-50">
-                            <input id="Name" asp-for="PageName" class="form-control" value="@ViewBag.PageName" onkeyup="isEmpty(); ValueInput()" />
-                            <span asp-validation-for="PageName" class="text-danger"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="w-25">
-                            <label class="control-label font-weight-bold mb-0">What are you creating?</label>
-                            <p class="text-muted m-0">Required</p>
-                        </td>
-                        <td class="w-50">
-                            <input id="creating" asp-for="CreatingWhat" class="form-control" value="@ViewBag.CreatingWhat" onkeyup="isEmpty(); ValueInput()" />
-                            <span asp-validation-for="CreatingWhat" class="text-danger"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label class="control-label font-weight-bold m-0">Which sounds more <br />correct?</label>
-                        </td>
-                        @if (ViewBag.IsAre == "IsCreating")
-                        {
-                            <td>
-                                <div>
-                                    <input type="radio" name="IsAreCreating" value="IsCreating" id="rad1" checked />
-                                    <label id="radio1" for="rad1">
-                                        <span id="IsCreatingRad">@ViewBag.PageName</span>
-                                        <span class="font-weight-bold"> is creating </span>
-                                        <span id="IsCreatingRad2">@ViewBag.CreatingWhat</span>
-                                    </label>
-                                </div>
-
-                                <div class="mt-1">
-                                    <input type="radio" name="IsAreCreating" value="AreCreating" id="rad2" />
-                                    <label id="radio2" for="rad2">
-                                        <span id="AreCreatingRad">@ViewBag.PageName</span>
-                                        <span class="font-weight-bold"> are creating </span>
-                                        <span id="AreCreatingRad2">@ViewBag.CreatingWhat</span>
-                                    </label>
-                                    <span asp-validation-for="IsAreCreating" class="text-danger"></span>
-                                </div>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                <div>
-                                    <input type="radio" name="IsAreCreating" value="IsCreating" id="rad1" />
-                                    <label id="radio1" for="rad1">
-                                        <span id="IsCreatingRad">@ViewBag.PageName</span>
-                                        <span class="font-weight-bold"> is creating </span>
-                                        <span id="IsCreatingRad2">@ViewBag.CreatingWhat</span>
-                                    </label>
-                                </div>
-
-                                <div class="mt-1">
-                                    <input type="radio" name="IsAreCreating" value="AreCreating" id="rad2" checked/>
-                                    <label id="radio2" for="rad2">
-                                        <span id="AreCreatingRad">@ViewBag.PageName</span>
-                                        <span class="font-weight-bold"> are creating </span>
-                                        <span id="AreCreatingRad2">@ViewBag.CreatingWhat</span>
-                                    </label>
-                                    <span asp-validation-for="IsAreCreating" class="text-danger"></span>
-                                </div>
-                            </td>
-                        }
-                    </tr>
-                </table>
-            </div>
-
-
-            <div class="border p-3 mb-3 bg-white rounded ">
-                <table class="table table-borderless">
-                    @*profile photo*@
-                    <tr>
-                        <td class="w-25">
-                            <label class="font-weight-bold mb-0">Profile photo</label>
-                            <p class="text-muted m-0">Required</p>
-                            <p class="text-muted m-0">We recommend a 256px by 256px image.</p>
-                        </td>
-                        <td class="w-50">
-                            <div>
-                                <div style=" z-index: 50; position: absolute;">
-                                    <label asp-for="FrontImageProfile" for="FLFrontImage" class="rounded-circle edit" style=" background-color: rgba(0,0,0, 0.4); width: 135px; height: 135px;">
-                                        <span class="d-flex justify-content-center align-items-center mt-4">
-                                            <svg width="60" height="60" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <g fill-rule="evenodd" clip-rule="evenodd">
-                                                    <path d="M8.375 8.375H4a.5.5 0 0 0-.5.5v9.75a.5.5 0 0 0 .5.5h16a.5.5 0 0 0 .5-.5v-9.75a.5.5 0 0 0-.5-.5h-4.375l-1.875-2.5h-3.5l-1.875 2.5zm.75-3.5a1.25 1.25 0 0 1 1-.5h3.75c.393 0 .764.185 1 .5l1.5 2H20a2 2 0 0 1 2 2v9.75a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9.75a2 2 0 0 1 2-2h3.625l1.5-2z"></path>
-                                                    <path d="M12 15.75a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm0 1.5a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
-                                                </g>
-                                            </svg>
-                                        </span>
-                                        <span class="d-flex justify-content-center align-items-center font-weight-bold">Edit</span>
-                                    </label>
-                                </div>
-
-                                <img id="FrontImageP" src="@ViewBag.ProfileImage" class="rounded-circle" alt="Image" width="135" height="135" />
-                                <input asp-for="FrontImageProfile" class="teste" id="FLFrontImage"
-                                       onchange="document.getElementById('FrontImageP').src = window.URL.createObjectURL(this.files[0])" />
-                                <span asp-validation-for="FrontImageProfile" class="text-danger"></span>
-                            </div>
-                        </td>
-                    </tr>
-
-                    @*cover photo*@
-                    <tr>
-                        <td class="w-25">
-                            <label class="font-weight-bold mb-0">Cover photo</label>
-                            <p class="text-muted m-0">Required</p>
-                            <p class="text-muted m-0">We recommend an image at least 1600px wide and 400px tall.</p>
-                        </td>
-                        <td class="w-50">
-                            <div class="image">
-                                <div class="image__overlay edit">
-                                    <label asp-for="FrontImageCover" for="FrontImageCover" class="w-100 edit h-100">
-                                        <span class="d-flex justify-content-center align-items-center mt-5">
-                                            <svg width="60" height="60" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <g fill-rule="evenodd" clip-rule="evenodd">
-                                                    <path d="M8.375 8.375H4a.5.5 0 0 0-.5.5v9.75a.5.5 0 0 0 .5.5h16a.5.5 0 0 0 .5-.5v-9.75a.5.5 0 0 0-.5-.5h-4.375l-1.875-2.5h-3.5l-1.875 2.5zm.75-3.5a1.25 1.25 0 0 1 1-.5h3.75c.393 0 .764.185 1 .5l1.5 2H20a2 2 0 0 1 2 2v9.75a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9.75a2 2 0 0 1 2-2h3.625l1.5-2z"></path>
-                                                    <path d="M12 15.75a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm0 1.5a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
-                                                </g>
-                                            </svg>
-                                        </span>
-                                        <span class="d-flex justify-content-center align-items-center font-weight-bold">Edit Cover Photo</span>
-                                        <span class="d-flex justify-content-center align-items-center font-weight-bold">(1,600px x 400px)</span>
-                                    </label>
-                                </div>
-
-                                <img id="FrontImageC" src="@ViewBag.CoverImage" alt="Image" class="w-100 image__img" height="200" />
-                                <input asp-for="FrontImageCover" class="teste" id="FrontImageCover"
-                                       onchange="document.getElementById('FrontImageC').src = window.URL.createObjectURL(this.files[0])" />
-                                <span asp-validation-for="FrontImageCover" class="text-danger"></span>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="border p-3 mb-3 bg-white rounded">
-                <div class="form-group">
-                    <label class="control-label font-weight-bold">About your Patreon page</label>
-                    <p class="text-muted">Required</p>
-                    <p class="text-muted">This is the first thing potential patrons will see when they land on your page, so make sure you paint a compelling picture of how they can join you on this journey.</p>
-                    <textarea class="form-control" rows="5" id="aboutPage" onkeyup="isEmpty()" asp-for="AboutPage"></textarea>
-                    <span asp-validation-for="AboutPage" class="text-danger"></span>
+                <div class="d-flex justify-content-center">
+                    <p class="font-weight-bold h3">Basics</p>
                 </div>
-            </div>
+                <div class="d-flex justify-content-center">
+                    <p class="text-muted">Set your creator details</p>
+                </div>
 
-            <div class="form-group">
-                <input type="submit" id="submit" value="Save changes" class="form-control btn btn-danger btn-lg rounded-pill" disabled />
-            </div>
-        </form>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="border p-3 mb-3 bg-white rounded mt-4">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td class="w-25">
+                                <label class="control-label font-weight-bold mb-0">Name of Patreon page</label>
+                                <p class="text-muted m-0">Required</p>
+                            </td>
+                            <td class="w-50">
+                                <input id="Name" asp-for="PageName" class="form-control" value="@ViewBag.PageName" onkeyup="isEmpty(); ValueInput()" />
+                                <span asp-validation-for="PageName" class="text-danger"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w-25">
+                                <label class="control-label font-weight-bold mb-0">What are you creating?</label>
+                                <p class="text-muted m-0">Required</p>
+                            </td>
+                            <td class="w-50">
+                                <input id="creating" asp-for="CreatingWhat" class="form-control" value="@ViewBag.CreatingWhat" onkeyup="isEmpty(); ValueInput()" />
+                                <span asp-validation-for="CreatingWhat" class="text-danger"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="control-label font-weight-bold m-0">Which sounds more <br />correct?</label>
+                            </td>
+                            @if (ViewBag.IsAre == "IsCreating")
+                            {
+                                <td>
+                                    <div>
+                                        <input type="radio" name="IsAreCreating" value="Is Creating" id="rad1" checked />
+                                        <label id="radio1" for="rad1">
+                                            <span id="IsCreatingRad">@ViewBag.PageName</span>
+                                            <span class="font-weight-bold"> is creating </span>
+                                            <span id="IsCreatingRad2">@ViewBag.CreatingWhat</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="mt-1">
+                                        <input type="radio" name="IsAreCreating" value="Are Creating" id="rad2" />
+                                        <label id="radio2" for="rad2">
+                                            <span id="AreCreatingRad">@ViewBag.PageName</span>
+                                            <span class="font-weight-bold"> are creating </span>
+                                            <span id="AreCreatingRad2">@ViewBag.CreatingWhat</span>
+                                        </label>
+                                        <span asp-validation-for="IsAreCreating" class="text-danger"></span>
+                                    </div>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <div>
+                                        <input type="radio" name="IsAreCreating" value="IsCreating" id="rad1" />
+                                        <label id="radio1" for="rad1">
+                                            <span id="IsCreatingRad">@ViewBag.PageName</span>
+                                            <span class="font-weight-bold"> is creating </span>
+                                            <span id="IsCreatingRad2">@ViewBag.CreatingWhat</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="mt-1">
+                                        <input type="radio" name="IsAreCreating" value="AreCreating" id="rad2" checked />
+                                        <label id="radio2" for="rad2">
+                                            <span id="AreCreatingRad">@ViewBag.PageName</span>
+                                            <span class="font-weight-bold"> are creating </span>
+                                            <span id="AreCreatingRad2">@ViewBag.CreatingWhat</span>
+                                        </label>
+                                        <span asp-validation-for="IsAreCreating" class="text-danger"></span>
+                                    </div>
+                                </td>
+                            }
+                        </tr>
+                    </table>
+                </div>
+
+
+                <div class="border p-3 mb-3 bg-white rounded ">
+                    <table class="table table-borderless">
+                        @*profile photo*@
+                        <tr>
+                            <td class="w-25">
+                                <label class="font-weight-bold mb-0">Profile photo</label>
+                                <p class="text-muted m-0">Required</p>
+                                <p class="text-muted m-0">We recommend a 256px by 256px image.</p>
+                            </td>
+                            <td class="w-50">
+                                <div>
+                                    <div style=" z-index: 50; position: absolute;">
+                                        <label asp-for="FrontImageProfile" for="FLFrontImage" class="rounded-circle edit" style=" background-color: rgba(0,0,0, 0.4); width: 135px; height: 135px;">
+                                            <span class="d-flex justify-content-center align-items-center mt-4">
+                                                <svg width="60" height="60" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <g fill-rule="evenodd" clip-rule="evenodd">
+                                                        <path d="M8.375 8.375H4a.5.5 0 0 0-.5.5v9.75a.5.5 0 0 0 .5.5h16a.5.5 0 0 0 .5-.5v-9.75a.5.5 0 0 0-.5-.5h-4.375l-1.875-2.5h-3.5l-1.875 2.5zm.75-3.5a1.25 1.25 0 0 1 1-.5h3.75c.393 0 .764.185 1 .5l1.5 2H20a2 2 0 0 1 2 2v9.75a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9.75a2 2 0 0 1 2-2h3.625l1.5-2z"></path>
+                                                        <path d="M12 15.75a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm0 1.5a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
+                                                    </g>
+                                                </svg>
+                                            </span>
+                                            <span class="d-flex justify-content-center align-items-center font-weight-bold">Edit</span>
+                                        </label>
+                                    </div>
+
+                                    <img id="FrontImageP" src="@ViewBag.ProfileImage" class="rounded-circle" alt="Image" width="135" height="135" />
+                                    <input asp-for="FrontImageProfile" class="teste" id="FLFrontImage"
+                                           onchange="document.getElementById('FrontImageP').src = window.URL.createObjectURL(this.files[0])" />
+                                    <span asp-validation-for="FrontImageProfile" class="text-danger"></span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        @*cover photo*@
+                        <tr>
+                            <td class="w-25">
+                                <label class="font-weight-bold mb-0">Cover photo</label>
+                                <p class="text-muted m-0">Required</p>
+                                <p class="text-muted m-0">We recommend an image at least 1600px wide and 400px tall.</p>
+                            </td>
+                            <td class="w-50">
+                                <div class="image">
+                                    <div class="image__overlay edit">
+                                        <label asp-for="FrontImageCover" for="FrontImageCover" class="w-100 edit h-100">
+                                            <span class="d-flex justify-content-center align-items-center mt-5">
+                                                <svg width="60" height="60" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <g fill-rule="evenodd" clip-rule="evenodd">
+                                                        <path d="M8.375 8.375H4a.5.5 0 0 0-.5.5v9.75a.5.5 0 0 0 .5.5h16a.5.5 0 0 0 .5-.5v-9.75a.5.5 0 0 0-.5-.5h-4.375l-1.875-2.5h-3.5l-1.875 2.5zm.75-3.5a1.25 1.25 0 0 1 1-.5h3.75c.393 0 .764.185 1 .5l1.5 2H20a2 2 0 0 1 2 2v9.75a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9.75a2 2 0 0 1 2-2h3.625l1.5-2z"></path>
+                                                        <path d="M12 15.75a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm0 1.5a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
+                                                    </g>
+                                                </svg>
+                                            </span>
+                                            <span class="d-flex justify-content-center align-items-center font-weight-bold">Edit Cover Photo</span>
+                                            <span class="d-flex justify-content-center align-items-center font-weight-bold">(1,600px x 400px)</span>
+                                        </label>
+                                    </div>
+
+                                    <img id="FrontImageC" src="@ViewBag.CoverImage" alt="Image" class="w-100 image__img" height="200" />
+                                    <input asp-for="FrontImageCover" class="teste" id="FrontImageCover"
+                                           onchange="document.getElementById('FrontImageC').src = window.URL.createObjectURL(this.files[0])" />
+                                    <span asp-validation-for="FrontImageCover" class="text-danger"></span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="border p-3 mb-3 bg-white rounded">
+                    <div class="form-group">
+                        <label class="control-label font-weight-bold">About your Patreon page</label>
+                        <p class="text-muted">Required</p>
+                        <p class="text-muted">This is the first thing potential patrons will see when they land on your page, so make sure you paint a compelling picture of how they can join you on this journey.</p>
+                        <textarea class="form-control" rows="5" id="aboutPage" onkeyup="isEmpty()" asp-for="AboutPage"></textarea>
+                        <span asp-validation-for="AboutPage" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        <input type="submit" id="save" value="Save changes" name="submit" class="form-control btn btn-danger btn-lg rounded-pill" disabled />
+                    </div>
+                    <div class="mt-2">
+                        <input type="submit" id="submit" value="Launch" name="submit" class="form-control btn btn-danger btn-lg rounded-pill" disabled />
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -234,18 +204,24 @@
 
     document.getElementById("aboutPage").defaultValue = "@ViewBag.AboutPage";
 
-
     function isEmpty() {
         let PageName = document.getElementById("Name").value;
         let CreatingWhat = document.getElementById("creating").value;
         let AboutPage = document.getElementById("aboutPage").value;
-        const submitButton = document.getElementById("submit");
-        submitButton.disabled = true;
+        const saveButton = document.getElementById("save");
+        const LaunchButton = document.getElementById("submit");
+        saveButton.disabled = true;
+        LaunchButton.disabled = true;
 
+
+        if (PageName != "" || CreatingWhat != "" || AboutPage != "") {
+            saveButton.disabled = false;
+        }
 
         if (PageName != "" && CreatingWhat != "" && AboutPage != "") {
-            submitButton.disabled = false;
+            LaunchButton.disabled = false;
         }
+        
     }
 </script>
 
