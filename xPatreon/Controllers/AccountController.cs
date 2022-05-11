@@ -56,8 +56,9 @@ namespace xPatreon.Controllers
                 HttpContext.Session.SetString("UserID", _userService.UserId(user.UserName).ToString());
                 HttpContext.Session.SetString("PageID", _userService.PageId(_userService.UserId(user.UserName)).ToString());
                 HttpContext.Session.SetString("Username", user.UserName.ToString());
+                HttpContext.Session.SetString("UserImage", _userService.UserInfo(_userService.UserId(user.UserName)).Image.ToString());
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("CreatorPosts", "Home");
             }
             else
                 ModelState.AddModelError("", "Username or password is wrong.");

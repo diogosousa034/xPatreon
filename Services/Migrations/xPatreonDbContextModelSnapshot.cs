@@ -33,7 +33,7 @@ namespace Services.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("CreatingWhat")
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("IsAreCreating")
                         .HasColumnType("nvarchar(30)");
@@ -42,10 +42,7 @@ namespace Services.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PageName")
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("Patrons")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("ProfileImage")
                         .HasColumnType("nvarchar(200)");
@@ -57,6 +54,10 @@ namespace Services.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Page_ID");
+
+                    b.HasIndex("PageName")
+                        .IsUnique()
+                        .HasFilter("[PageName] IS NOT NULL");
 
                     b.HasIndex("User_ID")
                         .IsUnique();
@@ -70,6 +71,12 @@ namespace Services.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(200)");
@@ -91,6 +98,26 @@ namespace Services.Migrations
                     b.HasIndex("Page_ID");
 
                     b.ToTable("PageContents");
+                });
+
+            modelBuilder.Entity("DataBase.Patrons", b =>
+                {
+                    b.Property<int>("PatronFollow_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Page_ID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("PatronFollow_ID");
+
+                    b.HasIndex("Page_ID");
+
+                    b.ToTable("Patrons");
                 });
 
             modelBuilder.Entity("DataBase.User", b =>
@@ -123,6 +150,10 @@ namespace Services.Migrations
 
                     b.HasKey("User_ID");
 
+                    b.HasIndex("UserName")
+                        .IsUnique()
+                        .HasFilter("[UserName] IS NOT NULL");
+
                     b.ToTable("User");
                 });
 
@@ -139,6 +170,15 @@ namespace Services.Migrations
                 {
                     b.HasOne("DataBase.Page", "Page")
                         .WithMany("Contents")
+                        .HasForeignKey("Page_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataBase.Patrons", b =>
+                {
+                    b.HasOne("DataBase.Page", "Page")
+                        .WithMany("patrons")
                         .HasForeignKey("Page_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

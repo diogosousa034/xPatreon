@@ -43,6 +43,9 @@
 
 
                 <div class="navbar-collapse collapse">
+
+
+
                     @if (@HttpContextAccessor.HttpContext.Session.GetString("UserID") == null)
                     {
                         <ul class="navbar-nav mr-auto">
@@ -94,9 +97,20 @@
                             </li>
                         </ul>
 
+                        
+
+
                         <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                             <a class="navbar btn btn-outline-danger rounded-pill" asp-area="" asp-controller="Account" asp-action="Register">Create on xPatreon</a>
                             <a class="navbar text-dark" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
+
+                            <div class="box mt-2 rounded-pill">
+                                <svg width="25" height="25" style="cursor:pointer;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.258 15.804a6.5 6.5 0 1 1 1.546-1.546l3.277 2.804c.404.344.835.712.906 1.238.06.448-.087.918-.43 1.258-.34.342-.81.49-1.257.429-.526-.07-.894-.502-1.238-.906l-2.804-3.277zM15.5 10.5a5 5 0 1 1-10 0 5 5 0 0 1 10 0z"></path>
+                                </svg>
+
+                                <input class="searchbarinput" placeholder="Find a creator" id="searchInput" />
+                            </div>
                         </div>
                     }
                     else
@@ -113,8 +127,8 @@
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown active">
-                                    <a class="nav-link dropdown-header"  href="#" id="navbarDropdown" role="tab" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <img src="/imgs/default user.png" width="35" height="35" class="rounded-circle" />
+                                    <a class="nav-link dropdown-header" href="#" id="navbarDropdown" role="tab" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="@HttpContextAccessor.HttpContext.Session.GetString("UserImage")" width="35" height="35" class="rounded-circle" />
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                         <a class="navbar text-dark" asp-controller="Home" asp-action="Page">Edit page</a>

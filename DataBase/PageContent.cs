@@ -21,7 +21,11 @@ namespace DataBase
         public string Image { get; set; }
 
         [Column(TypeName = "datetime2")]
-        public DateTime PublicationData { get; set; }        
+        public DateTime PublicationData { get; set; }
+
+        public bool Active { get; set; }
+
+        public bool Deleted { get; set; }
 
         [NotMapped]
         public IFormFile FrontImage { get; set; }

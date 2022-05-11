@@ -1,0 +1,43 @@
+﻿@model IEnumerable<DataBase.Page>
+
+@{
+    ViewData["Title"] = "InitialPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="mt-4">
+        <form asp-controller="Home" asp-action="InitialPage">
+            <div class="d-flex">
+                <div class="box mt-4 rounded-pill w-100" style="height:50px;">
+                    <svg width="25" height="25" style="cursor:pointer;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.258 15.804a6.5 6.5 0 1 1 1.546-1.546l3.277 2.804c.404.344.835.712.906 1.238.06.448-.087.918-.43 1.258-.34.342-.81.49-1.257.429-.526-.07-.894-.502-1.238-.906l-2.804-3.277zM15.5 10.5a5 5 0 1 1-10 0 5 5 0 0 1 10 0z"></path>
+                    </svg>
+
+                    <input class="searchbarinput" type="text" style="height:50px;" placeholder="Find a creator" name="pagename" id="searchInput" />
+                </div>
+                <div class="pl-4 mt-4">
+                    <input type="submit" class="btn btn-danger btn-lg rounded-pill pl-4 pr-4" style="height:50px;" name="name" value="Search" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row pt-3">
+        @foreach (var item in Model)
+        {
+            @if (item != null)
+            {
+                <div class="col-md-3 mt-3">
+                    <div class="card">
+                        <img class="card-img-top" width="250" height="280" src="@item.ProfileImage" alt="Card image cap">
+                        <div class="card-body border-top" style="height:200px;">
+                            <a href="/Home/LaunchedPage?UserPageName=@item.PageName" class="card-title h3" style="color:black;">@item.PageName</a>
+                            <p class="card-text">Creating @item.CreatingWhat</p>
+                            <p class="card-text">@item.AboutPage</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

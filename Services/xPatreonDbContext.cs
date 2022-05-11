@@ -39,7 +39,13 @@ namespace Services
             modelBuilder.Entity<PageContent>()
                 .Property(e => e.Content_ID)
                 .ValueGeneratedOnAdd();
-       
+
+            modelBuilder.Entity<Patrons>()
+                    .HasKey(o => o.PatronFollow_ID);
+            modelBuilder.Entity<Patrons>()
+                .Property(e => e.PatronFollow_ID)
+                .ValueGeneratedOnAdd();
+
             modelBuilder.Entity<Page>()
                 .HasOne<User>(s => s.User)
                 .WithOne(g => g.Page)
@@ -51,10 +57,18 @@ namespace Services
                 .WithMany(g => g.Contents)
                 .HasForeignKey(s => s.Page_ID)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Patrons>()
+                .HasOne<Page>(s => s.Page)
+                .WithMany(g => g.patrons)
+                .HasForeignKey(s => s.Page_ID)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
 
         public DbSet<User> User { get; set; }
         public DbSet<Page> Page { get; set; }
         public DbSet<PageContent> PageContents { get; set; }
+        public DbSet<Patrons> Patrons { get; set; }
     }
 }

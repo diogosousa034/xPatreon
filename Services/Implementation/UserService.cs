@@ -63,6 +63,26 @@ namespace Services.Implementation
             return _context.SaveChanges();
         }
 
+        public int Follow(PatronFollowerDto model)
+        {
+            var follow = new Patrons()
+            {
+                UserID = model.UserID,
+                Page_ID = model.Page_ID,
+            };
+
+            _context.Patrons.Add(follow);
+
+            return _context.SaveChanges();
+        }
+
+        public int PatronsCount(int pageid)
+        {
+            var numberOfFollowers = _context.Patrons.Where(u => u.Page_ID == pageid).Count();
+
+            return numberOfFollowers;
+        }
+
         public bool LoginUser(UserDto model)
         {
             var usr = _context.User.Single(u => u.UserName == model.UserName && u.Password == model.Password);
@@ -148,7 +168,7 @@ namespace Services.Implementation
 
         public IEnumerable<PageContent> ContentList(int pageid)
         {
-            var contentList = _context.PageContents.ToList().Where(c => c.Page_ID == pageid);
+            var contentList = _context.PageContents.ToList().Where(c => c.Page_ID == pageid && c.Deleted == false && c.Active == true);
             return contentList;
         }
 
@@ -159,11 +179,40 @@ namespace Services.Implementation
                 Title = model.Title,
                 MainContent = model.MainContent,
                 Image = model.Image,
+                Active = true,
+                Deleted = false,
                 PublicationData = DateTime.Now,
                 Page_ID = model.Page_ID,
             };
 
             _context.PageContents.Add(newContent);
+            return _context.SaveChanges();
+        }
+
+        public int EditContent(CreateContentDto model)
+        {
+            var post = _context.PageContents.Single(u => u.Content_ID == model.Content_ID);
+
+            post.Title = model.Title;
+            post.MainContent = model.MainContent;
+            if (model.Image != null)
+            {
+                post.Image = model.Image;
+            }                     
+
+            _context.Update(post);
+
+            return _context.SaveChanges();
+        }
+
+        public int RemoveContent(int id)
+        {
+            var post = _context.PageContents.Single(u => u.Content_ID == id);
+
+            post.Deleted = true;
+
+            _context.Update(post);
+
             return _context.SaveChanges();
         }
 
@@ -283,10 +332,42 @@ namespace Services.Implementation
             return page;
         }
 
+        public CreateContentDto ContentInfo(int Contentid)
+        {
+            var model = _context.PageContents.Single(c => c.Content_ID == Contentid);
+
+            var post = new CreateContentDto()
+            {
+                Title = model.Title,
+                MainContent = model.MainContent,
+                Image = model.Image,
+
+            };
+            return post;
+        }
+
+        public IEnumerable<Page> GetListOfPages()
+        {
+            var searchedUser = _context.Page.ToList().Where(u => u.active == true);
+            return searchedUser;
+        }
+
         public IEnumerable<Page> GetListOfSearchedPages(string search)
         {
-            var searchedUser = _context.Page.ToList().Where(u => u.PageName.Contains(search) && u.active == true).Take(5);
-            return searchedUser;
+            var searchedPage = _context.Page.ToList().Where(u => u.PageName.Contains(search) && u.active == true).Take(5);
+            return searchedPage;
+        }
+
+        public IEnumerable<Page> GetListOfFollowedPages(int id)
+        {
+            var FollowPage = _context.Patrons.Where(u => u.UserID == id);
+
+            var teste = from num in FollowPage
+                        select num.Page_ID;
+
+            var page = _context.Page.ToList().Where(a => a.active == true);
+
+            return null;
         }
     }
 }

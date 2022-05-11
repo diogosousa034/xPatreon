@@ -11,11 +11,14 @@ namespace Services.Interfaces
         public IEnumerable<Page> GetListOfSearchedPages(string search);
         public int RegisterUser(UserDto model);
         public int CreatePage(string username);
+        public int Follow(PatronFollowerDto model);
+        public int PatronsCount(int pageid);
         public bool LoginUser(UserDto model);
         public int EditUser(UserDto model);
         public int EditPage(PageEditDto model);
         public int LaunchPage(int pageid);
         public int CreateContent(CreateContentDto model);
+        public int EditContent(CreateContentDto model);
         public string UploadedFile(CreateContentDto content);
         public string UploadedFileUser(UserDto content);
         public string UploadedpageProfilePhoto(PageEditDto content);
@@ -25,6 +28,9 @@ namespace Services.Interfaces
         public int PageIdWithPageName(string pagename);
         public UserDto UserInfo(int userid);
         public PageEditDto PageInfo(int pageid);
+        public CreateContentDto ContentInfo(int Contentid);
         public IEnumerable<PageContent> ContentList(int pageid);
+        public IEnumerable<Page> GetListOfPages();
+        public IEnumerable<Page> GetListOfFollowedPages(int id);
     }
 }

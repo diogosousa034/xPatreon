@@ -5,52 +5,85 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+<style>
+    .textboxclass {
+        border: none;
+        outline: none;
+    }
+
+    .textarea {
+        height: 100px;
+    }
+</style>
+
+<link href="~/cssfolder/radiobuttonstyle.css" rel="stylesheet" />
+
+<link href="~/cssfolder/style.css" rel="stylesheet" />
+
 <div class="container mt-3">
-    <h1>CreateImageContent</h1>
-
-
-    <div class="row">
-        <div class="col-md-4">
-            <form enctype="multipart/form-data" asp-action="CreateImageContent">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Title" class="control-label"></label>
-                    <input asp-for="Title" class="form-control" />
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="MainContent" class="control-label"></label>
-                    <input asp-for="MainContent" class="form-control" />
-                    <span asp-validation-for="MainContent" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Image" class="control-label"></label>
-                    <div class="custom-file">
-                        <input asp-for="FrontImage" class="custom-file-input" id="FLFrontImage"
-                               onchange="document.getElementById('FrontImagePrv').src = window.URL.createObjectURL(this.files[0])" />
-                        <label class="custom-file-label" for="FLFrontImage">Choose file</label>
+    <form enctype="multipart/form-data" asp-action="CreateImageContent">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-8">
+                <div class=" border rounded">
+                    <div class="border-bottom p-3 d-flex">
+                        <div>
+                            <svg viewBox="0 0 24 24" width="25" height="25" class="img-fluid" style="max-width:50px; max-height:50px;" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 6a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V6zm3-1.5A1.5 1.5 0 0 0 3.5 6v12c0 .392.15.75.397 1.017.097.105.263.077.344-.042l4.437-6.581a.327.327 0 0 1 .563.012l3.85 6.84a.5.5 0 0 0 .435.254h1.616a.2.2 0 0 0 .175-.297l-.994-1.784a.5.5 0 0 1 .07-.583l1.47-1.583c.14-.15.38-.136.503.028l2.871 3.865c.127.171.353.25.535.14A1.5 1.5 0 0 0 20.5 18V6A1.5 1.5 0 0 0 19 4.5H5zM16.5 11a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"></path>
+                            </svg>
+                        </div>
+                        <p class="font-weight-bold m-0 pl-2">IMAGES</p>
                     </div>
-                    <span asp-validation-for="FrontImage" class="text-danger"></span>
+                    <div class="p-3 border-bottom">
+                        <div class="image">
+                            <div class="image__overlay edit">
+                                <label asp-for="FrontImage" for="FrontImageCover" class="w-100 edit h-100">
+                                    <span class="d-flex justify-content-center align-items-center m-0" style="padding-top:158px;">
+                                        <svg width="60" height="60" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <g fill-rule="evenodd" clip-rule="evenodd">
+                                                <path d="M8.375 8.375H4a.5.5 0 0 0-.5.5v9.75a.5.5 0 0 0 .5.5h16a.5.5 0 0 0 .5-.5v-9.75a.5.5 0 0 0-.5-.5h-4.375l-1.875-2.5h-3.5l-1.875 2.5zm.75-3.5a1.25 1.25 0 0 1 1-.5h3.75c.393 0 .764.185 1 .5l1.5 2H20a2 2 0 0 1 2 2v9.75a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9.75a2 2 0 0 1 2-2h3.625l1.5-2z"></path>
+                                                <path d="M12 15.75a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm0 1.5a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
+                                            </g>
+                                        </svg>
+                                    </span>
+                                    <span class="d-flex justify-content-center align-items-center font-weight-bold">Upload images</span>
+                                </label>
+                            </div>
 
-                    <img id="FrontImagePrv" src="" alt="Image" width="150" height="150" />
+                            <img id="FrontImageC" src="@ViewBag.Image" class="w-100 image__img" height="400" style="background-color:#F5F4F2;" />
+                            <input asp-for="FrontImage" class="teste" id="FrontImageCover"
+                                   onchange="document.getElementById('FrontImageC').src = window.URL.createObjectURL(this.files[0])" />
+                            <span asp-validation-for="FrontImage" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group pt-4 pl-4 pr-4 m-0">
+                        <input asp-for="Title" class="textboxclass h3 w-100" value="@ViewBag.Title2" placeholder="Post title (required)" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group p-4 pl-4 pr-4 pt-0">
+                        <textarea asp-for="MainContent" placeholder="What're you thinking about?" id="WhatAbout" class="textboxclass textarea w-100"></textarea>
+                        <span asp-validation-for="MainContent"></span>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            <div class="col-4">
+                <div>
+                    <input type="submit" value="@ViewBag.PublishEdit" name="submit" class="btn btn-primary btn-lg rounded-pill w-100" />
                 </div>
-            </form>
+                <div class="border rounded mt-3 p-3">
+                    <div class="form-group">
+                        <p class="font-weight-bold m-0">WHO CAN SEE THIS POST?</p><br />
+                        <input type="radio" name="WhoCanSee" value="Public" checked /> Public <br />
+                        <input type="radio" name="WhoCanSee" value="Patrons" disabled /> Patrons Only
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 
-@section Scripts{ 
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-<script type="text/javascript">
-    $(".custom-file-input").on("change", function () {
-        var fileName = $(this).val().split("\\").pop();
-        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-    });
+<script>
+    document.getElementById("WhatAbout").defaultValue = "@ViewBag.MainContent";
 </script>
-
-}
-

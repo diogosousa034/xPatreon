@@ -10,10 +10,10 @@ namespace DataBase
     {
         public int Page_ID { get; set; }
 
-        [Column(TypeName = "nvarchar(100)")]
+        [Column(TypeName = "nvarchar(150)")]
         public string PageName { get; set; }
 
-        [Column(TypeName = "nvarchar(100)")]
+        [Column(TypeName = "nvarchar(150)")]
         public string CreatingWhat { get; set; }
 
         [Column(TypeName = "nvarchar(30)")]
@@ -40,6 +40,7 @@ namespace DataBase
         public IFormFile FrontImageCover { get; set; }
 
         public virtual IEnumerable<PageContent> Contents { get; set; }
+        public virtual IEnumerable<Patrons> patrons { get; set; }
 
         public int User_ID { get; set; }
         public virtual User User { get; set; }

@@ -37,52 +37,112 @@ namespace xPatreon.Controllers
                 var items = _userService.ContentList(pageid);
                 var last4items = items.Reverse().Take(4);
 
+                ViewBag.CountPatrons = _userService.PatronsCount(pageid);
+
                 return View(last4items);
             }
             else
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("InitialPage", "Home");
 
         }
+
+
+        public IActionResult InitialPage()
+        {
+            var pageid = 0;
+            int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
+            var items = _userService.GetListOfPages();
+
+            return View(items);
+
+        }
+
+        [HttpPost]
+        public IActionResult InitialPage(string pagename)
+        {
+            var pageid = 0;
+            int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
+            if (pagename != null)
+            {
+                var items = _userService.GetListOfSearchedPages(pagename);
+                return View(items);
+            }
+            else
+                return View(_userService.GetListOfPages());
+
+            
+
+        }
+
 
         public IActionResult CreatorPosts()
         {
 
             if (HttpContext.Session.GetString("UserID") != null)
             {
+                var userid = 0;
+                int.TryParse(HttpContext.Session.GetString("UserID"), out userid);
+                _userService.GetListOfFollowedPages(userid);
                 return View();
             }
             else
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("InitialPage", "Home");
 
         }
 
         public IActionResult CreateContent()
         {
             if (HttpContext.Session.GetString("UserID") != null)
-            {
+            {              
                 return View();
             }
             else
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("InitialPage", "Home");
         }
 
         public IActionResult CreateTextContent()
         {
             if (HttpContext.Session.GetString("UserID") != null)
             {
+                int contentid = 0;
+                int.TryParse(Convert.ToString(HttpContext.Request.Query["EditContent"]), out contentid);
+
+                if (contentid > 0)
+                {
+                    ViewBag.Title2 = _userService.ContentInfo(contentid).Title;
+                    ViewBag.MainContent = _userService.ContentInfo(contentid).MainContent;
+                    ViewBag.PublishEdit = "Edit";
+                    HttpContext.Session.SetString("ContentPostID", contentid.ToString());
+                }
+                else
+                {
+                    ViewBag.PublishEdit = "Publish now";
+                }
+                
+
                 return View();
             }
             else
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("InitialPage", "Home");
         }
 
         [HttpPost]
-        public IActionResult CreateTextContent(CreateContentDto content)
+        public IActionResult CreateTextContent(CreateContentDto content, string submit)
         {
             var pageid = 0;
             int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
-            content.Page_ID = pageid;
-            _userService.CreateContent(content);
+            var Contentid = 0;
+            int.TryParse(HttpContext.Session.GetString("ContentPostID"), out Contentid);
+            if (submit == "Edit")
+            {
+                content.Content_ID = Contentid;
+                _userService.EditContent(content);
+            }
+            else
+            {
+                content.Page_ID = pageid;
+                _userService.CreateContent(content);
+            }
 
             return RedirectToAction("Index", "Home");
         }
@@ -91,21 +151,49 @@ namespace xPatreon.Controllers
         {
             if (HttpContext.Session.GetString("UserID") != null)
             {
+                int contentid = 0;
+                int.TryParse(Convert.ToString(HttpContext.Request.Query["EditContent"]), out contentid);
+                if (contentid > 0)
+                {
+                    ViewBag.Title2 = _userService.ContentInfo(contentid).Title;
+                    ViewBag.MainContent = _userService.ContentInfo(contentid).MainContent;
+                    ViewBag.Image = "/Images/" + _userService.ContentInfo(contentid).Image;
+                    ViewBag.PublishEdit = "Edit";
+                    HttpContext.Session.SetString("ContentPostID", contentid.ToString());
+                }
+                else
+                {
+                    ViewBag.PublishEdit = "Publish now";
+                }
                 return View();
             }
             else
-                return RedirectToAction("Login", "Account");            
+                return RedirectToAction("InitialPage", "Home");
         }
 
         [HttpPost]
-        public IActionResult CreateImageContent(CreateContentDto content)
+        public IActionResult CreateImageContent(CreateContentDto content, string submit)
         {
             var pageid = 0;
             int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
+
+            var Contentid = 0;
+            int.TryParse(HttpContext.Session.GetString("ContentPostID"), out Contentid);
+
             string uniqueFileName = _userService.UploadedFile(content);
-            content.Page_ID = pageid;
-            content.Image = uniqueFileName;
-            _userService.CreateContent(content);
+
+            if (submit == "Edit")
+            {
+                content.Content_ID = Contentid;
+                content.Image = uniqueFileName;
+                _userService.EditContent(content);
+            }
+            else
+            {
+                content.Page_ID = pageid;
+                content.Image = uniqueFileName;
+                _userService.CreateContent(content);
+            }            
             return RedirectToAction("Index", "Home");
         }
 
@@ -119,37 +207,67 @@ namespace xPatreon.Controllers
                 return View(items);
             }
             else
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("InitialPage", "Home");
         }
 
 
         public IActionResult LaunchedPage()
         {
+
+            int pageid = _userService.PageIdWithPageName(Convert.ToString(HttpContext.Request.Query["UserPageName"]));
+            if (pageid > 0)
+            {
+                ViewBag.pageid = pageid;
+                ViewBag.PageName = _userService.PageInfo(pageid).PageName;
+                ViewBag.CreatingWhat = _userService.PageInfo(pageid).CreatingWhat;
+                ViewBag.ProfileImage = _userService.PageInfo(pageid).ProfileImage;
+                ViewBag.CoverImage = _userService.PageInfo(pageid).CoverImage;
+                ViewBag.AboutPage = _userService.PageInfo(pageid).AboutPage;
+                ViewBag.IsAre = _userService.PageInfo(pageid).IsAreCreating;
+                ViewBag.NumberOfFollowers = _userService.PatronsCount(pageid);
+
+                HttpContext.Session.SetString("PageFollowID", pageid.ToString());
+
+                var items = _userService.ContentList(pageid);
+
+                return View(items);                
+            }
+            return View();
+                       
+        }
+
+        [HttpPost]
+        public IActionResult LaunchedPage(PatronFollowerDto model)
+        {                                  
             if (HttpContext.Session.GetString("UserID") != null)
             {
-                string nome = Convert.ToString(HttpContext.Request.Query["UserPageName"]);
-                int pageid = _userService.PageIdWithPageName(Convert.ToString(HttpContext.Request.Query["UserPageName"]));
-                if (pageid > 0)
-                {
-                    ViewBag.PageName = _userService.PageInfo(pageid).PageName;
-                    ViewBag.CreatingWhat = _userService.PageInfo(pageid).CreatingWhat;
-                    ViewBag.ProfileImage = _userService.PageInfo(pageid).ProfileImage;
-                    ViewBag.CoverImage = _userService.PageInfo(pageid).CoverImage;
-                    ViewBag.AboutPage = _userService.PageInfo(pageid).AboutPage;
-                    ViewBag.IsAre = _userService.PageInfo(pageid).IsAreCreating;
+                var userid = 0;
+                var pageid = 0;
+                int.TryParse(HttpContext.Session.GetString("UserID"), out userid);
+                int.TryParse(HttpContext.Session.GetString("PageFollowID"), out pageid);
+                model.UserID = userid;
+                model.Page_ID = pageid;
 
-                    var items = _userService.ContentList(pageid);
-    
-                    return View(items);
-                }               
-                return RedirectToAction("Index", "Home");
-            }
+                ViewBag.pageid = pageid;
+                ViewBag.PageName = _userService.PageInfo(pageid).PageName;
+                ViewBag.CreatingWhat = _userService.PageInfo(pageid).CreatingWhat;
+                ViewBag.ProfileImage = _userService.PageInfo(pageid).ProfileImage;
+                ViewBag.CoverImage = _userService.PageInfo(pageid).CoverImage;
+                ViewBag.AboutPage = _userService.PageInfo(pageid).AboutPage;
+                ViewBag.IsAre = _userService.PageInfo(pageid).IsAreCreating;
+                ViewBag.NumberOfFollowers = _userService.PatronsCount(pageid);
+
+                _userService.Follow(model);
+
+                var items = _userService.ContentList(pageid);
+
+                return View(items);
+            }            
             else
                 return RedirectToAction("Login", "Account");
 
             
         }
-
 
         public IActionResult Page()
         {
@@ -162,12 +280,12 @@ namespace xPatreon.Controllers
                 ViewBag.ProfileImage = _userService.PageInfo(pageid).ProfileImage;
                 ViewBag.CoverImage = _userService.PageInfo(pageid).CoverImage;
                 ViewBag.AboutPage = _userService.PageInfo(pageid).AboutPage;
-                ViewBag.IsAre = _userService.PageInfo(pageid).IsAreCreating;            
+                ViewBag.IsAre = _userService.PageInfo(pageid).IsAreCreating;                
 
                 return View();
             }
             else
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("InitialPage", "Home");
         }
 
         [HttpPost]
@@ -209,7 +327,7 @@ namespace xPatreon.Controllers
                 return View();
             }
             else
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("InitialPage", "Home");
         }
 
         [HttpPost]
@@ -223,6 +341,10 @@ namespace xPatreon.Controllers
             user.Image = uniqueFileName;
 
             _userService.EditUser(user);
+
+
+            HttpContext.Session.SetString("Username", user.UserName.ToString());
+            HttpContext.Session.SetString("UserImage", _userService.UserInfo(_userService.UserId(user.UserName)).Image.ToString());
 
             return RedirectToAction("Index", "Home");
         }
