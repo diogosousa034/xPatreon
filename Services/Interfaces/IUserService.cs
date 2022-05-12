@@ -11,6 +11,7 @@ namespace Services.Interfaces
         public IEnumerable<Page> GetListOfSearchedPages(string search);
         public int RegisterUser(UserDto model);
         public int CreatePage(string username);
+        public int DeleteContent(int contentid);
         public int Follow(PatronFollowerDto model);
         public int PatronsCount(int pageid);
         public bool LoginUser(UserDto model);

@@ -5,6 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    .invalidInput {
+        border: 1px solid red;
+    }
+</style>
+
+
 <link href="~/cssfolder/style.css" rel="stylesheet" />
 
 <link href="~/cssfolder/radiobuttonstyle.css" rel="stylesheet" />
@@ -182,7 +189,7 @@
                         <input type="submit" id="save" value="Save changes" name="submit" class="form-control btn btn-danger btn-lg rounded-pill" disabled />
                     </div>
                     <div class="mt-2">
-                        <input type="submit" id="submit" value="Launch" name="submit" class="form-control btn btn-danger btn-lg rounded-pill" disabled />
+                        <input type="submit" id="submit" onclick="validateform();" value="Launch" name="submit" class="form-control btn btn-danger btn-lg rounded-pill" />
                     </div>
                 </div>
             </form>
@@ -209,7 +216,6 @@
         let CreatingWhat = document.getElementById("creating").value;
         let AboutPage = document.getElementById("aboutPage").value;
         const saveButton = document.getElementById("save");
-        const LaunchButton = document.getElementById("submit");
         saveButton.disabled = true;
         LaunchButton.disabled = true;
 
@@ -218,10 +224,15 @@
             saveButton.disabled = false;
         }
 
-        if (PageName != "" && CreatingWhat != "" && AboutPage != "") {
-            LaunchButton.disabled = false;
-        }
-        
+    }
+
+    function validateform() {
+        var Pagename = document.getElementById("Name").value;
+
+        if (Pagename == null || Pagename == "") {
+            Pagename.classList.add("invalidInput");
+            return false;
+        } 
     }
 </script>
 

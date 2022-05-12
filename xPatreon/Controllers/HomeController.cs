@@ -203,13 +203,23 @@ namespace xPatreon.Controllers
             {
                 var pageid = 0;
                 int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
+
                 var items = _userService.ContentList(pageid);
+
+                int contentid = 0;
+                int.TryParse(Convert.ToString(HttpContext.Request.Query["ContentIdToDelete"]), out contentid);
+                if (contentid > 0)
+                {
+                    _userService.DeleteContent(contentid);
+                    return View(items);
+                }
+
+                
                 return View(items);
             }
             else
                 return RedirectToAction("InitialPage", "Home");
         }
-
 
         public IActionResult LaunchedPage()
         {

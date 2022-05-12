@@ -63,6 +63,17 @@ namespace Services.Implementation
             return _context.SaveChanges();
         }
 
+        public int DeleteContent(int contentid)
+        {
+            var post = _context.PageContents.Single(u => u.Content_ID == contentid);
+
+            post.Deleted = true;
+
+            _context.Update(post);
+
+            return _context.SaveChanges();
+        }
+
         public int Follow(PatronFollowerDto model)
         {
             var follow = new Patrons()
