@@ -46,6 +46,12 @@ namespace Services
                 .Property(e => e.PatronFollow_ID)
                 .ValueGeneratedOnAdd();
 
+            modelBuilder.Entity<ContentComments>()
+                    .HasKey(o => o.Comment_ID);
+            modelBuilder.Entity<ContentComments>()
+                .Property(e => e.Comment_ID)
+                .ValueGeneratedOnAdd();
+
             modelBuilder.Entity<Page>()
                 .HasOne<User>(s => s.User)
                 .WithOne(g => g.Page)
@@ -64,11 +70,18 @@ namespace Services
                 .HasForeignKey(s => s.Page_ID)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<ContentComments>()
+                .HasOne<PageContent>(s => s.PageContent)
+                .WithMany(g => g.Comments)
+                .HasForeignKey(s => s.Content_ID);
+                //.OnDelete(DeleteBehavior.Cascade);
+
         }
 
         public DbSet<User> User { get; set; }
         public DbSet<Page> Page { get; set; }
         public DbSet<PageContent> PageContents { get; set; }
         public DbSet<Patrons> Patrons { get; set; }
+        public DbSet<ContentComments> ContentComments { get; set; }
     }
 }

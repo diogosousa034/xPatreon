@@ -38,7 +38,7 @@
                                 <p class="text-muted m-0">Required</p>
                             </td>
                             <td class="w-50">
-                                <input id="Name" asp-for="PageName" class="form-control" value="@ViewBag.PageName" onkeyup="isEmpty(); ValueInput()" />
+                                <input id="Name" asp-for="PageName" class="form-control" value="@ViewBag.PageName" onkeyup="isEmpty(); ValueInput()" required />
                                 <span asp-validation-for="PageName" class="text-danger"></span>
                             </td>
                         </tr>
@@ -48,7 +48,7 @@
                                 <p class="text-muted m-0">Required</p>
                             </td>
                             <td class="w-50">
-                                <input id="creating" asp-for="CreatingWhat" class="form-control" value="@ViewBag.CreatingWhat" onkeyup="isEmpty(); ValueInput()" />
+                                <input id="creating" asp-for="CreatingWhat" class="form-control" value="@ViewBag.CreatingWhat" onkeyup="isEmpty(); ValueInput()" required />
                                 <span asp-validation-for="CreatingWhat" class="text-danger"></span>
                             </td>
                         </tr>
@@ -189,7 +189,7 @@
                         <input type="submit" id="save" value="Save changes" name="submit" class="form-control btn btn-danger btn-lg rounded-pill" disabled />
                     </div>
                     <div class="mt-2">
-                        <input type="submit" id="submit" onclick="validateform();" value="Launch" name="submit" class="form-control btn btn-danger btn-lg rounded-pill" />
+                        <input type="submit" id="submit" onclick="validateform();" value="Launch" name="submit" class="form-control btn btn-danger btn-lg rounded-pill" required />
                     </div>
                 </div>
             </form>
@@ -217,7 +217,6 @@
         let AboutPage = document.getElementById("aboutPage").value;
         const saveButton = document.getElementById("save");
         saveButton.disabled = true;
-        LaunchButton.disabled = true;
 
 
         if (PageName != "" || CreatingWhat != "" || AboutPage != "") {
@@ -226,15 +225,6 @@
 
     }
 
-    function validateform() {
-        var Pagename = document.getElementById("Name").value;
-
-        if (Pagename == null || Pagename == "") {
-            Pagename.classList.add("invalidInput");
-            return false;
-        } 
-    }
 </script>
-
 
 

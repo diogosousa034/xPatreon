@@ -19,6 +19,29 @@ namespace Services.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("DataBase.ContentComments", b =>
+                {
+                    b.Property<int>("Comment_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CommentData")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CommentText")
+                        .HasColumnType("nvarchar(MAX)");
+
+                    b.Property<int>("Content_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Comment_ID");
+
+                    b.HasIndex("Content_ID");
+
+                    b.ToTable("ContentComments");
+                });
+
             modelBuilder.Entity("DataBase.Page", b =>
                 {
                     b.Property<int>("Page_ID")
@@ -155,6 +178,15 @@ namespace Services.Migrations
                         .HasFilter("[UserName] IS NOT NULL");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("DataBase.ContentComments", b =>
+                {
+                    b.HasOne("DataBase.PageContent", "PageContent")
+                        .WithMany("Comments")
+                        .HasForeignKey("Content_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataBase.Page", b =>

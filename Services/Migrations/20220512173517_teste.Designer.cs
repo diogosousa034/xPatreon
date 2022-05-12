@@ -10,8 +10,8 @@ using Services;
 namespace Services.Migrations
 {
     [DbContext(typeof(xPatreonDbContext))]
-    [Migration("20220512140838_AddDataBaseee")]
-    partial class AddDataBaseee
+    [Migration("20220512173517_teste")]
+    partial class teste
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,29 @@ namespace Services.Migrations
                 .HasAnnotation("ProductVersion", "3.1.22")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("DataBase.ContentComments", b =>
+                {
+                    b.Property<int>("Comment_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CommentData")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CommentText")
+                        .HasColumnType("nvarchar(MAX)");
+
+                    b.Property<int>("Content_ID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Comment_ID");
+
+                    b.HasIndex("Content_ID");
+
+                    b.ToTable("ContentComments");
+                });
 
             modelBuilder.Entity("DataBase.Page", b =>
                 {
@@ -157,6 +180,15 @@ namespace Services.Migrations
                         .HasFilter("[UserName] IS NOT NULL");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("DataBase.ContentComments", b =>
+                {
+                    b.HasOne("DataBase.PageContent", "PageContent")
+                        .WithMany("Comments")
+                        .HasForeignKey("Content_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataBase.Page", b =>

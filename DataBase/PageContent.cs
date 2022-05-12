@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,6 +30,8 @@ namespace DataBase
 
         [NotMapped]
         public IFormFile FrontImage { get; set; }
+
+        public virtual IEnumerable<ContentComments> Comments { get; set; }
 
         public int Page_ID { get; set; }
         public virtual Page Page { get; set; }

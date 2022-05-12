@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "zlhHUNZ69mwJ48kjHhPDg3W9iTcTquUOAGRyrZ2oWMCYGZYqW4cN8t4YbgONpb3D0ODkEBl3PmzmKM8R9ekMfw==",
+  "dgSpecHash": "fWeylay/cSccF2RjlI4rOeio17QYVyufVbTfFhVD2g9mMSN92kVQnxyvlqleR+fh5FTX3+t2rn/3vYzJigmBDg==",
   "success": true,
   "projectFilePath": "C:\\Users\\thek1\\Desktop\\estagio\\xPatreon\\DataBase\\DataBase.csproj",
   "expectedPackageFiles": [
@@ -166,10 +166,7 @@
     "C:\\Users\\thek1\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\thek1\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\thek1\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\thek1\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
-    "C:\\Users\\thek1\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
-    "C:\\Users\\thek1\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512",
-    "C:\\Users\\thek1\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512"
+    "C:\\Users\\thek1\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
   ],
   "logs": []
 }
