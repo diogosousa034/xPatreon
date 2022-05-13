@@ -8626,19 +8626,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\thek1\\.nuget\\packages\\": {}
+    "C:\\Users\\SwitchTechnology\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\thek1\\Desktop\\estagio\\xPatreon\\Services\\Services.csproj",
+      "projectUniqueName": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipxPatreon\\xPatreon\\Services\\Services.csproj",
       "projectName": "Services",
-      "projectPath": "C:\\Users\\thek1\\Desktop\\estagio\\xPatreon\\Services\\Services.csproj",
-      "packagesPath": "C:\\Users\\thek1\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\thek1\\Desktop\\estagio\\xPatreon\\Services\\obj\\",
+      "projectPath": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipxPatreon\\xPatreon\\Services\\Services.csproj",
+      "packagesPath": "C:\\Users\\SwitchTechnology\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipxPatreon\\xPatreon\\Services\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\thek1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\SwitchTechnology\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8652,8 +8652,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\thek1\\Desktop\\estagio\\xPatreon\\DataBase\\DataBase.csproj": {
-              "projectPath": "C:\\Users\\thek1\\Desktop\\estagio\\xPatreon\\DataBase\\DataBase.csproj"
+            "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipxPatreon\\xPatreon\\DataBase\\DataBase.csproj": {
+              "projectPath": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipxPatreon\\xPatreon\\DataBase\\DataBase.csproj"
             }
           }
         }
@@ -8708,7 +8708,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

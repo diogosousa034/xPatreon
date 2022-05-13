@@ -63,6 +63,32 @@ namespace Services.Implementation
             return _context.SaveChanges();
         }
 
+        public int AddComment(CommentsDto model)
+        {
+            //var user = _context.PageContents.Single(u => u.Content_ID == model.Content_ID);
+
+            var newComment = new ContentComments()
+            {
+                CommentText = model.CommentText,
+                Username = model.Username,
+                UserImage = model.UserImage,
+                CommentData = DateTime.Now,
+                Content_ID = model.Content_ID
+            };
+
+            _context.ContentComments.Add(newComment);
+
+            return _context.SaveChanges();
+        }
+
+        public IEnumerable<ContentComments> CommentsList(int contentid)
+        {
+            var Comments = _context.ContentComments.Where(u => u.Content_ID == contentid);
+
+            return Comments.ToList();
+        }
+
+
         public int DeleteContent(int contentid)
         {
             var post = _context.PageContents.Single(u => u.Content_ID == contentid);

@@ -69,9 +69,6 @@ namespace xPatreon.Controllers
             }
             else
                 return View(_userService.GetListOfPages());
-
-            
-
         }
 
 
@@ -197,6 +194,62 @@ namespace xPatreon.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult CommentContent()
+        {
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                int userid = 0;
+                int.TryParse(Convert.ToString(HttpContext.Session.GetString("UserID")), out userid);
+
+                int contentid = 0;
+                int.TryParse(Convert.ToString(HttpContext.Request.Query["ContentIdView"]), out contentid);
+                var listComments = _userService.CommentsList(contentid);
+                if (contentid > 0)
+                {
+                    ViewBag.Title3 = _userService.ContentInfo(contentid).Title;
+                    ViewBag.MainContent = _userService.ContentInfo(contentid).MainContent;
+                    ViewBag.Image = "/Images/" + _userService.ContentInfo(contentid).Image;
+                    ViewBag.UserImage =  _userService.UserInfo(userid).Image;
+                    HttpContext.Session.SetString("contentidview", contentid.ToString());
+                }
+                return View(listComments);
+            }
+            else
+                return RedirectToAction("InitialPage", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult CommentContent(CommentsDto model, string InputText)
+        {
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                int userid = 0;
+                int.TryParse(Convert.ToString(HttpContext.Session.GetString("UserID")), out userid);
+
+                int contentidview = 0;
+                int.TryParse(Convert.ToString(HttpContext.Session.GetString("contentidview")), out contentidview);
+                var listComments = _userService.CommentsList(contentidview);
+                if (contentidview > 0)
+                {
+                    model.CommentText = InputText;
+                    model.Username = _userService.UserInfo(userid).UserName;
+                    model.UserImage = _userService.UserInfo(userid).Image;                    
+                    model.Content_ID = contentidview;
+
+                    _userService.AddComment(model);
+
+                    ViewBag.Title3 = _userService.ContentInfo(contentidview).Title;
+                    ViewBag.MainContent = _userService.ContentInfo(contentidview).MainContent;
+                    ViewBag.Image = "/Images/" + _userService.ContentInfo(contentidview).Image;
+                    ViewBag.UserImage =  _userService.UserInfo(userid).Image;
+                }
+                return View(listComments);
+            }
+            else
+                return RedirectToAction("InitialPage", "Home");
+        }
+
+
         public IActionResult Contentlist()
         {
             if (HttpContext.Session.GetString("UserID") != null)
@@ -274,9 +327,7 @@ namespace xPatreon.Controllers
                 return View(items);
             }            
             else
-                return RedirectToAction("Login", "Account");
-
-            
+                return RedirectToAction("Login", "Account");            
         }
 
         public IActionResult Page()

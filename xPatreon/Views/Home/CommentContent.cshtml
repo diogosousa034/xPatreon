@@ -1,0 +1,87 @@
+﻿@model IEnumerable<DataBase.ContentComments>
+
+@{
+    ViewData["Title"] = "CommentContent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container mt-3">
+    <form asp-action="CommentContent">
+        <div class="row">
+            <div class="col-7">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="border rounded">
+                    <div>
+                        <img class="rounded-top w-100" src="@ViewBag.Image" />
+                    </div>
+                    <div class="p-3">
+                        <p class="font-weight-bold">@ViewBag.Title3</p>
+                        <p>@ViewBag.MainContent</p>
+                        <div class="d-flex w-100">
+                            <div class="w-100">
+                                <a href="#" onclick="LikeClick()">
+                                    <svg id="LikeIMG" class="ELike" width="25" height="25" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 20.25c-1.96 0-9.375-4.725-9.375-11.106A5.334 5.334 0 0 1 7.884 3.75 5.215 5.215 0 0 1 12 5.792a5.214 5.214 0 0 1 4.117-2.042 5.334 5.334 0 0 1 5.258 5.394c0 6.381-7.415 11.106-9.375 11.106zm4.117-15C13.686 5.25 12.86 7.5 12 7.5c-.86 0-1.685-2.25-4.116-2.25a3.832 3.832 0 0 0-3.759 3.894c0 5.663 6.894 9.594 7.875 9.606.982-.012 7.875-3.943 7.875-9.606a3.833 3.833 0 0 0-3.758-3.894z"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                            <div class="text-right">
+                                <p class="m-0"><span class="pr-1">0</span>Likes</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-5">
+                <div class="border rounded">
+                    <div class="p-3 border-bottom d-flex">
+                        <div class="pr-3"><img width="38" height="38" class="rounded-circle" src="@ViewBag.UserImage" /></div>
+                        <div class="w-100">
+                            <input type="text" name="InputText" placeholder="Type to comment" class="form-control" />
+                        </div>
+                        @*<div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>*@
+                    </div>
+                    @*Lista de comments*@
+                    @foreach (var item in Model)
+                    {
+                        <div class="p-3 border-bottom d-flex">
+                            <div class="pr-3">
+                                <img width="40" height="40" class="rounded-circle" src="@item.UserImage" />
+                            </div>
+                            <div class="w-100 d-flex">
+                                <div class="w-100">
+                                    <p class="m-0">@item.Username</p>
+                                    <p class="m-0">@item.CommentText</p>
+                                </div>
+                                <div class="w-0">
+                                    <p class="m-0">@item.CommentData</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@*style="fill:red;"*@
+
+<style>
+    .LikeBorderRed {
+        fill: red;
+    }
+</style>
+
+<script type="text/javascript">
+    function LikeClick() {
+        const element = document.getElementById('LikeIMG');
+        element.classList.toggle('LikeBorderRed');
+    }
+</script>

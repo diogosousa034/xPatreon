@@ -71,7 +71,7 @@
 
                                             <div class="border border-top-0 rounded-bottom p-3 text-left">
                                                 <p class="text-muted font-weight-normal mb-1">@Html.DisplayFor(modelItem => item.PublicationData)</p>
-                                                <p class="font-weight-bold mb-1">@Html.DisplayFor(modelItem => item.Title)</p>
+                                                <a href="/Home/CommentContent?ContentIdView=@item.Content_ID"><p class="font-weight-bold mb-1">@Html.DisplayFor(modelItem => item.Title)</p></a>
                                                 <p class="font-weight-normal mb-0">@Html.DisplayFor(modelItem => item.MainContent)</p>
                                             </div>
 
@@ -100,9 +100,6 @@
                     </div>
                 </div>
             }
-
-
-
         </div>
     </div>
 </div>

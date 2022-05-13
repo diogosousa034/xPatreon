@@ -10,8 +10,8 @@ using Services;
 namespace Services.Migrations
 {
     [DbContext(typeof(xPatreonDbContext))]
-    [Migration("20220512173517_teste")]
-    partial class teste
+    [Migration("20220513150451_AddedAfewThingIntoComments")]
+    partial class AddedAfewThingIntoComments
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,12 @@ namespace Services.Migrations
 
                     b.Property<int>("Content_ID")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Comment_ID");
 

@@ -35,6 +35,12 @@ namespace Services.Migrations
                     b.Property<int>("Content_ID")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Comment_ID");
 
                     b.HasIndex("Content_ID");

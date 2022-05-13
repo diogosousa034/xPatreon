@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\thek1\\Desktop\\estagio\\xPatreon\\DataBase\\DataBase.csproj": {}
+    "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipxPatreon\\xPatreon\\DataBase\\DataBase.csproj": {}
   },
   "projects": {
-    "C:\\Users\\thek1\\Desktop\\estagio\\xPatreon\\DataBase\\DataBase.csproj": {
+    "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipxPatreon\\xPatreon\\DataBase\\DataBase.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\thek1\\Desktop\\estagio\\xPatreon\\DataBase\\DataBase.csproj",
+        "projectUniqueName": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipxPatreon\\xPatreon\\DataBase\\DataBase.csproj",
         "projectName": "DataBase",
-        "projectPath": "C:\\Users\\thek1\\Desktop\\estagio\\xPatreon\\DataBase\\DataBase.csproj",
-        "packagesPath": "C:\\Users\\thek1\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\thek1\\Desktop\\estagio\\xPatreon\\DataBase\\obj\\",
+        "projectPath": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipxPatreon\\xPatreon\\DataBase\\DataBase.csproj",
+        "packagesPath": "C:\\Users\\SwitchTechnology\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipxPatreon\\xPatreon\\DataBase\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\thek1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\SwitchTechnology\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -80,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
