@@ -13,10 +13,12 @@ namespace Services.Interfaces
         public int CreatePage(string username);
         public int DeleteContent(int contentid);
         public int Follow(PatronFollowerDto model);
+        public int UnFollow(PatronFollowerDto model);
         public int AddComment(CommentsDto model);
         public IEnumerable<ContentComments> CommentsList(int contentid);
         public int PatronsCount(int pageid);
         public bool LoginUser(UserDto model);
+        public bool IsFollow(int userid, int pageid);
         public int EditUser(UserDto model);
         public int EditPage(PageEditDto model);
         public int LaunchPage(int pageid);

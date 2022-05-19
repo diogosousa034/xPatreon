@@ -114,6 +114,15 @@ namespace Services.Implementation
             return _context.SaveChanges();
         }
 
+        public int UnFollow(PatronFollowerDto model)
+        {
+            var f = _context.Patrons.SingleOrDefault(u => u.UserID == model.UserID && u.Page_ID == model.Page_ID);
+
+            _context.Patrons.Remove(f);
+
+            return _context.SaveChanges();
+        }
+
         public int PatronsCount(int pageid)
         {
             var numberOfFollowers = _context.Patrons.Where(u => u.Page_ID == pageid).Count();
@@ -128,7 +137,15 @@ namespace Services.Implementation
                 return true;
             else
                 return false;
+        }
 
+        public bool IsFollow(int userid, int pageid)
+        {
+            var f = _context.Patrons.Where(u => u.UserID == userid && u.Page_ID == pageid);
+            if (f.Count() > 0)
+                return true;
+            else
+                return false;
         }
 
         public int EditUser(UserDto model)
@@ -413,7 +430,6 @@ namespace Services.Implementation
                     IsAreCreating = item.IsAreCreating,
                     AboutPage = item.AboutPage,
                     ProfileImage = item.ProfileImage
-                    
                 };
 
                 p.Add(pagedtoNew);

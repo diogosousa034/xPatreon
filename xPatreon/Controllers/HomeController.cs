@@ -84,7 +84,6 @@ namespace xPatreon.Controllers
             }
             else
                 return RedirectToAction("InitialPage", "Home");
-
         }
 
         public IActionResult CreateContent()
@@ -276,7 +275,6 @@ namespace xPatreon.Controllers
 
         public IActionResult LaunchedPage()
         {
-
             int pageid = _userService.PageIdWithPageName(Convert.ToString(HttpContext.Request.Query["UserPageName"]));
             if (pageid > 0)
             {
@@ -289,18 +287,30 @@ namespace xPatreon.Controllers
                 ViewBag.IsAre = _userService.PageInfo(pageid).IsAreCreating;
                 ViewBag.NumberOfFollowers = _userService.PatronsCount(pageid);
 
+                var userid = 0;
+                int.TryParse(HttpContext.Session.GetString("UserID"), out userid);
+                if (userid > 0)
+                {
+                    if (_userService.IsFollow(userid, pageid))
+                        ViewBag.Follow = "Following";
+                    else
+                        ViewBag.Follow = "Follow";
+
+                }
+                else
+                    ViewBag.Follow = "Follow";
+
                 HttpContext.Session.SetString("PageFollowID", pageid.ToString());
 
                 var items = _userService.ContentList(pageid);
 
                 return View(items);                
             }
-            return View();
-                       
+            return View();                       
         }
 
         [HttpPost]
-        public IActionResult LaunchedPage(PatronFollowerDto model)
+        public IActionResult LaunchedPage(PatronFollowerDto model, string btnFollow)
         {                                  
             if (HttpContext.Session.GetString("UserID") != null)
             {
@@ -318,11 +328,21 @@ namespace xPatreon.Controllers
                 ViewBag.CoverImage = _userService.PageInfo(pageid).CoverImage;
                 ViewBag.AboutPage = _userService.PageInfo(pageid).AboutPage;
                 ViewBag.IsAre = _userService.PageInfo(pageid).IsAreCreating;
-                ViewBag.NumberOfFollowers = _userService.PatronsCount(pageid);
-
-                _userService.Follow(model);
+                
+                if (btnFollow == "Follow")
+                {
+                    _userService.Follow(model);
+                    ViewBag.Follow = "Following";
+                }
+                else
+                {
+                    _userService.UnFollow(model);
+                    ViewBag.Follow = "Follow";
+                }
 
                 var items = _userService.ContentList(pageid);
+
+                ViewBag.NumberOfFollowers = _userService.PatronsCount(pageid);
 
                 return View(items);
             }            
