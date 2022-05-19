@@ -79,8 +79,8 @@ namespace xPatreon.Controllers
             {
                 var userid = 0;
                 int.TryParse(HttpContext.Session.GetString("UserID"), out userid);
-                _userService.GetListOfFollowedPages(userid);
-                return View();
+                var followingPages = _userService.GetListOfFollowedPages(userid);
+                return View(followingPages);
             }
             else
                 return RedirectToAction("InitialPage", "Home");

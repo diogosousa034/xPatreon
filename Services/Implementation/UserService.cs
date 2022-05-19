@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Services.Dto;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Services.Implementation
 {
@@ -391,20 +392,46 @@ namespace Services.Implementation
 
         public IEnumerable<Page> GetListOfSearchedPages(string search)
         {
-            var searchedPage = _context.Page.ToList().Where(u => u.PageName.Contains(search) && u.active == true).Take(5);
+            var s = search.ToLower();
+            var searchedPage = _context.Page.Where(u => u.PageName.ToLower().Contains(s) && u.active == true).Take(5).ToList();
             return searchedPage;
         }
 
-        public IEnumerable<Page> GetListOfFollowedPages(int id)
+        public IEnumerable<PageDto> GetListOfFollowedPages(int id)
         {
-            var FollowPage = _context.Patrons.Where(u => u.UserID == id);
+            var FollowPage = _context.Patrons.Where(u => u.UserID == id).Select(x => x.Page).ToList();
 
-            var teste = from num in FollowPage
-                        select num.Page_ID;
+            List<PageDto> p = new List<PageDto>();
 
-            var page = _context.Page.ToList().Where(a => a.active == true);
+            foreach (var item in FollowPage)
+            {
+                PageDto pagedtoNew = new PageDto
+                {
+                    Page_ID = item.Page_ID,
+                    PageName = item.PageName,
+                    CreatingWhat = item.CreatingWhat,
+                    IsAreCreating = item.IsAreCreating,
+                    AboutPage = item.AboutPage,
+                    ProfileImage = item.ProfileImage
+                    
+                };
 
-            return null;
+                p.Add(pagedtoNew);
+            }
+
+            return p;
         }
     }
+
+    //public class PostDto
+    //{
+
+    //}
+
+    //public class PageDto
+    //{
+    //    public int pageId;
+
+    //    public List<PostDto> posts;
+    //}
 }

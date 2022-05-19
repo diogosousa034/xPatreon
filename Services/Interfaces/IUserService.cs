@@ -34,6 +34,6 @@ namespace Services.Interfaces
         public CreateContentDto ContentInfo(int Contentid);
         public IEnumerable<PageContent> ContentList(int pageid);
         public IEnumerable<Page> GetListOfPages();
-        public IEnumerable<Page> GetListOfFollowedPages(int id);
+        public IEnumerable<PageDto> GetListOfFollowedPages(int id);
     }
 }

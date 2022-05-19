@@ -1,9 +1,19 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
+@model IEnumerable<Services.Dto.PageDto>
+
 @{
     ViewData["Title"] = "CreatorPosts";
 }
+
+
+<style>
+    .mouseHover:hover {
+        background-color: rgba(0,0,0,0.1);
+        cursor: pointer;
+    }
+</style>
 
 <div class="container mt-3">
     <div class="row">
@@ -21,9 +31,34 @@
                     SUPPORTING
                 </div>
             </div>
-            <div class="border p-3 rounded-bottom bg-white">
-                <p>You aren’t supporting any creators yet.</p>
-            </div>
+            @if (Model.Count() < 1)
+            {
+                <div class="border p-3 rounded-bottom bg-white">
+                    <p>You aren’t supporting any creators yet.</p>
+                </div>
+            }
+            else
+            {
+                <table class="table table-borderless">
+                    @foreach (var item in Model)
+                    {
+                        <tr class="border mouseHover">
+                            <th>
+                                <a href="/Home/LaunchedPage?UserPageName=@item.PageName" class="text-decoration-none">
+                                    <div class="d-flex pl-2">
+                                        <div class="rounded-circle" style="width:50px; height:50px;">
+                                            <img src="@item.ProfileImage" class="rounded-circle" style="width:50px; height:50px;" alt="" />
+                                        </div>
+                                        <div class="pl-3 pt-2">
+                                            <p style="color:black;">@Html.DisplayFor(modelItem => item.PageName)</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </th>
+                        </tr>
+                    }
+                </table>
+            }
         </div>
 
         <div class="col-6">
