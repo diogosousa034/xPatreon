@@ -14,6 +14,7 @@ namespace Services.Dto
         public string ProfileImage { get; set; }
         public string CoverImage { get; set; }
         public string AboutPage { get; set; }
+        public bool active { get; set; }
         public DateTime PageCreationData { get; set; }
 
         public List<CreateContentDto> posts;

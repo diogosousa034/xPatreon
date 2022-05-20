@@ -35,7 +35,7 @@ namespace xPatreon.Controllers
                 var pageid = 0;
                 int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
                 var items = _userService.ContentListManage(pageid);
-                var last4items = items.Reverse().Take(4);
+                var last4items = items.Take(4);
 
                 ViewBag.CountPatrons = _userService.PatronsCount(pageid);
 
@@ -54,7 +54,6 @@ namespace xPatreon.Controllers
             var items = _userService.GetListOfPages();
 
             return View(items);
-
         }
 
         [HttpPost]
@@ -89,8 +88,18 @@ namespace xPatreon.Controllers
         public IActionResult CreateContent()
         {
             if (HttpContext.Session.GetString("UserID") != null)
-            {              
-                return View();
+            {
+                var userid = 0;
+                int.TryParse(HttpContext.Session.GetString("UserID"), out userid);
+
+                if (_userService.UserInfo(userid).Role == "Creator")
+                {
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction("NeedToBeCreator", "Errors");
+                }
             }
             else
                 return RedirectToAction("InitialPage", "Home");
@@ -117,6 +126,7 @@ namespace xPatreon.Controllers
                 else
                 {
                     ViewBag.PublishEdit = "Publish now";
+                    ViewBag.Active = null;
                 }
                 
 
@@ -398,16 +408,26 @@ namespace xPatreon.Controllers
         {
             if (HttpContext.Session.GetString("UserID") != null)
             {
-                var pageid = 0;
-                int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
-                ViewBag.PageName = _userService.PageInfo(pageid).PageName;
-                ViewBag.CreatingWhat = _userService.PageInfo(pageid).CreatingWhat;
-                ViewBag.ProfileImage = _userService.PageInfo(pageid).ProfileImage;
-                ViewBag.CoverImage = _userService.PageInfo(pageid).CoverImage;
-                ViewBag.AboutPage = _userService.PageInfo(pageid).AboutPage;
-                ViewBag.IsAre = _userService.PageInfo(pageid).IsAreCreating;                
+                var userid = 0;
+                int.TryParse(HttpContext.Session.GetString("UserID"), out userid);
 
-                return View();
+                if (_userService.UserInfo(userid).Role == "Creator")
+                {
+                    var pageid = 0;
+                    int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
+                    ViewBag.PageName = _userService.PageInfo(pageid).PageName;
+                    ViewBag.CreatingWhat = _userService.PageInfo(pageid).CreatingWhat;
+                    ViewBag.ProfileImage = _userService.PageInfo(pageid).ProfileImage;
+                    ViewBag.CoverImage = _userService.PageInfo(pageid).CoverImage;
+                    ViewBag.AboutPage = _userService.PageInfo(pageid).AboutPage;
+                    ViewBag.IsAre = _userService.PageInfo(pageid).IsAreCreating;
+
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction("NeedToBeCreator", "Errors");
+                }
             }
             else
                 return RedirectToAction("InitialPage", "Home");

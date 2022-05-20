@@ -242,7 +242,7 @@ namespace Services.Implementation
 
         public IEnumerable<PageContent> ContentListManage(int pageid)
         {
-            var contentList = _context.PageContents.ToList().Where(c => c.Page_ID == pageid && c.Deleted == false).OrderBy(u => u.PublicationData);
+            var contentList = _context.PageContents.ToList().Where(c => c.Page_ID == pageid && c.Deleted == false).OrderByDescending(u => u.PublicationData);
             return contentList;
         }
 
@@ -425,6 +425,27 @@ namespace Services.Implementation
         public IEnumerable<Page> GetListOfPages()
         {
             var searchedUser = _context.Page.ToList().Where(u => u.active == true);
+
+            //List<PageDto> p = new List<PageDto>();
+
+            //foreach (var item in searchedUser)
+            //{
+            //    List<CreateContentDto> pts = new List<CreateContentDto>();
+            //    PageDto pagedtoNew = new PageDto
+            //    {
+            //        Page_ID = item.Page_ID,
+            //        PageName = item.PageName,
+            //        CreatingWhat = item.CreatingWhat,
+            //        IsAreCreating = item.IsAreCreating,
+            //        AboutPage = item.AboutPage,
+            //        ProfileImage = item.ProfileImage,
+            //        posts = pts,
+            //    };
+
+            //    p.Add(pagedtoNew);
+
+            //}
+
             return searchedUser;
         }
 
@@ -432,32 +453,73 @@ namespace Services.Implementation
         {
             var s = search.ToLower();
             var searchedPage = _context.Page.Where(u => u.PageName.ToLower().Contains(s) && u.active == true).Take(5).ToList();
+
+            //List<PageDto> p = new List<PageDto>();
+
+
+            //foreach (var item in searchedPage)
+            //{
+            //    List<CreateContentDto> pts = new List<CreateContentDto>();
+            //    PageDto pagedtoNew = new PageDto
+            //    {
+            //        Page_ID = item.Page_ID,
+            //        PageName = item.PageName,
+            //        CreatingWhat = item.CreatingWhat,
+            //        IsAreCreating = item.IsAreCreating,
+            //        AboutPage = item.AboutPage,
+            //        ProfileImage = item.ProfileImage,
+            //        posts = pts,
+            //    };                
+
+            //    p.Add(pagedtoNew);
+
+            //}
+
+
             return searchedPage;
         }
 
         public IEnumerable<PageDto> GetListOfFollowedPages(int id)
         {
-            //this line gets the list of pages that the current logged in user follows
             var FollowPage = _context.Patrons.Where(u => u.UserID == id).Select(x => x.Page).ToList();
             
-            //this line isnt working, just a test 
-            //var FollowPageContent = _context.Patrons.Where(u => u.UserID == id).Select(x => x.Page.Contents).ToList();
-
-            //the rest of the code puts the pages in a dto list
             List<PageDto> p = new List<PageDto>();
+            
 
             foreach (var item in FollowPage)
             {
+                List<CreateContentDto> pts = new List<CreateContentDto>();
                 PageDto pagedtoNew = new PageDto
                 {
                     Page_ID = item.Page_ID,
                     PageName = item.PageName,
                     CreatingWhat = item.CreatingWhat,
                     IsAreCreating = item.IsAreCreating,
-                    AboutPage = item.AboutPage
+                    AboutPage = item.AboutPage,
+                    ProfileImage = item.ProfileImage,
+                    posts = pts,
                 };
 
+                var dasd = _context.PageContents.Where(p => p.Page_ID == pagedtoNew.Page_ID).ToList();
+
+                foreach (var item2 in dasd)
+                {
+                    CreateContentDto content = new CreateContentDto
+                    {
+                        Content_ID = item2.Content_ID,
+                        Title = item2.Title,
+                        MainContent = item2.MainContent,
+                        Image = item2.Image,
+                        PublicationData = item2.PublicationData,
+                        Active = item2.Active,
+                        Page_ID = item.Page_ID
+                    };
+
+                    pts.Add(content);
+                }
+
                 p.Add(pagedtoNew);
+                
             }
 
             return p;

@@ -35,14 +35,15 @@ namespace Services.Migrations
                     b.Property<int>("Content_ID")
                         .HasColumnType("int");
 
-                    b.Property<int>("User_ID")
-                        .HasColumnType("int");
+                    b.Property<string>("UserImage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Comment_ID");
 
                     b.HasIndex("Content_ID");
-
-                    b.HasIndex("User_ID");
 
                     b.ToTable("ContentComments");
                 });
@@ -145,8 +146,6 @@ namespace Services.Migrations
 
                     b.HasIndex("Page_ID");
 
-                    b.HasIndex("UserID");
-
                     b.ToTable("Patrons");
                 });
 
@@ -192,13 +191,7 @@ namespace Services.Migrations
                     b.HasOne("DataBase.PageContent", "PageContent")
                         .WithMany("Comments")
                         .HasForeignKey("Content_ID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DataBase.User", "user")
-                        .WithMany("comments")
-                        .HasForeignKey("User_ID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -207,7 +200,7 @@ namespace Services.Migrations
                     b.HasOne("DataBase.User", "User")
                         .WithOne("Page")
                         .HasForeignKey("DataBase.Page", "User_ID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -225,12 +218,6 @@ namespace Services.Migrations
                     b.HasOne("DataBase.Page", "Page")
                         .WithMany("patrons")
                         .HasForeignKey("Page_ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataBase.User", "user")
-                        .WithMany()
-                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

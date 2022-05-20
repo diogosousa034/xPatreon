@@ -1332,3 +1332,4 @@ C:\Users\thek1\Desktop\estagio\xPatreon\xPatreon\obj\Debug\netcoreapp3.1\xPatreo
 C:\Users\thek1\Desktop\estagio\xPatreon\xPatreon\obj\Debug\netcoreapp3.1\xPatreon.pdb
 C:\Users\thek1\Desktop\estagio\xPatreon\xPatreon\obj\Debug\netcoreapp3.1\xPatreon.genruntimeconfig.cache
 C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\obj\Debug\netcoreapp3.1\Razor\Views\Home\CommentContent.cshtml.g.cs
+C:\Users\SwitchTechnology\Desktop\estagio\IntershipxPatreon\xPatreon\xPatreon\obj\Debug\netcoreapp3.1\Razor\Views\Errors\NeedToBeCreator.cshtml.g.cs

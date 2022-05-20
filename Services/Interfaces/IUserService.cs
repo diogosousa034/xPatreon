@@ -7,8 +7,7 @@ using System.Text;
 namespace Services.Interfaces
 {
     public interface IUserService
-    {
-        public IEnumerable<Page> GetListOfSearchedPages(string search);
+    {        
         public int RegisterUser(UserDto model);
         public int CreatePage(string username);
         public int DeleteContent(int contentid);
@@ -38,6 +37,7 @@ namespace Services.Interfaces
         public IEnumerable<PageContent> ContentList(int pageid);
         public IEnumerable<PageContent> ContentListManage(int pageid);
         public IEnumerable<Page> GetListOfPages();
+        public IEnumerable<Page> GetListOfSearchedPages(string search);
         public IEnumerable<PageDto> GetListOfFollowedPages(int id);
     }
 }
