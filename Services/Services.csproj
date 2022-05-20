@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20220519154423_AddUserIDToComments.cs" />
+    <Compile Remove="Migrations\20220519154423_AddUserIDToComments.Designer.cs" />
+    <Compile Remove="Migrations\20220519154728_AddUserIDToComments2.cs" />
+    <Compile Remove="Migrations\20220519154728_AddUserIDToComments2.Designer.cs" />
+    <Compile Remove="Migrations\20220519155059_AddUserIDToComments3.cs" />
+    <Compile Remove="Migrations\20220519155059_AddUserIDToComments3.Designer.cs" />
+    <Compile Remove="Migrations\20220519155616_AddUserIDToComments4.cs" />
+    <Compile Remove="Migrations\20220519155616_AddUserIDToComments4.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.22" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.22">
       <PrivateAssets>all</PrivateAssets>

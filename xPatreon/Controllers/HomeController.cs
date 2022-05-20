@@ -34,7 +34,7 @@ namespace xPatreon.Controllers
             {
                 var pageid = 0;
                 int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
-                var items = _userService.ContentList(pageid);
+                var items = _userService.ContentListManage(pageid);
                 var last4items = items.Reverse().Take(4);
 
                 ViewBag.CountPatrons = _userService.PatronsCount(pageid);
@@ -109,6 +109,10 @@ namespace xPatreon.Controllers
                     ViewBag.MainContent = _userService.ContentInfo(contentid).MainContent;
                     ViewBag.PublishEdit = "Edit";
                     HttpContext.Session.SetString("ContentPostID", contentid.ToString());
+                    if (_userService.ContentInfo(contentid).Active == false)
+                        ViewBag.Active = "Active";
+                    else
+                        ViewBag.Active = "Desactive";
                 }
                 else
                 {
@@ -123,7 +127,7 @@ namespace xPatreon.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateTextContent(CreateContentDto content, string submit)
+        public IActionResult CreateTextContent(CreateContentDto content, string submit, string Active)
         {
             var pageid = 0;
             int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
@@ -133,11 +137,28 @@ namespace xPatreon.Controllers
             {
                 content.Content_ID = Contentid;
                 _userService.EditContent(content);
+
             }
-            else
+            else if (submit == "Publish now")
             {
                 content.Page_ID = pageid;
                 _userService.CreateContent(content);
+            }
+            else
+            {
+                content.Content_ID = Contentid;
+
+                if (Active == "Desactive")
+                    content.Active = false;
+                else if (Active == "Active")
+                    content.Active = true;
+
+                _userService.EditContent(content);
+
+                if (_userService.ContentInfo(Contentid).Active == false)
+                    ViewBag.Active = "Active";
+                else
+                    ViewBag.Active = "Desactive";
             }
 
             return RedirectToAction("Index", "Home");
@@ -156,10 +177,15 @@ namespace xPatreon.Controllers
                     ViewBag.Image = "/Images/" + _userService.ContentInfo(contentid).Image;
                     ViewBag.PublishEdit = "Edit";
                     HttpContext.Session.SetString("ContentPostID", contentid.ToString());
+                    if (_userService.ContentInfo(contentid).Active == false)
+                        ViewBag.Active = "Active";
+                    else
+                        ViewBag.Active = "Desactive";
                 }
                 else
                 {
                     ViewBag.PublishEdit = "Publish now";
+                    ViewBag.Active = null;
                 }
                 return View();
             }
@@ -168,7 +194,7 @@ namespace xPatreon.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateImageContent(CreateContentDto content, string submit)
+        public IActionResult CreateImageContent(CreateContentDto content, string submit, string Active)
         {
             var pageid = 0;
             int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
@@ -182,14 +208,32 @@ namespace xPatreon.Controllers
             {
                 content.Content_ID = Contentid;
                 content.Image = uniqueFileName;
-                _userService.EditContent(content);
-            }
-            else
+
+                _userService.EditContent(content);               
+            }            
+            else if (submit == "Publish now")
             {
                 content.Page_ID = pageid;
                 content.Image = uniqueFileName;
                 _userService.CreateContent(content);
-            }            
+            }
+            else
+            {
+                content.Content_ID = Contentid;
+                content.Image = uniqueFileName;
+
+                if (Active == "Desactive")
+                    content.Active = false;
+                else if (Active == "Active")
+                    content.Active = true;
+
+                _userService.EditContent(content);
+
+                if (_userService.ContentInfo(Contentid).Active == false)
+                    ViewBag.Active = "Active";
+                else
+                    ViewBag.Active = "Desactive";
+            }
             return RedirectToAction("Index", "Home");
         }
 
@@ -231,8 +275,8 @@ namespace xPatreon.Controllers
                 if (contentidview > 0)
                 {
                     model.CommentText = InputText;
-                    model.Username = _userService.UserInfo(userid).UserName;
-                    model.UserImage = _userService.UserInfo(userid).Image;                    
+                    //model.Username = _userService.UserInfo(userid).UserName;
+                    //model.UserImage = _userService.UserInfo(userid).Image;                    
                     model.Content_ID = contentidview;
 
                     _userService.AddComment(model);
@@ -256,7 +300,7 @@ namespace xPatreon.Controllers
                 var pageid = 0;
                 int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
 
-                var items = _userService.ContentList(pageid);
+                var items = _userService.ContentListManage(pageid);
 
                 int contentid = 0;
                 int.TryParse(Convert.ToString(HttpContext.Request.Query["ContentIdToDelete"]), out contentid);

@@ -90,7 +90,7 @@
                         @foreach (var item in Model)
                         {
                             <tr class="border-top">
-                                <th>
+                                <th class="pb-0">
                                     <div class="d-flex">
                                         <div class="bg-secondary rounded m-2" style="width:80px; height:80px;">
                                             @if (item.Image != null)
@@ -102,7 +102,17 @@
                                         </div>
                                         <div class="p-2">
                                             @Html.DisplayFor(modelItem => item.Title)
-                                            <p class="text-muted font-weight-normal mt-1">@Html.DisplayFor(modelItem => item.PublicationData)</p>
+                                            <p class="text-muted font-weight-normal mt-1 mb-0 pb-0">
+                                                <span>@Html.DisplayFor(modelItem => item.PublicationData)</span>
+                                            </p>
+                                            @if (item.Active == true)
+                                            {
+                                                <p class="text-muted font-weight-normal mt-0 pt-0">Active</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="text-muted font-weight-normal mt-0 pt-0">desactive</p>
+                                            }
                                         </div>
                                     </div>
                                 </th>

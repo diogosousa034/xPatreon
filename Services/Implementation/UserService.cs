@@ -71,8 +71,7 @@ namespace Services.Implementation
             var newComment = new ContentComments()
             {
                 CommentText = model.CommentText,
-                Username = model.Username,
-                UserImage = model.UserImage,
+                User_ID = model.User_id,
                 CommentData = DateTime.Now,
                 Content_ID = model.Content_ID
             };
@@ -82,12 +81,12 @@ namespace Services.Implementation
             return _context.SaveChanges();
         }
 
-        public IEnumerable<ContentComments> CommentsList(int contentid)
-        {
-            var Comments = _context.ContentComments.Where(u => u.Content_ID == contentid);
+        //public IEnumerable<ContentComments> CommentsList(int contentid)
+        //{
+        //    var Comments = _context.ContentComments.Where(u => u.Content_ID == contentid);
 
-            return Comments.ToList();
-        }
+        //    return Comments.ToList();
+        //}
 
 
         public int DeleteContent(int contentid)
@@ -95,6 +94,20 @@ namespace Services.Implementation
             var post = _context.PageContents.Single(u => u.Content_ID == contentid);
 
             post.Deleted = true;
+
+            _context.Update(post);
+
+            return _context.SaveChanges();
+        }
+
+        public int ActiveDesactiveContent(int contentid, bool active)
+        {
+            var post = _context.PageContents.Single(u => u.Content_ID == contentid);
+
+            if (active == true)
+                post.Active = true;
+            else
+                post.Active = false;
 
             _context.Update(post);
 
@@ -223,7 +236,13 @@ namespace Services.Implementation
 
         public IEnumerable<PageContent> ContentList(int pageid)
         {
-            var contentList = _context.PageContents.ToList().Where(c => c.Page_ID == pageid && c.Deleted == false && c.Active == true);
+            var contentList = _context.PageContents.ToList().Where(c => c.Page_ID == pageid && c.Deleted == false && c.Active == true).OrderByDescending(u => u.PublicationData);
+            return contentList;
+        }
+
+        public IEnumerable<PageContent> ContentListManage(int pageid)
+        {
+            var contentList = _context.PageContents.ToList().Where(c => c.Page_ID == pageid && c.Deleted == false).OrderBy(u => u.PublicationData);
             return contentList;
         }
 
@@ -253,7 +272,8 @@ namespace Services.Implementation
             if (model.Image != null)
             {
                 post.Image = model.Image;
-            }                     
+            }
+            post.Active = model.Active;
 
             _context.Update(post);
 
@@ -396,6 +416,7 @@ namespace Services.Implementation
                 Title = model.Title,
                 MainContent = model.MainContent,
                 Image = model.Image,
+                Active = model.Active
 
             };
             return post;
@@ -416,8 +437,13 @@ namespace Services.Implementation
 
         public IEnumerable<PageDto> GetListOfFollowedPages(int id)
         {
+            //this line gets the list of pages that the current logged in user follows
             var FollowPage = _context.Patrons.Where(u => u.UserID == id).Select(x => x.Page).ToList();
+            
+            //this line isnt working, just a test 
+            //var FollowPageContent = _context.Patrons.Where(u => u.UserID == id).Select(x => x.Page.Contents).ToList();
 
+            //the rest of the code puts the pages in a dto list
             List<PageDto> p = new List<PageDto>();
 
             foreach (var item in FollowPage)
@@ -428,14 +454,20 @@ namespace Services.Implementation
                     PageName = item.PageName,
                     CreatingWhat = item.CreatingWhat,
                     IsAreCreating = item.IsAreCreating,
-                    AboutPage = item.AboutPage,
-                    ProfileImage = item.ProfileImage
+                    AboutPage = item.AboutPage
                 };
 
                 p.Add(pagedtoNew);
             }
 
             return p;
+        }
+
+        public IEnumerable<ContentComments> CommentsList(int contentid)
+        {
+            var Comments = _context.ContentComments.Where(u => u.Content_ID == contentid);
+
+            return Comments.ToList();
         }
     }
 

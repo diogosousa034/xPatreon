@@ -56,7 +56,7 @@ namespace Services
                 .HasOne<User>(s => s.User)
                 .WithOne(g => g.Page)
                 .HasForeignKey<Page>(s => s.User_ID)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PageContent>()
                 .HasOne<Page>(s => s.Page)
@@ -73,9 +73,14 @@ namespace Services
             modelBuilder.Entity<ContentComments>()
                 .HasOne<PageContent>(s => s.PageContent)
                 .WithMany(g => g.Comments)
-                .HasForeignKey(s => s.Content_ID);
-                //.OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(s => s.Content_ID)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<ContentComments>()
+                 .HasOne<User>(s => s.user)
+                 .WithMany(g => g.comments)
+                 .HasForeignKey(s => s.User_ID)
+                 .OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<User> User { get; set; }

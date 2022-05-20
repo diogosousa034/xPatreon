@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services;
 
 namespace Services.Migrations
 {
     [DbContext(typeof(xPatreonDbContext))]
-    partial class xPatreonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220519160242_AddUserIDToComments")]
+    partial class AddUserIDToComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,13 +194,11 @@ namespace Services.Migrations
                     b.HasOne("DataBase.PageContent", "PageContent")
                         .WithMany("Comments")
                         .HasForeignKey("Content_ID")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("DataBase.User", "user")
                         .WithMany("comments")
                         .HasForeignKey("User_ID")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
@@ -207,7 +207,7 @@ namespace Services.Migrations
                     b.HasOne("DataBase.User", "User")
                         .WithOne("Page")
                         .HasForeignKey("DataBase.Page", "User_ID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

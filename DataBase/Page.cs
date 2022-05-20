@@ -39,8 +39,6 @@ namespace DataBase
         [NotMapped]
         public IFormFile FrontImageCover { get; set; }
 
-        //public List<PageContent> posts;
-
         public virtual IEnumerable<PageContent> Contents { get; set; }
         public virtual IEnumerable<Patrons> patrons { get; set; }
 

@@ -12,6 +12,7 @@ namespace Services.Interfaces
         public int RegisterUser(UserDto model);
         public int CreatePage(string username);
         public int DeleteContent(int contentid);
+        public int ActiveDesactiveContent(int contentid, bool active);
         public int Follow(PatronFollowerDto model);
         public int UnFollow(PatronFollowerDto model);
         public int AddComment(CommentsDto model);
@@ -35,6 +36,7 @@ namespace Services.Interfaces
         public PageEditDto PageInfo(int pageid);
         public CreateContentDto ContentInfo(int Contentid);
         public IEnumerable<PageContent> ContentList(int pageid);
+        public IEnumerable<PageContent> ContentListManage(int pageid);
         public IEnumerable<Page> GetListOfPages();
         public IEnumerable<PageDto> GetListOfFollowedPages(int id);
     }

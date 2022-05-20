@@ -41,7 +41,9 @@ namespace DataBase
 
         [NotMapped]
         public IFormFile FrontImage { get; set; }
-        
+
+        public virtual IEnumerable<ContentComments> comments { get; set; }
+
         public virtual Page Page { get; set; }
     }
 }
