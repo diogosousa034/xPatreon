@@ -14,6 +14,8 @@ namespace Services.Interfaces
         public int ActiveDesactiveContent(int contentid, bool active);
         public int Follow(PatronFollowerDto model);
         public int UnFollow(PatronFollowerDto model);
+        public bool CheckUserName(string username);
+        public bool CheckEmail(string email);
         public int AddComment(CommentsDto model);
         public IEnumerable<ContentComments> CommentsList(int contentid);
         public int PatronsCount(int pageid);

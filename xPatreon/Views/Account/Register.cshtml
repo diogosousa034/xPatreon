@@ -7,40 +7,62 @@
 
 <link href="~/cssfolder/radiobuttonstyle.css" rel="stylesheet" />
 
+<style>
+    .input-control.success input {
+        border-color: #09c372;
+    }
+
+    .input-control.error input {
+        border-color: #ff3860;
+    }
+
+    .input-control .error {
+        color: #ff3860;
+    }
+</style>
+
+<script defer src="~/Validation/Validation.js"></script>
+
 <div class="container mt-3">
     <div class="row justify-content-center align-items-center">
         <div class="col-md-5">
             <div class="d-flex justify-content-center">
                 <p class="font-weight-bold h4">Sign up</p>
             </div>
-            <div class="border p-3 mb-5 bg-white rounded mt-4">
-                <form asp-action="Register">
+            <div class="border p-3 mb-5 bg-white rounded mt-3">
+                <form asp-action="Register" id="form">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
+                    <div class="form-group d-flex justify-content-center">
+                        <span class="text-danger text-center">@ViewBag.RegisterError</span>
+                    </div>
+                    <div class="form-group input-control">
                         <label class="control-label">Username</label>
-                        <input asp-for="UserName" class="form-control" />
-                        <span asp-validation-for="UserName" class="text-danger"></span>
+                        <input asp-for="UserName" id="UserNameText" class="form-control" onchange="UserCheck();" />
+                        <span id="StatusUser"></span>
+                        <span class="error"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group input-control">
                         <label asp-for="Email" class="control-label"></label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <input asp-for="Email" id="EmailText" class="form-control" onchange="EmailCheck();" />
+                        <span id="StatusEmail"></span>
+                        <span class="error"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group input-control">
                         <label asp-for="Password" class="control-label"></label>
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <input id="Password" asp-for="Password" class="form-control" />
+                        <span class="text-danger"></span>
+                        <span class="error"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="ConfirmPassword" class="control-label"></label>
-                        <input asp-for="ConfirmPassword" class="form-control" />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    <div class="form-group input-control">
+                        <label class="control-label">Confirm password</label>
+                        <input id="ConfirmPass" asp-for="ConfirmPassword" class="form-control" />
+                        <span class="text-danger"></span>
+                        <span class="error"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Role" class="control-label"></label><br />
                         <input type="radio" name="Role" value="Creator" /> Creator <br />
-                        <input type="radio" name="Role" value="Reader" /> Reader
-                        <span asp-validation-for="Role" class="text-danger"></span>
+                        <input type="radio" name="Role" value="Reader" checked /> Reader
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-danger rounded-pill form-control mt-3 btn-lg" />
@@ -59,3 +81,44 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+
+<script type="text/javascript">
+    function UserCheck() {
+        /*$('#Status').html("Checking...");*/
+        $.post("@Url.Action("CheckUsernameExits", "Validations")",
+            {
+                username: $("#UserNameText").val()
+            },
+            function (data) {
+                if (data == 0) {
+                    $("#StatusUser").html('<font color="Green">User available !');
+                    $("#UserNameText").css("border-color", "Green");
+                }
+                else {
+                    $("#StatusUser").html('<font color="Red">User not available !');
+                    $("#UserNameText").css("border-color", "Red");
+                }
+            });
+    }
+
+    function EmailCheck() {
+        /*$('#Status').html("Checking...");*/
+        $.post("@Url.Action("CheckEmailExits", "Validations")",
+            {
+                email: $("#EmailText").val()
+            },
+            function (data) {
+                if (data == 0) {
+                    $("#StatusEmail").html('<font color="Green">Email available !');
+                    $("#EmailText").css("border-color", "Green");
+                }
+                else {
+                    $("#StatusEmail").html('<font color="Red">Email not available !');
+                    $("#EmailText").css("border-color", "Red");
+                }
+
+            });
+    }
+
+</script>

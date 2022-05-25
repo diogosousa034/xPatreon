@@ -136,6 +136,24 @@ namespace Services.Implementation
             return _context.SaveChanges();
         }
 
+        public bool CheckUserName(string username)
+        {
+            var user = _context.User.Where(u => u.UserName == username).SingleOrDefault();
+            if (user != null)
+                return true;
+            else
+                return false;
+        }
+
+        public bool CheckEmail(string email)
+        {
+            var userEmail = _context.User.Where(u => u.Email == email).SingleOrDefault();
+            if (userEmail != null)
+                return true;
+            else
+                return false;
+        }
+
         public int PatronsCount(int pageid)
         {
             var numberOfFollowers = _context.Patrons.Where(u => u.Page_ID == pageid).Count();
