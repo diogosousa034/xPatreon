@@ -65,8 +65,8 @@
                                     <div class="w-100">
                                         @if (item.Image != null)
                                         {
-                                            <div class="bg-white w-100 m-0">
-                                                <img src="~/images/@item.Image" class="w-100" alt="" />
+                                            <div class="bg-white w-100 border-bottom-0 border rounded-top m-0">
+                                                <img src="~/images/@item.Image" class="w-100 rounded-top" alt="" />
                                             </div>
 
                                             <div class="border border-top-0 rounded-bottom p-3 text-left">
@@ -80,7 +80,7 @@
                                         {
                                             <div class="border rounded p-3 text-left">
                                                 <p class="text-muted font-weight-normal mb-1">@Html.DisplayFor(modelItem => item.PublicationData)</p>
-                                                <p class="font-weight-bold mb-1">@Html.DisplayFor(modelItem => item.Title)</p>
+                                                <a href="/Home/CommentContent?ContentIdView=@item.Content_ID" class="text-decoration-none"><p class="font-weight-bold mb-1" style="color:black;">@Html.DisplayFor(modelItem => item.Title)</p></a>
                                                 <p class="font-weight-normal mb-0">@Html.DisplayFor(modelItem => item.MainContent)</p>
                                             </div>
                                         }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Services.Migrations
 {
-    public partial class AddFirstMigration : Migration
+    public partial class addDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,7 +50,7 @@ namespace Services.Migrations
                         column: x => x.User_ID,
                         principalTable: "User",
                         principalColumn: "User_ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,6 +96,12 @@ namespace Services.Migrations
                         principalTable: "Page",
                         principalColumn: "Page_ID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Patrons_User_UserID",
+                        column: x => x.UserID,
+                        principalTable: "User",
+                        principalColumn: "User_ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -106,6 +112,7 @@ namespace Services.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CommentText = table.Column<string>(type: "nvarchar(MAX)", nullable: true),
                     CommentData = table.Column<DateTime>(nullable: false),
+                    User_ID = table.Column<int>(nullable: false),
                     Content_ID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -116,13 +123,24 @@ namespace Services.Migrations
                         column: x => x.Content_ID,
                         principalTable: "PageContents",
                         principalColumn: "Content_ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ContentComments_User_User_ID",
+                        column: x => x.User_ID,
+                        principalTable: "User",
+                        principalColumn: "User_ID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ContentComments_Content_ID",
                 table: "ContentComments",
                 column: "Content_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContentComments_User_ID",
+                table: "ContentComments",
+                column: "User_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Page_PageName",
@@ -146,6 +164,11 @@ namespace Services.Migrations
                 name: "IX_Patrons_Page_ID",
                 table: "Patrons",
                 column: "Page_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patrons_UserID",
+                table: "Patrons",
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_UserName",

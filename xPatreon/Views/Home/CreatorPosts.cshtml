@@ -20,7 +20,7 @@
         <div class="col-3">
             <div class="border p-3 bg-white rounded-top">
                 <div class="d-flex justify-content-center mt-2">
-                    <img src="~/imgs/default user.png" width="90" height="90" class="rounded-circle" />
+                    <img src="@HttpContextAccessor.HttpContext.Session.GetString("UserImage").ToString()" width="90" height="90" class="rounded-circle" />
                 </div>
                 <div class="d-flex justify-content-center mt-3">
                     @HttpContextAccessor.HttpContext.Session.GetString("Username").ToString()
@@ -81,20 +81,41 @@
                 <table class="table table-borderless">
                     @foreach (var item in Model)
                     {
-                        <tr class="border mouseHover">
-                            <th>
-                                <a href="/Home/LaunchedPage?UserPageName=@item.PageName" class="text-decoration-none">
-                                    <div class="d-flex pl-2">
-                                        <div class="rounded-circle" style="width:50px; height:50px;">
-                                            <img src="@item.ProfileImage" class="rounded-circle" style="width:50px; height:50px;" alt="" />
+                        foreach (var item2 in item.posts)
+                        {
+                            <tr class="">
+                                <th>
+                                    <div class="mt-3">
+                                        <div class="w-100">
+                                            @if (item2.Image != null)
+                                            {
+                                                <div class="bg-white border-bottom-0 border rounded-top w-100 m-0">
+                                                    <img src="~/images/@item2.Image" class="w-100 rounded-top" alt="" />
+                                                </div>
+
+                                                <div class="border border-top-0 rounded-bottom p-3 text-left">
+                                                    <p class="text-muted font-weight-normal mb-1">@Html.DisplayFor(modelItem => item2.PublicationData)</p>
+                                                    <a href="/Home/CommentContent?ContentIdView=@item2.Content_ID" class="text-decoration-none"><p class="font-weight-bold mb-1" style="color:black;">@Html.DisplayFor(modelItem => item2.Title)</p></a>
+                                                    <p class="font-weight-normal mb-0">@Html.DisplayFor(modelItem => item2.MainContent)</p>
+                                                    <p class="font-weight-normal mb-0 pt-2">Posted by <span class="font-weight-bold">@Html.DisplayFor(modelItem => item.PageName)</span></p>
+                                                </div>
+
+                                            }
+                                            else
+                                            {
+                                                <div class="border rounded p-3 text-left">
+                                                    <p class="text-muted font-weight-normal mb-1">@Html.DisplayFor(modelItem => item2.PublicationData)</p>
+                                                    <a href="/Home/CommentContent?ContentIdView=@item2.Content_ID" class="text-decoration-none"><p class="font-weight-bold mb-1" style="color:black;">@Html.DisplayFor(modelItem => item2.Title)</p></a>
+                                                    <p class="font-weight-normal mb-0">@Html.DisplayFor(modelItem => item2.MainContent)</p>
+                                                    <p class="font-weight-normal mb-0 pt-2">Posted by <span class="font-weight-bold">@Html.DisplayFor(modelItem => item.PageName)</span></p>
+                                                </div>
+                                            }
                                         </div>
-                                        <div class="pl-3 pt-2">
-                                            <p style="color:black;">@Html.DisplayFor(modelItem => item.PageName)</p>
-                                        </div>
+
                                     </div>
-                                </a>
-                            </th>
-                        </tr>
+                                </th>
+                            </tr>
+                        }
                     }
                 </table>
             }
@@ -112,7 +133,7 @@
             </div>
             <div class="border p-3 rounded-bottom bg-white">
                 <p>You're almost there! Complete your page and take it live.</p>
-                <a href="#" class="btn btn-info rounded-pill">Finish my page</a>
+                <a href="/Home/Page" class="btn btn-info rounded-pill">Finish my page</a>
             </div>
 
             <div class="border p-2 mt-3 bg-white font-weight-bold">
@@ -122,7 +143,7 @@
             </div>
             <div class="border p-3 rounded-bottom bg-white">
                 <p>The creators you already love may be on Patreon – connect your social media to find them.</p>
-                <a href="#" class="btn btn-info rounded-pill">Find creators</a>
+                <a href="/Home/InitialPage" class="btn btn-info rounded-pill">Find creators</a>
             </div>
         </div>
     </div>

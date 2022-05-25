@@ -10,8 +10,8 @@ using Services;
 namespace Services.Migrations
 {
     [DbContext(typeof(xPatreonDbContext))]
-    [Migration("20220525135425_teste")]
-    partial class teste
+    [Migration("20220525142053_addDatabase")]
+    partial class addDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

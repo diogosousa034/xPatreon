@@ -543,11 +543,27 @@ namespace Services.Implementation
             return p;
         }
 
-        public IEnumerable<ContentComments> CommentsList(int contentid)
+        public IEnumerable<CommentsListDto> CommentsList(int contentid)
         {
             var Comments = _context.ContentComments.Where(u => u.Content_ID == contentid);
 
-            return Comments.ToList();
+            List<CommentsListDto> c = new List<CommentsListDto>();
+
+            foreach (var item in Comments)
+            {
+                var user = _context.User.SingleOrDefault(u => u.User_ID == item.User_ID);
+                CommentsListDto comments = new CommentsListDto
+                {
+                    CommentText = item.CommentText,
+                    CommentData = item.CommentData,
+                    UserName = user.UserName,
+                    UserImage = user.Image
+                };
+
+                c.Add(comments);
+            }
+
+            return c.ToList();
         }
     }
 

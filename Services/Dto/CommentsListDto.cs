@@ -6,12 +6,15 @@ using System.Text;
 
 namespace Services.Dto
 {
-    public class CommentsDto
+    public class CommentsListDto
     {
         public int Comment_ID { get; set; }
 
-        [Column(TypeName = "nvarchar(MAX)")]
         public String CommentText { get; set; }
+
+        public string UserName { get; set; }
+        public string UserImage { get; set; }
+
         public int User_id { get; set; }
         public virtual User user { get; set; }
 

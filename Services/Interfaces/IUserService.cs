@@ -17,7 +17,7 @@ namespace Services.Interfaces
         public bool CheckUserName(string username);
         public bool CheckEmail(string email);
         public int AddComment(CommentsDto model);
-        public IEnumerable<ContentComments> CommentsList(int contentid);
+        public IEnumerable<CommentsListDto> CommentsList(int contentid);
         public int PatronsCount(int pageid);
         public bool LoginUser(UserDto model);
         public bool IsFollow(int userid, int pageid);

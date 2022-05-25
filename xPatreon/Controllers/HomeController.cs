@@ -261,7 +261,10 @@ namespace xPatreon.Controllers
                 {
                     ViewBag.Title3 = _userService.ContentInfo(contentid).Title;
                     ViewBag.MainContent = _userService.ContentInfo(contentid).MainContent;
-                    ViewBag.Image = "/Images/" + _userService.ContentInfo(contentid).Image;
+                    if (_userService.ContentInfo(contentid).Image != null)
+                    {
+                        ViewBag.Image = "/Images/" + _userService.ContentInfo(contentid).Image;
+                    }
                     ViewBag.UserImage =  _userService.UserInfo(userid).Image;
                     HttpContext.Session.SetString("contentidview", contentid.ToString());
                 }
@@ -285,8 +288,7 @@ namespace xPatreon.Controllers
                 if (contentidview > 0)
                 {
                     model.CommentText = InputText;
-                    //model.Username = _userService.UserInfo(userid).UserName;
-                    //model.UserImage = _userService.UserInfo(userid).Image;                    
+                    model.User_id = userid;              
                     model.Content_ID = contentidview;
 
                     _userService.AddComment(model);
@@ -468,6 +470,7 @@ namespace xPatreon.Controllers
                 ViewBag.image = _userService.UserInfo(userid).Image;
                 ViewBag.username = _userService.UserInfo(userid).UserName;
                 ViewBag.email = _userService.UserInfo(userid).Email;
+                ViewBag.Role = _userService.UserInfo(userid).Role;
 
                 return View();
             }

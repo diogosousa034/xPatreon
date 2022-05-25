@@ -6,8 +6,8 @@
 }
 
 <style>
-    .teste{
-        display:none;
+    .teste {
+        display: none;
     }
 </style>
 
@@ -17,7 +17,7 @@
 
 
 <div class="container">
-    <h1>Settings</h1>
+    <h1 class="mt-3">Settings</h1>
     <div class="row">
         <div class="col-12">
             <form asp-action="Settings" enctype="multipart/form-data">
@@ -50,12 +50,24 @@
                                 <input asp-for="Email" class="form-control" value="@ViewBag.Email" />
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="Role" class="control-label"></label><br />
-                                <input type="radio" name="Role" value="Creator" /> Creator <br />
-                                <input type="radio" name="Role" value="Reader" /> Reader
-                                <span asp-validation-for="Role" class="text-danger"></span>
-                            </div>
+                            @if (ViewBag.Role == "Creator")
+                            {
+                                <div class="form-group">
+                                    <label asp-for="Role" class="control-label"></label><br />
+                                    <input type="radio" name="Role" value="Creator" checked /> Creator <br />
+                                    <input type="radio" name="Role" value="Reader" /> Reader
+                                    <span asp-validation-for="Role" class="text-danger"></span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="form-group">
+                                    <label asp-for="Role" class="control-label"></label><br />
+                                    <input type="radio" name="Role" value="Creator" /> Creator <br />
+                                    <input type="radio" name="Role" value="Reader" checked /> Reader
+                                    <span asp-validation-for="Role" class="text-danger"></span>
+                                </div>
+                            }
                         </th>
                         <th>
                             <h2>Account</h2>
