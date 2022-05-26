@@ -27,19 +27,22 @@ namespace Services.Implementation
         public int RegisterUser(UserDto model)
         {
             string default_image = "/imgs/default user.png";
-            var newUser = new User()
+            if (model.UserName != null && model.Email != null && model.Password != null)
             {
-                UserName = model.UserName,
-                Email = model.Email,
-                Password = model.Password,
-                ConfirmPassword = model.ConfirmPassword,
-                Image = default_image,
-                Role = model.Role,
-                RegistrationData = DateTime.Now,
-            };
-
-            _context.User.Add(newUser);
-            return _context.SaveChanges();
+                var newUser = new User()
+                {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    Password = model.Password,
+                    ConfirmPassword = model.ConfirmPassword,
+                    Image = default_image,
+                    Role = model.Role,
+                    RegistrationData = DateTime.Now,
+                };
+                _context.User.Add(newUser);
+                return _context.SaveChanges();
+            }
+            return 0;
         }
 
         public int CreatePage(string username)
