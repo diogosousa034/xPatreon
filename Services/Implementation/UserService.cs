@@ -163,11 +163,19 @@ namespace Services.Implementation
 
         public bool LoginUser(UserDto model)
         {
-            var usr = _context.User.Single(u => u.UserName == model.UserName && u.Password == model.Password);
-            if (usr != null)
-                return true;
-            else
+            try
+            {
+                var usr = _context.User.Single(u => u.UserName == model.UserName && u.Password == model.Password);
+                if (usr != null)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception)
+            {
                 return false;
+            }
+            
         }
 
         public bool IsFollow(int userid, int pageid)

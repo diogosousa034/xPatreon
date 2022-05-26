@@ -5,26 +5,27 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
 <div class="container mt-3">
     <div class="row justify-content-center align-items-center">
         <div class="col-md-5">
-            <form asp-action="Login">
+            <form asp-action="Login" name="myForm" onsubmit="return CheckAllRequired()">
                 <div class="d-flex justify-content-center">
                     <p class="font-weight-bold h4">Log in</p>
                 </div>
                 <div class="border p-3 mb-5 bg-white rounded mt-4">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group d-flex justify-content-center">
+                        <span class="text-danger text-center">@ViewBag.Error</span>
+                    </div>
                     <div class="form-group">
                         <label class="control-label text-muted">Username</label>
-                        <input asp-for="UserName" class="form-control" />
-                        <span asp-validation-for="UserName" class="text-danger"></span>
+                        <input asp-for="UserName" id="UserNameText" name="UserName" class="form-control" onkeyup="CheckAllRequired()" />
+                        <span id="StatusUser"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Password" class="control-label text-muted"></label>
-                        <input asp-for="Password" type="password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <input asp-for="Password" id="Password" name="Password" type="password" class="form-control" onkeyup="CheckAllRequired()" />
+                        <span id="StatusPass"></span>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Log in" class="btn btn-danger rounded-pill form-control mt-3 btn-lg" />
@@ -42,3 +43,36 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<style>
+    .Redder {
+        border-color: red;
+    }
+
+    .Greener {
+        border-color: green;
+    }
+</style>
+
+
+<script type="text/javascript">
+    function CheckAllRequired() {
+        if (document.myForm.UserName.value == '') {
+            $("#StatusUser").html('<font color="Red">Username is required !');
+            $("#UserNameText").addClass("Redder");
+            return false;
+        }
+        if (document.myForm.Password.value == '') {
+            $("#StatusPass").html('<font color="Red">Password is required !');
+            $("#Password").addClass("Redder");
+            return false;
+        }
+        else {
+            $("#StatusUser").text('');
+            $("#StatusPass").text('');
+            $("#UserNameText").removeClass("Redder");
+            $("#Password").removeClass("Redder");
+            return true;
+        }
+    }
+</script>

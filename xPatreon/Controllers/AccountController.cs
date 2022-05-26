@@ -92,7 +92,7 @@ namespace xPatreon.Controllers
                 return RedirectToAction("CreatorPosts", "Home");
             }
             else
-                ModelState.AddModelError("", "Username or password is wrong.");
+                ViewBag.Error =  "Username or password is wrong !";
             return View();
         }
 

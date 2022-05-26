@@ -28,26 +28,35 @@ namespace xPatreon.Controllers
         [HttpPost]
         public JsonResult CheckUsernameExits(string username)
         {
-            var userResult = _userService.CheckUserName(username);
+            if (username != null)
+            {
+                var userResult = _userService.CheckUserName(username);
 
-            if (userResult != false)
-                return Json(1);
+                if (userResult != false)
+                    return Json(1);
+                else
+                    return Json(0);
+            }
             else
-                return Json(0);
-            
+                return Json(null);
+
         }
 
         [HttpPost]
         public JsonResult CheckEmailExits(string email)
         {
-            var userResult = _userService.CheckEmail(email);
+            if (email != null)
+            {
+                var userResult = _userService.CheckEmail(email);
 
-            if (userResult != false)
-                return Json(1);
+                if (userResult != false)
+                    return Json(1);
+                else
+                    return Json(0);
+            }
             else
-                return Json(0);
+                return Json(null);
 
         }
-
     }
 }

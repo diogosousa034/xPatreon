@@ -30,34 +30,30 @@
                 <p class="font-weight-bold h4">Sign up</p>
             </div>
             <div class="border p-3 mb-5 bg-white rounded mt-3">
-                <form asp-action="Register" id="form">
+                <form asp-action="Register" id="form" name="myForm" onsubmit="return CheckAllRequired()">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group d-flex justify-content-center">
                         <span class="text-danger text-center">@ViewBag.RegisterError</span>
                     </div>
                     <div class="form-group input-control">
                         <label class="control-label">Username</label>
-                        <input asp-for="UserName" id="UserNameText" class="form-control" onchange="UserCheck();" />
+                        <input asp-for="UserName" name="UserName" id="UserNameText" class="form-control" onkeyup="UserCheck();" />
                         <span id="StatusUser"></span>
-                        <span class="error"></span>
                     </div>
                     <div class="form-group input-control">
                         <label asp-for="Email" class="control-label"></label>
-                        <input asp-for="Email" id="EmailText" class="form-control" onchange="EmailCheck();" />
+                        <input asp-for="Email" name="Email" id="EmailText" class="form-control" onkeyup="EmailCheck();" />
                         <span id="StatusEmail"></span>
-                        <span class="error"></span>
                     </div>
                     <div class="form-group input-control">
                         <label asp-for="Password" class="control-label"></label>
-                        <input id="Password" asp-for="Password" class="form-control" />
-                        <span class="text-danger"></span>
-                        <span class="error"></span>
+                        <input id="Password" name="Pass" asp-for="Password" class="form-control" />
+                        <span id="StatusPass"></span>
                     </div>
                     <div class="form-group input-control">
                         <label class="control-label">Confirm password</label>
-                        <input id="ConfirmPass" asp-for="ConfirmPassword" class="form-control" />
-                        <span class="text-danger"></span>
-                        <span class="error"></span>
+                        <input id="ConfirmPass" name="ConPass" asp-for="ConfirmPassword" class="form-control" />
+                        <span id="StatusConPass"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Role" class="control-label"></label><br />
@@ -82,6 +78,15 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
+<style>
+    .Redder {
+        border-color: red;
+    }
+
+    .Greener {
+        border-color: green;
+    }
+</style>
 
 <script type="text/javascript">
     function UserCheck() {
@@ -93,11 +98,17 @@
             function (data) {
                 if (data == 0) {
                     $("#StatusUser").html('<font color="Green">User available !');
-                    $("#UserNameText").css("border-color", "Green");
+                    $("#UserNameText").addClass("Greener");
                 }
-                else {
+                else if (data == 1) {
                     $("#StatusUser").html('<font color="Red">User not available !');
-                    $("#UserNameText").css("border-color", "Red");
+                    $("#UserNameText").removeClass("Greener");
+                    $("#UserNameText").addClass("Redder");                    
+                }
+                else if (data == null) {
+                    $("#StatusUser").text('');
+                    $("#UserNameText").removeClass("Redder");
+                    $("#UserNameText").removeClass("Greener");
                 }
             });
     }
@@ -111,14 +122,50 @@
             function (data) {
                 if (data == 0) {
                     $("#StatusEmail").html('<font color="Green">Email available !');
-                    $("#EmailText").css("border-color", "Green");
+                    $("#EmailText").addClass("Greener");
                 }
-                else {
+                else if (data == 1) {
                     $("#StatusEmail").html('<font color="Red">Email not available !');
-                    $("#EmailText").css("border-color", "Red");
+                    $("#EmailText").removeClass("Greener");
+                    $("#EmailText").addClass("Redder");
+                }
+                else if (data == null) {
+                    $("#StatusEmail").text('');
+                    $("#EmailText").removeClass("Redder");
+                    $("#EmailText").removeClass("Greener");
                 }
 
             });
+    }
+
+    function CheckAllRequired() {
+        if (document.myForm.UserName.value == '') {
+            $("#StatusUser").html('<font color="Red">Username is required !');
+            $("#UserNameText").addClass("Redder");
+            return false;
+        }
+        if (document.myForm.Email.value == '') {
+            $("#StatusEmail").html('<font color="Red">Email is required !');
+            $("#EmailText").addClass("Redder");
+            return false;
+        }
+        if (document.myForm.Pass.value == '') {
+            $("#StatusPass").html('<font color="Red">Password is required !');
+            $("#Password").addClass("Redder");
+            return false;
+        }
+        if (document.myForm.Pass.value != document.myForm.ConPass.value) {
+            $("#StatusConPass").html('<font color="Red">Passwords must match !');
+            $("#ConfirmPass").addClass("Redder");
+            return false;
+        }
+        else {
+            $("#UserNameText").removeClass("Redder");
+            $("#EmailText").removeClass("Redder");
+            $("#Password").removeClass("Redder");
+            $("#ConfirmPass").removeClass("Redder");
+            return true;
+        }
     }
 
 </script>
