@@ -39,7 +39,22 @@ namespace xPatreon.Controllers
             }
             else
                 return Json(null);
+        }
 
+        [HttpPost]
+        public JsonResult CheckPagenameExits(string pagename, int id)
+        {
+            if (pagename != null)
+            {
+                var userResult = _userService.CheckPageName(pagename, id);
+
+                if (userResult != false)
+                    return Json(1);
+                else
+                    return Json(0);
+            }
+            else
+                return Json(null);
         }
 
         [HttpPost]

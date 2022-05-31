@@ -1,4 +1,7 @@
-﻿@model Services.Dto.PageEditDto
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@model Services.Dto.PageEditDto
 
 @{
     ViewData["Title"] = "Page";
@@ -11,7 +14,6 @@
     }
 </style>
 
-
 <link href="~/cssfolder/style.css" rel="stylesheet" />
 
 <link href="~/cssfolder/radiobuttonstyle.css" rel="stylesheet" />
@@ -19,7 +21,7 @@
 <div class="container mt-3">
     <div class="row justify-content-center align-items-center">
         <div class="col-md-7">
-            <form id="form" asp-action="Page" enctype="multipart/form-data">
+            <form id="form" name="myForm" asp-action="Page" onsubmit="return CheckAllRequired()" enctype="multipart/form-data">
 
                 <div class="d-flex justify-content-center">
                     <p class="font-weight-bold h3">Basics</p>
@@ -38,8 +40,8 @@
                                 <p class="text-muted m-0">Required</p>
                             </td>
                             <td class="w-50">
-                                <input id="Name" asp-for="PageName" class="form-control" value="@ViewBag.PageName" onkeyup="isEmpty(); ValueInput()" required />
-                                <span asp-validation-for="PageName" class="text-danger"></span>
+                                <input id="Name" asp-for="PageName" class="form-control" value="@ViewBag.PageName" onkeyup="isEmpty(); ValueInput(); PageCheck()" />
+                                <span id="StatusPage"></span>
                             </td>
                         </tr>
                         <tr>
@@ -48,10 +50,11 @@
                                 <p class="text-muted m-0">Required</p>
                             </td>
                             <td class="w-50">
-                                <input id="creating" asp-for="CreatingWhat" class="form-control" value="@ViewBag.CreatingWhat" onkeyup="isEmpty(); ValueInput()" required />
-                                <span asp-validation-for="CreatingWhat" class="text-danger"></span>
+                                <input id="creating" asp-for="CreatingWhat" class="form-control" value="@ViewBag.CreatingWhat" onkeyup="isEmpty(); ValueInput()" />
+                                <span id="StatusWhat"></span>
                             </td>
                         </tr>
+                        @*radio buttons is are creating*@
                         <tr>
                             <td>
                                 <label class="control-label font-weight-bold m-0">Which sounds more <br />correct?</label>
@@ -180,7 +183,7 @@
                         <p class="text-muted">Required</p>
                         <p class="text-muted">This is the first thing potential patrons will see when they land on your page, so make sure you paint a compelling picture of how they can join you on this journey.</p>
                         <textarea class="form-control" rows="5" id="aboutPage" onkeyup="isEmpty()" asp-for="AboutPage"></textarea>
-                        <span asp-validation-for="AboutPage" class="text-danger"></span>
+                        <span id="StatusAbout"></span>
                     </div>
                 </div>
 
@@ -189,7 +192,7 @@
                         <input type="submit" id="save" value="Save changes" name="submit" class="form-control btn btn-danger btn-lg rounded-pill" disabled />
                     </div>
                     <div class="mt-2">
-                        <input type="submit" id="submit" onclick="validateform();" value="Launch" name="submit" class="form-control btn btn-danger btn-lg rounded-pill" required />
+                        <input type="submit" id="submit" value="Launch" name="submit" class="form-control btn btn-danger btn-lg rounded-pill" />
                     </div>
                 </div>
             </form>
@@ -197,7 +200,19 @@
     </div>
 </div>
 
-<script>
+<input type="hidden" id="PageSession" value="@HttpContextAccessor.HttpContext.Session.GetString("PageID")" />
+
+<style>
+    .Redder {
+        border-color: red;
+    }
+
+    .Greener {
+        border-color: green;
+    }
+</style>
+
+<script type="text/javascript">
     function ValueInput() {
         let PageName = document.getElementById("Name").value;
         let CreatingWhat = document.getElementById("creating").value;
@@ -206,7 +221,6 @@
         document.getElementById("AreCreatingRad").innerHTML = PageName;
         document.getElementById("IsCreatingRad2").innerHTML = CreatingWhat;
         document.getElementById("AreCreatingRad2").innerHTML = CreatingWhat;
-
     }
 
     document.getElementById("aboutPage").defaultValue = "@ViewBag.AboutPage";
@@ -222,9 +236,57 @@
         if (PageName != "" || CreatingWhat != "" || AboutPage != "") {
             saveButton.disabled = false;
         }
-
     }
 
+
+
+    function PageCheck() {
+        $.post("@Url.Action("CheckPagenameExits", "Validations")",
+            {
+                pagename: $("#Name").val(),
+                id: $("#PageSession").val()
+            },
+            function (data) {
+                if (data == 0) {
+                    $("#StatusPage").html('<font color="Green">Page name available !');
+                    $("#Name").addClass("Greener");
+                }
+                else if (data == 1) {
+                    $("#StatusPage").html('<font color="Red">Page name not available !');
+                    $("#Name").removeClass("Greener");
+                    $("#Name").addClass("Redder");
+                }
+                else if (data == null) {
+                    $("#StatusPage").text('');
+                    $("#Name").removeClass("Redder");
+                    $("#Name").removeClass("Greener");
+                }
+            });
+    }
+
+    function CheckAllRequired() {
+        if (document.myForm.PageName.value == '') {
+            $("#StatusPage").html('<font color="Red">Page name is required !');
+            $("#Name").addClass("Redder");
+            return false;
+        }
+        if (document.myForm.CreatingWhat.value == '') {
+            $("#StatusWhat").html('<font color="Red">This field is required !');
+            $("#creating").addClass("Redder");
+            return false;
+        }
+        if (document.myForm.AboutPage.value == '') {
+            $("#StatusAbout").html('<font color="Red">About page is required !');
+            $("#aboutPage").addClass("Redder");
+            return false;
+        }
+        else {
+            $("#name").removeClass("Redder");
+            $("#creating").removeClass("Redder");
+            $("#aboutPage").removeClass("Redder");
+            return true;
+        }
+    }
 </script>
 
 

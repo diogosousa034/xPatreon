@@ -148,6 +148,23 @@ namespace Services.Implementation
                 return false;
         }
 
+        public bool CheckPageName(string pagename, int id)
+        {
+            var name = _context.Page.Where(n => n.Page_ID == id).SingleOrDefault();
+            var user = _context.Page.Where(u => u.PageName == pagename).SingleOrDefault();
+            if (user != null)
+            {
+                if(pagename.ToLower() == name.PageName.ToLower())
+                {
+                    return false;
+                }
+                return true;
+            }
+                
+            else
+                return false;
+        }
+
         public bool CheckEmail(string email)
         {
             var userEmail = _context.User.Where(u => u.Email == email).SingleOrDefault();
@@ -202,7 +219,10 @@ namespace Services.Implementation
                 user.Password = model.Password;
                 user.ConfirmPassword = model.ConfirmPassword;
             }
-            user.Image = model.Image;
+            if (model.Image != null)
+            {
+                user.Image = "/images/" + model.Image;
+            }
             user.Role = model.Role;
 
             _context.Update(user);
@@ -353,7 +373,7 @@ namespace Services.Implementation
                 }
             }
 
-            string PathUniqueFileName = "/images/" + uniqueFileName;
+            string PathUniqueFileName = uniqueFileName;
 
             return PathUniqueFileName;
         }

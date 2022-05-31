@@ -43,7 +43,6 @@ namespace xPatreon.Controllers
             }
             else
                 return RedirectToAction("InitialPage", "Home");
-
         }
 
 
@@ -417,6 +416,7 @@ namespace xPatreon.Controllers
                 {
                     var pageid = 0;
                     int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
+                    ViewBag.PageID = pageid;
                     ViewBag.PageName = _userService.PageInfo(pageid).PageName;
                     ViewBag.CreatingWhat = _userService.PageInfo(pageid).CreatingWhat;
                     ViewBag.ProfileImage = _userService.PageInfo(pageid).ProfileImage;
@@ -440,20 +440,22 @@ namespace xPatreon.Controllers
         {
             var pageid = 0;
             int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
+
+            string ProfileImageFileName = _userService.UploadedpageProfilePhoto(page);
+            string CoverImageFileName = _userService.UploadedpageCoverPhoto(page);
+
+            page.Page_ID = pageid;
+            page.ProfileImage = ProfileImageFileName;
+            page.CoverImage = CoverImageFileName;
+
             if (submit == "Save changes")
-            {
-                string ProfileImageFileName = _userService.UploadedpageProfilePhoto(page);
-                string CoverImageFileName = _userService.UploadedpageCoverPhoto(page);
-
-                page.Page_ID = pageid;
-                page.ProfileImage = ProfileImageFileName;
-                page.CoverImage = CoverImageFileName;
-
+            {               
                 _userService.EditPage(page);
                 return RedirectToAction("Page", "Home");
             }
             else if(submit == "Launch")
             {
+                _userService.EditPage(page);
                 _userService.LaunchPage(pageid);
                 return RedirectToAction("Page", "Home");
             }

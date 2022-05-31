@@ -15,6 +15,7 @@ namespace Services.Interfaces
         public int Follow(PatronFollowerDto model);
         public int UnFollow(PatronFollowerDto model);
         public bool CheckUserName(string username);
+        public bool CheckPageName(string pagename, int id);
         public bool CheckEmail(string email);
         public int AddComment(CommentsDto model);
         public IEnumerable<CommentsListDto> CommentsList(int contentid);
