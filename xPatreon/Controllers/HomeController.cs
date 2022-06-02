@@ -145,6 +145,7 @@ namespace xPatreon.Controllers
             if (submit == "Edit")
             {
                 content.Content_ID = Contentid;
+                content.Active = null;
                 _userService.EditContent(content);
 
             }
@@ -217,8 +218,8 @@ namespace xPatreon.Controllers
             {
                 content.Content_ID = Contentid;
                 content.Image = uniqueFileName;
-
-                _userService.EditContent(content);               
+                content.Active = null;
+                _userService.EditContent(content);
             }            
             else if (submit == "Publish now")
             {
@@ -327,6 +328,37 @@ namespace xPatreon.Controllers
             else
                 return RedirectToAction("InitialPage", "Home");
         }
+
+        public IActionResult PostHistoryList()
+        {
+            if (HttpContext.Session.GetString("UserID") != null)
+            {
+                var pageid = 0;
+                int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
+               
+                int contentid = 0;
+                int.TryParse(Convert.ToString(HttpContext.Request.Query["ContentIdSelectedToHistory"]), out contentid);
+                ViewBag.contentid = contentid;
+
+                int PostHistory_id = 0;
+                int.TryParse(Convert.ToString(HttpContext.Request.Query["PostHistory_id"]), out PostHistory_id);
+
+                if (contentid > 0)
+                {
+                    if (PostHistory_id > 0)
+                    {
+                        _userService.UpdateHistoryContent(contentid, PostHistory_id);
+                    }
+                    var items = _userService.GetContentHistoryList(contentid);
+                    return View(items);
+                }
+
+                return View(null);
+            }
+            else
+                return RedirectToAction("InitialPage", "Home");
+        }
+
 
         public IActionResult LaunchedPage()
         {

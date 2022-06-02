@@ -1,0 +1,83 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+
+@model IEnumerable<Services.Dto.PostHistoryDto>
+
+<style>
+    .buttonDelete {
+        border: none;
+        outline: none;
+        background-color: transparent;
+    }
+
+        .buttonDelete:hover, buttonDelete:focus {
+            border: none;
+            outline: none;
+            background-color: transparent;
+        }
+
+</style>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-12">
+            @foreach (var item in Model)
+            {
+                <div class="border rounded rounded-top rounded-left rounded-right mt-3">
+                    <div class="d-flex">
+                        <p class="pt-3 pl-3 w-100">Edited at <span class="text-muted font-weight-bold">@item.DateOfChange</span></p>
+                        @if (item.Active == true)
+                        {
+                            <p class="pt-3 pr-3 font-weight-bold">Active</p>
+                        }
+                        else
+                        {
+                            <p class="pt-3 pr-3 font-weight-bold">Desactive</p>
+                        }
+                    </div>
+                    <div class="d-flex pl-3 pb-3">
+                        <div class="bg-secondary rounded m-2" style="width:70px; height:70px;">
+                            @if (item.Image != null)
+                            {
+                                <div class="bg-white" style="width:70px; height:70px;">
+                                    <img src="~/images/@item.Image" class="rounded" style="width:70px; height:70px;" alt="" />
+                                </div>
+                            }
+                        </div>
+                        <div class="p-2">
+                            @Html.DisplayFor(modelItem => item.Title)
+                            <p class="pt-3">@Html.DisplayFor(modelItem => item.MainContent)</p>
+                        </div>
+
+                    </div>
+                    <div class="border-top p-3 text-right">
+                        <button type="button" class="buttonDelete p-0" data-toggle="modal" data-target="#exampleModalCenter">
+                            <a href="#" class="pr-3">Post this version</a>
+                        </button>
+                    </div>
+
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Post this version?</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to post this version? You can always change it back.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary rounded-pill" data-dismiss="modal" style="width:100px;">Cancel</button>
+                                    <a href="/Home/PostHistoryList?PostHistory_id=@item.PostHistory_ID&ContentIdSelectedToHistory=@ViewBag.contentid" class="btn btn-primary rounded-pill" style="width:100px;">Post</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -27,6 +27,8 @@ namespace Services.Interfaces
         public int LaunchPage(int pageid);
         public int CreateContent(CreateContentDto model);
         public int EditContent(CreateContentDto model);
+        public int UpdateHistoryContent(int PostToEdit_id, int PostHistory_id);
+        public IEnumerable<PostHistoryDto> GetContentHistoryList(int contend_id);
         public string UploadedFile(CreateContentDto content);
         public string UploadedFileUser(UserDto content);
         public string UploadedpageProfilePhoto(PageEditDto content);

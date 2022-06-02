@@ -32,6 +32,7 @@ namespace DataBase
         public IFormFile FrontImage { get; set; }
 
         public virtual IEnumerable<ContentComments> Comments { get; set; }
+        public virtual IEnumerable<PostHistory> postHistorys { get; set; }
 
         public int Page_ID { get; set; }
         public virtual Page Page { get; set; }

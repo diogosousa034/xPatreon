@@ -52,6 +52,12 @@ namespace Services
                 .Property(e => e.Comment_ID)
                 .ValueGeneratedOnAdd();
 
+            modelBuilder.Entity<PostHistory>()
+                    .HasKey(o => o.PostHistory_ID);
+            modelBuilder.Entity<PostHistory>()
+                .Property(e => e.PostHistory_ID)
+                .ValueGeneratedOnAdd();
+
             modelBuilder.Entity<Page>()
                 .HasOne<User>(s => s.User)
                 .WithOne(g => g.Page)
@@ -81,6 +87,14 @@ namespace Services
                  .WithMany(g => g.comments)
                  .HasForeignKey(s => s.User_ID)
                  .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PostHistory>()
+                 .HasOne<PageContent>(s => s.pagecontent)
+                 .WithMany(g => g.postHistorys)
+                 .HasForeignKey(s => s.PageContent_ID)
+                 .OnDelete(DeleteBehavior.Restrict);
+
+
         }
 
         public DbSet<User> User { get; set; }
@@ -88,5 +102,6 @@ namespace Services
         public DbSet<PageContent> PageContents { get; set; }
         public DbSet<Patrons> Patrons { get; set; }
         public DbSet<ContentComments> ContentComments { get; set; }
+        public DbSet<PostHistory> PostHistory { get; set; }
     }
 }

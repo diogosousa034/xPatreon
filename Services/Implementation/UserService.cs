@@ -154,13 +154,13 @@ namespace Services.Implementation
             var user = _context.Page.Where(u => u.PageName == pagename).SingleOrDefault();
             if (user != null)
             {
-                if(pagename.ToLower() == name.PageName.ToLower())
+                if (pagename.ToLower() == name.PageName.ToLower())
                 {
                     return false;
                 }
                 return true;
             }
-                
+
             else
                 return false;
         }
@@ -195,7 +195,7 @@ namespace Services.Implementation
             {
                 return false;
             }
-            
+
         }
 
         public bool IsFollow(int userid, int pageid)
@@ -308,25 +308,108 @@ namespace Services.Implementation
                 Page_ID = model.Page_ID,
             };
 
-            _context.PageContents.Add(newContent);
+            _context.PageContents.Add(newContent).Context.SaveChanges();
+
+            var newPostHistory = new PostHistory
+            {
+                Title = newContent.Title,
+                MainContent = newContent.MainContent,
+                Image = newContent.Image,
+                Active = true,
+                Deleted = false,
+                PublicationData = DateTime.Now,
+                DateOfChange = DateTime.Now,
+                page_id = newContent.Page_ID,
+                PageContent_ID = newContent.Content_ID,
+            };
+
+            _context.PostHistory.Add(newPostHistory);
+
             return _context.SaveChanges();
         }
+
+        //agora tenho que verificar se a imagem dá problema ou não e depois tenho que fazer a parte de editar o post principal com os dados do post selecionado no historico
 
         public int EditContent(CreateContentDto model)
         {
             var post = _context.PageContents.Single(u => u.Content_ID == model.Content_ID);
 
-            post.Title = model.Title;
-            post.MainContent = model.MainContent;
-            if (model.Image != null)
+            if (model.Active != null)
             {
-                post.Image = model.Image;
+                post.Active = (bool)model.Active;
             }
-            post.Active = model.Active;
+            else
+            {
+                post.Title = model.Title;
+                post.MainContent = model.MainContent;
+                if (model.Image != null)
+                {
+                    post.Image = model.Image;
+                }
+
+                var newPostHistory = new PostHistory
+                {
+                    Title = model.Title,
+                    MainContent = model.MainContent,
+                    Image = model.Image,
+                    //Deleted = post.Deleted,
+                    Active = post.Active,
+                    PublicationData = post.PublicationData,
+                    DateOfChange = DateTime.Now,
+                    page_id = post.Page_ID,
+                    PageContent_ID = model.Content_ID,
+                };
+
+                _context.PostHistory.Add(newPostHistory);
+
+            }
 
             _context.Update(post);
 
             return _context.SaveChanges();
+        }
+
+        public int UpdateHistoryContent(int PostToEdit_id, int PostHistory_id)
+        {
+            var postToEdit = _context.PageContents.Find(PostToEdit_id);
+
+            var postHistory = _context.PostHistory.Find(PostHistory_id);
+
+            postToEdit.Title = postHistory.Title;
+            postToEdit.MainContent = postHistory.MainContent;
+            postToEdit.Image = postHistory.Image;
+            postToEdit.Active = postHistory.Active;
+            postToEdit.PublicationData = postHistory.PublicationData;            
+
+            _context.Update(postToEdit);
+
+            return _context.SaveChanges();
+        }
+
+        public IEnumerable<PostHistoryDto> GetContentHistoryList(int contend_id)
+        {
+            var postsHistory = _context.PostHistory.Where(u => u.PageContent_ID == contend_id).OrderBy(u => u.PublicationData);
+
+            List<PostHistoryDto> c = new List<PostHistoryDto>();
+
+            foreach (var item in postsHistory)
+            {
+                PostHistoryDto ph = new PostHistoryDto
+                {
+                    PostHistory_ID = item.PostHistory_ID,
+                    Title = item.Title,
+                    MainContent = item.MainContent,
+                    Image = item.Image,
+                    Active=item.Active,
+                    PublicationData = item.PublicationData,
+                    DateOfChange = item.DateOfChange,
+                    PageContent_ID = item.PageContent_ID
+                };
+
+                c.Add(ph);
+            }
+
+            return c.ToList();
         }
 
         public int RemoveContent(int id)
@@ -531,9 +614,9 @@ namespace Services.Implementation
         public IEnumerable<PageDto> GetListOfFollowedPages(int id)
         {
             var FollowPage = _context.Patrons.Where(u => u.UserID == id).Select(x => x.Page).ToList();
-            
+
             List<PageDto> p = new List<PageDto>();
-            
+
 
             foreach (var item in FollowPage)
             {
@@ -568,7 +651,7 @@ namespace Services.Implementation
                 }
 
                 p.Add(pagedtoNew);
-                
+
             }
 
             return p;
@@ -597,16 +680,4 @@ namespace Services.Implementation
             return c.ToList();
         }
     }
-
-    //public class PostDto
-    //{
-
-    //}
-
-    //public class PageDto
-    //{
-    //    public int pageId;
-
-    //    public List<PostDto> posts;
-    //}
 }

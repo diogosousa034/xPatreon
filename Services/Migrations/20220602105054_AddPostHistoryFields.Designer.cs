@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services;
 
 namespace Services.Migrations
 {
     [DbContext(typeof(xPatreonDbContext))]
-    partial class xPatreonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220602105054_AddPostHistoryFields")]
+    partial class AddPostHistoryFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -181,12 +183,7 @@ namespace Services.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int>("page_id")
-                        .HasColumnType("int");
-
                     b.HasKey("PostHistory_ID");
-
-                    b.HasIndex("PageContent_ID");
 
                     b.ToTable("PostHistory");
                 });
@@ -279,8 +276,8 @@ namespace Services.Migrations
             modelBuilder.Entity("DataBase.PostHistory", b =>
                 {
                     b.HasOne("DataBase.PageContent", "pagecontent")
-                        .WithMany("postHistorys")
-                        .HasForeignKey("PageContent_ID")
+                        .WithMany("postHistory")
+                        .HasForeignKey("PostHistory_ID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

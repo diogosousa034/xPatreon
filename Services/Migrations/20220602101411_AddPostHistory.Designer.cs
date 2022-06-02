@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services;
 
 namespace Services.Migrations
 {
     [DbContext(typeof(xPatreonDbContext))]
-    partial class xPatreonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220602101411_AddPostHistory")]
+    partial class AddPostHistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,36 +159,13 @@ namespace Services.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("DateOfChange")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("MainContent")
-                        .HasColumnType("nvarchar(MAX)");
 
                     b.Property<int>("PageContent_ID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("PublicationData")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<int>("page_id")
-                        .HasColumnType("int");
-
                     b.HasKey("PostHistory_ID");
-
-                    b.HasIndex("PageContent_ID");
 
                     b.ToTable("PostHistory");
                 });
@@ -279,8 +258,8 @@ namespace Services.Migrations
             modelBuilder.Entity("DataBase.PostHistory", b =>
                 {
                     b.HasOne("DataBase.PageContent", "pagecontent")
-                        .WithMany("postHistorys")
-                        .HasForeignKey("PageContent_ID")
+                        .WithMany("postHistory")
+                        .HasForeignKey("PostHistory_ID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
