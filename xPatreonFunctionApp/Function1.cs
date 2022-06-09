@@ -20,17 +20,26 @@ namespace xPatreonFunctionApp
         {
             var s = _userService.ListOfContentsForTimer();
 
-            foreach (var item in s)
+            if (s != null)
             {
-                if (item.PublicationData == DateTime.UtcNow)
+                foreach (var item in s)
                 {
-                    _userService.ActiveContentForTimer(item.Content_ID);
-                    log.LogInformation($"The post {0} as been activated", item.Title);
+                    int result = DateTime.Compare(item.PublicationData, DateTime.UtcNow);
+                    if (result < 0)
+                    {
+                        _userService.ActiveContentForTimer(item.Content_ID);
+                        log.LogInformation($"The post {0} as been activated", item.Title);
+                    }
+                    else
+                    {
+                        log.LogInformation($"date didnt match...");
+                    }
                 }
             }
-
-            log.LogInformation($"nothing happened");
-
+            else
+            {
+                log.LogInformation($"No items in the list...");
+            }
         }
     }
 }

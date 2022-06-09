@@ -16,18 +16,18 @@ namespace xPatreonFunctionApp
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            //builder.Services.AddHttpClient();
+            builder.Services.AddHttpClient();
 
-            //builder.Services.AddSingleton<xPatreonDbContext>((s) =>
+            //builder.Services.AddSingleton<IUserService>((s) =>
             //{
-            //    return new MyService();
+            //    return new UserService();
             //});
 
             builder.Services.AddDbContext<xPatreonDbContext>(options =>
                 options.UseSqlServer(Environment.GetEnvironmentVariable("DefaultConnection"))
                 );
 
-            builder.Services.AddSingleton<IUserService, UserService>();
+            builder.Services.AddTransient<IUserService, UserService>();
         }
     }
 }

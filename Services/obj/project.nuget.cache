@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "jXp69pBMZh8cN2XHqvMCODsAt956aHji6SGUP4C30avC4AKblrAgI4sYTh+DJTWepkHneW6zWusObeR9Xquv4w==",
+  "dgSpecHash": "Vv+xM+eAv8JH0qOymvJOlTHXXTslgzWC07QeYQ/WDCviutvH+6wgx269Ckoc6Bmc8r12nNC6IqWZ69zh2BxsLQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\SwitchTechnology\\Desktop\\estagio\\IntershipxPatreon\\xPatreon\\Services\\Services.csproj",
   "expectedPackageFiles": [
@@ -25,8 +25,8 @@
     "C:\\Users\\SwitchTechnology\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\3.1.22\\microsoft.entityframeworkcore.analyzers.3.1.22.nupkg.sha512",
     "C:\\Users\\SwitchTechnology\\.nuget\\packages\\microsoft.entityframeworkcore.design\\3.1.22\\microsoft.entityframeworkcore.design.3.1.22.nupkg.sha512",
     "C:\\Users\\SwitchTechnology\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\3.1.22\\microsoft.entityframeworkcore.relational.3.1.22.nupkg.sha512",
-    "C:\\Users\\SwitchTechnology\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\3.1.21\\microsoft.entityframeworkcore.sqlserver.3.1.21.nupkg.sha512",
-    "C:\\Users\\SwitchTechnology\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\3.1.21\\microsoft.entityframeworkcore.tools.3.1.21.nupkg.sha512",
+    "C:\\Users\\SwitchTechnology\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\3.1.22\\microsoft.entityframeworkcore.sqlserver.3.1.22.nupkg.sha512",
+    "C:\\Users\\SwitchTechnology\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\3.1.22\\microsoft.entityframeworkcore.tools.3.1.22.nupkg.sha512",
     "C:\\Users\\SwitchTechnology\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\3.1.22\\microsoft.extensions.caching.abstractions.3.1.22.nupkg.sha512",
     "C:\\Users\\SwitchTechnology\\.nuget\\packages\\microsoft.extensions.caching.memory\\3.1.22\\microsoft.extensions.caching.memory.3.1.22.nupkg.sha512",
     "C:\\Users\\SwitchTechnology\\.nuget\\packages\\microsoft.extensions.configuration\\3.1.22\\microsoft.extensions.configuration.3.1.22.nupkg.sha512",

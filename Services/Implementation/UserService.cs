@@ -412,6 +412,7 @@ namespace Services.Implementation
             {
                 CreateContentDto contents = new CreateContentDto
                 {
+                    Content_ID = item.Content_ID,
                     Title = item.Title,
                     MainContent = item.MainContent,
                     Image = item.Image,
