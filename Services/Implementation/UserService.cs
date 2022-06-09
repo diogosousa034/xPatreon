@@ -24,6 +24,9 @@ namespace Services.Implementation
             this._hostEnvironment = hostEnvironment;
         }
 
+
+
+        #region User
         public int RegisterUser(UserDto model)
         {
             string default_image = "/imgs/default user.png";
@@ -45,6 +48,82 @@ namespace Services.Implementation
             return 0;
         }
 
+        public bool LoginUser(UserDto model)
+        {
+            try
+            {
+                var usr = _context.User.Single(u => u.UserName == model.UserName && u.Password == model.Password);
+                if (usr != null)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+        }
+
+        public int EditUser(UserDto model)
+        {
+
+            var user = _context.User.Single(u => u.User_ID == model.User_ID);
+
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+            if (model.Password != null)
+            {
+                user.Password = model.Password;
+                user.ConfirmPassword = model.ConfirmPassword;
+            }
+            if (model.Image != null)
+            {
+                user.Image = "/images/" + model.Image;
+            }
+            user.Role = model.Role;
+
+            _context.Update(user);
+
+            return _context.SaveChanges();
+        }
+
+        public bool CheckUserName(string username)
+        {
+            var user = _context.User.Where(u => u.UserName == username).SingleOrDefault();
+            if (user != null)
+                return true;
+            else
+                return false;
+        }
+
+        public int UserId(string Username)
+        {
+            var usr = _context.User.Single(u => u.UserName == Username);
+            return usr.User_ID;
+        }
+
+        public UserDto UserInfo(int userid)
+        {
+            var model = _context.User.Single(c => c.User_ID == userid);
+
+            var user = new UserDto()
+            {
+                UserName = model.UserName,
+                Email = model.Email,
+                Password = model.Password,
+                ConfirmPassword = model.ConfirmPassword,
+                Image = model.Image,
+                Role = model.Role
+
+
+            };
+            return user;
+        }
+
+        #endregion
+
+        #region page
         public int CreatePage(string username)
         {
             string profileImage = "/imgs/ProfilePage.png";
@@ -66,6 +145,50 @@ namespace Services.Implementation
 
             return _context.SaveChanges();
         }
+
+        #region Follows
+        public int Follow(PatronFollowerDto model)
+        {
+            var follow = new Patrons()
+            {
+                UserID = model.UserID,
+                Page_ID = model.Page_ID,
+            };
+
+            _context.Patrons.Add(follow);
+
+            return _context.SaveChanges();
+        }
+
+        public bool CheckPageName(string pagename, int id)
+        {
+            var name = _context.Page.Where(n => n.Page_ID == id).SingleOrDefault();
+            var user = _context.Page.Where(u => u.PageName == pagename).SingleOrDefault();
+            if (user != null)
+            {
+                if (pagename.ToLower() == name.PageName.ToLower())
+                {
+                    return false;
+                }
+                return true;
+            }
+
+            else
+                return false;
+        }
+
+        public int UnFollow(PatronFollowerDto model)
+        {
+            var f = _context.Patrons.SingleOrDefault(u => u.UserID == model.UserID && u.Page_ID == model.Page_ID);
+
+            _context.Patrons.Remove(f);
+
+            return _context.SaveChanges();
+        }
+        #endregion
+
+        #endregion
+
 
         public int AddComment(CommentsDto model)
         {
@@ -117,53 +240,11 @@ namespace Services.Implementation
             return _context.SaveChanges();
         }
 
-        public int Follow(PatronFollowerDto model)
-        {
-            var follow = new Patrons()
-            {
-                UserID = model.UserID,
-                Page_ID = model.Page_ID,
-            };
+        
 
-            _context.Patrons.Add(follow);
+        
 
-            return _context.SaveChanges();
-        }
-
-        public int UnFollow(PatronFollowerDto model)
-        {
-            var f = _context.Patrons.SingleOrDefault(u => u.UserID == model.UserID && u.Page_ID == model.Page_ID);
-
-            _context.Patrons.Remove(f);
-
-            return _context.SaveChanges();
-        }
-
-        public bool CheckUserName(string username)
-        {
-            var user = _context.User.Where(u => u.UserName == username).SingleOrDefault();
-            if (user != null)
-                return true;
-            else
-                return false;
-        }
-
-        public bool CheckPageName(string pagename, int id)
-        {
-            var name = _context.Page.Where(n => n.Page_ID == id).SingleOrDefault();
-            var user = _context.Page.Where(u => u.PageName == pagename).SingleOrDefault();
-            if (user != null)
-            {
-                if (pagename.ToLower() == name.PageName.ToLower())
-                {
-                    return false;
-                }
-                return true;
-            }
-
-            else
-                return false;
-        }
+        
 
         public bool CheckEmail(string email)
         {
@@ -181,22 +262,7 @@ namespace Services.Implementation
             return numberOfFollowers;
         }
 
-        public bool LoginUser(UserDto model)
-        {
-            try
-            {
-                var usr = _context.User.Single(u => u.UserName == model.UserName && u.Password == model.Password);
-                if (usr != null)
-                    return true;
-                else
-                    return false;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-        }
+        
 
         public bool IsFollow(int userid, int pageid)
         {
@@ -207,28 +273,7 @@ namespace Services.Implementation
                 return false;
         }
 
-        public int EditUser(UserDto model)
-        {
-
-            var user = _context.User.Single(u => u.User_ID == model.User_ID);
-
-            user.UserName = model.UserName;
-            user.Email = model.Email;
-            if (model.Password != null)
-            {
-                user.Password = model.Password;
-                user.ConfirmPassword = model.ConfirmPassword;
-            }
-            if (model.Image != null)
-            {
-                user.Image = "/images/" + model.Image;
-            }
-            user.Role = model.Role;
-
-            _context.Update(user);
-
-            return _context.SaveChanges();
-        }
+        
 
         public int EditPage(PageEditDto model)
         {
@@ -265,11 +310,7 @@ namespace Services.Implementation
             return _context.SaveChanges();
         }
 
-        public int UserId(string Username)
-        {
-            var usr = _context.User.Single(u => u.UserName == Username);
-            return usr.User_ID;
-        }
+        
 
         public int PageIdWithPageName(string pagename)
         {
@@ -302,6 +343,7 @@ namespace Services.Implementation
                 Title = model.Title,
                 MainContent = model.MainContent,
                 Image = model.Image,
+                AutoActive = false,
                 Active = true,
                 Deleted = false,
                 PublicationData = DateTime.Now,
@@ -328,7 +370,71 @@ namespace Services.Implementation
             return _context.SaveChanges();
         }
 
-        //agora tenho que verificar se a imagem dá problema ou não e depois tenho que fazer a parte de editar o post principal com os dados do post selecionado no historico
+        public int PostContentOnTimer(CreateContentDto model)
+        {
+            var newContent = new PageContent
+            {
+                Title = model.Title,
+                MainContent = model.MainContent,
+                Image = model.Image,
+                AutoActive = true,
+                Active = false,
+                Deleted = false,
+                PublicationData = model.PublicationData,
+                Page_ID = model.Page_ID,
+            };
+
+            _context.PageContents.Add(newContent).Context.SaveChanges();
+
+            var newPostHistory = new PostHistory
+            {
+                Title = newContent.Title,
+                MainContent = newContent.MainContent,
+                Image = newContent.Image,
+                Active = false,
+                Deleted = false,
+                PublicationData = model.PublicationData,
+                DateOfChange = DateTime.Now,
+                page_id = newContent.Page_ID,
+                PageContent_ID = newContent.Content_ID,
+            };
+
+            _context.PostHistory.Add(newPostHistory);
+
+            return _context.SaveChanges();
+        }
+
+        public IEnumerable<CreateContentDto> ListOfContentsForTimer()
+        {
+            var c = _context.PageContents.Where(s => s.AutoActive == true);
+            List<CreateContentDto> listOfContents = new List<CreateContentDto>();
+            foreach (var item in c)
+            {
+                CreateContentDto contents = new CreateContentDto
+                {
+                    Title = item.Title,
+                    MainContent = item.MainContent,
+                    Image = item.Image,
+                    Active = item.Active,
+                    PublicationData = item.PublicationData,
+                    Page_ID = item.Page_ID,
+                };
+                listOfContents.Add(contents);
+            }
+            return listOfContents.ToList();
+        }
+
+        public int ActiveContentForTimer(int contentid)
+        {
+            var post = _context.PageContents.Single(u => u.Content_ID == contentid);
+
+            post.Active = true;
+            post.AutoActive = false;
+
+            _context.Update(post);
+
+            return _context.SaveChanges();
+        }
 
         public int EditContent(CreateContentDto model)
         {
@@ -505,23 +611,7 @@ namespace Services.Implementation
             return null;
         }
 
-        public UserDto UserInfo(int userid)
-        {
-            var model = _context.User.Single(c => c.User_ID == userid);
-
-            var user = new UserDto()
-            {
-                UserName = model.UserName,
-                Email = model.Email,
-                Password = model.Password,
-                ConfirmPassword = model.ConfirmPassword,
-                Image = model.Image,
-                Role = model.Role
-
-
-            };
-            return user;
-        }
+        
 
         public PageEditDto PageInfo(int pageid)
         {

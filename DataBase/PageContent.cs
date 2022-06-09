@@ -26,6 +26,8 @@ namespace DataBase
 
         public bool Active { get; set; }
 
+        public bool AutoActive { get; set; }
+
         public bool Deleted { get; set; }
 
         [NotMapped]

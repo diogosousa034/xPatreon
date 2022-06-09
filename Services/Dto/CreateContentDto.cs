@@ -14,6 +14,7 @@ namespace Services.Dto
         public string MainContent { get; set; }
         public string Image { get; set; }
         public bool? Active { get; set; }
+        public bool AutoActive { get; set; }
         public DateTime PublicationData { get; set; }
 
         [NotMapped]

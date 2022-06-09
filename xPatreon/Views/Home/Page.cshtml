@@ -136,10 +136,11 @@
                                     </div>
 
                                     <img id="FrontImageP" src="@ViewBag.ProfileImage" class="rounded-circle" alt="Image" width="135" height="135" />
-                                    <input asp-for="FrontImageProfile" class="teste" id="FLFrontImage"
+                                    <input name="ProfileImage" asp-for="FrontImageProfile" class="teste" id="FLFrontImage"
                                            onchange="document.getElementById('FrontImageP').src = window.URL.createObjectURL(this.files[0])" />
                                     <span asp-validation-for="FrontImageProfile" class="text-danger"></span>
                                 </div>
+                                <span id="ProfileImageSpan"></span>
                             </td>
                         </tr>
 
@@ -168,10 +169,11 @@
                                     </div>
 
                                     <img id="FrontImageC" src="@ViewBag.CoverImage" alt="Image" class="w-100 image__img" height="200" />
-                                    <input asp-for="FrontImageCover" class="teste" id="FrontImageCover"
+                                    <input name="CoverImage" asp-for="FrontImageCover" class="teste" id="FrontImageCover"
                                            onchange="document.getElementById('FrontImageC').src = window.URL.createObjectURL(this.files[0])" />
                                     <span asp-validation-for="FrontImageCover" class="text-danger"></span>
                                 </div>
+                                <span id="CoverImageSpan"></span>
                             </td>
                         </tr>
                     </table>
@@ -275,6 +277,16 @@
             $("#creating").addClass("Redder");
             return false;
         }
+        if (document.myForm.ProfileImage.value == '') {
+            $("#ProfileImageSpan").html('<font color="Red">Profile image is required !');
+            $("#FLFrontImage").addClass("Redder");
+            return false;
+        }
+        if (document.myForm.CoverImage.value == '') {
+            $("#CoverImageSpan").html('<font color="Red">Cover image is required !');
+            $("#FrontImageCover").addClass("Redder");
+            return false;
+        }
         if (document.myForm.AboutPage.value == '') {
             $("#StatusAbout").html('<font color="Red">About page is required !');
             $("#aboutPage").addClass("Redder");
@@ -283,6 +295,8 @@
         else {
             $("#name").removeClass("Redder");
             $("#creating").removeClass("Redder");
+            $("#FLFrontImage").removeClass("Redder");
+            $("#FrontImageCover").removeClass("Redder");
             $("#aboutPage").removeClass("Redder");
             return true;
         }

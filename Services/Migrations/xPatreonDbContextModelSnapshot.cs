@@ -103,6 +103,9 @@ namespace Services.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("AutoActive")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
 

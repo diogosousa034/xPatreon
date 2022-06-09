@@ -26,6 +26,9 @@ namespace Services.Interfaces
         public int EditPage(PageEditDto model);
         public int LaunchPage(int pageid);
         public int CreateContent(CreateContentDto model);
+        public int PostContentOnTimer(CreateContentDto model);
+        public IEnumerable<CreateContentDto> ListOfContentsForTimer();
+        public int ActiveContentForTimer(int contentid);
         public int EditContent(CreateContentDto model);
         public int UpdateHistoryContent(int PostToEdit_id, int PostHistory_id);
         public IEnumerable<PostHistoryDto> GetContentHistoryList(int contend_id);
