@@ -126,8 +126,9 @@ namespace xPatreon.Controllers
                 {
                     ViewBag.PublishEdit = "Publish now";
                     ViewBag.Active = null;
+                    ViewBag.PublishOrSchedule = "PublishSchedule";
                 }
-                
+
 
                 return View();
             }
@@ -136,7 +137,7 @@ namespace xPatreon.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateTextContent(CreateContentDto content, string submit, string Active)
+        public IActionResult CreateTextContent(CreateContentDto content, string submit, string Active, string date)
         {
             var pageid = 0;
             int.TryParse(HttpContext.Session.GetString("PageID"), out pageid);
@@ -145,14 +146,21 @@ namespace xPatreon.Controllers
             if (submit == "Edit")
             {
                 content.Content_ID = Contentid;
-                content.Active = null;
+                content.Active = null;               
                 _userService.EditContent(content);
 
             }
             else if (submit == "Publish now")
             {
                 content.Page_ID = pageid;
+                content.AutoActive = false;
                 _userService.CreateContent(content);
+            }
+            else if (submit == "Schedule")
+            {
+                content.Page_ID = pageid;
+                content.PublicationData = DateTime.Parse(date);
+                _userService.PostContentOnTimer(content);
             }
             else
             {
@@ -226,6 +234,11 @@ namespace xPatreon.Controllers
                 content.Page_ID = pageid;
                 content.Image = uniqueFileName;
                 _userService.CreateContent(content);
+            }
+            else if (submit == "Schedule")
+            {
+                content.Page_ID = pageid;
+                _userService.PostContentOnTimer(content);
             }
             else
             {

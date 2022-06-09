@@ -21,6 +21,8 @@
 
 <link href="~/cssfolder/style.css" rel="stylesheet" />
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 <div class="container mt-3">
     <form enctype="multipart/form-data" asp-action="CreateImageContent">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -68,10 +70,25 @@
                 </div>
             </div>
             <div class="col-4">
-                <div>
-                    <input type="submit" value="@ViewBag.PublishEdit" name="submit" class="btn btn-primary btn-lg rounded-pill w-100" />
+                <div class="d-flex mb-3">
+                    <div class="w-100 pr-2">
+                        <input type="submit" value="@ViewBag.PublishEdit" id="PublishNowEdit" name="submit" class="btn btn-primary btn-lg rounded-pill w-100" />
+                    </div>
+                    <a class="nav-link dropdown-toggle btn btn-primary rounded-pill" style="width:75px;" href="#" id="navbarDropdown"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#" onclick="PublishNow()">Publish now</a>
+                        <a class="dropdown-item" href="#" onclick="Schedule()">Schedule</a>
+                    </div>
                 </div>
-                <div class="border rounded mt-3 p-3">
+                @*schedule area*@
+                <span id="ScheduleSpan">
+                    <div class="border border-bottom-0 p-3">
+                        <p class="font-weight-bold mb-0">SCHEDULE</p>
+                        <p class="text-muted mb-0">Automatically publish your post at a specified time in the future.</p>
+                        <input class="form-control mt-2" id="datetimepicker" placeholder="Select a date" />
+                    </div>
+                </span>
+                <div id="seeWho" class="border rounded-bottom rounded-top mt-0 p-3">
                     <div class="form-group">
                         <p class="font-weight-bold m-0">WHO CAN SEE THIS POST?</p><br />
                         <input type="radio" name="WhoCanSee" value="Public" checked /> Public <br />
@@ -89,7 +106,33 @@
     </form>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
+
+    $('#ScheduleSpan').hide();
+    
+    function PublishNow(){;
+
+        $('#ScheduleSpan').hide();  
+        $('#PublishNowEdit').attr('value', 'Publish now');
+        $('#seeWho').addClass('rounded-top');
+    }
+
+    function Schedule(){;
+
+        $('#ScheduleSpan').show();
+        $('#PublishNowEdit').attr('value', 'Schedule');
+        $('#seeWho').removeClass('rounded-top');
+    }
+
+    config = {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        altInput: true,
+        altFormat: "F j, Y (h:S K)",
+    }
+
+    flatpickr("#datetimepicker", config);
     document.getElementById("WhatAbout").defaultValue = "@ViewBag.MainContent";
 </script>
