@@ -42,10 +42,10 @@ namespace Services.Interfaces
         public UserDto UserInfo(int userid);
         public PageEditDto PageInfo(int pageid);
         public CreateContentDto ContentInfo(int Contentid);
-        public IEnumerable<PageContent> ContentList(int pageid);
-        public IEnumerable<PageContent> ContentListManage(int pageid);
-        public IEnumerable<Page> GetListOfPages();
-        public IEnumerable<Page> GetListOfSearchedPages(string search);
+        public IEnumerable<CreateContentDto> ContentList(int pageid);
+        public IEnumerable<CreateContentDto> ContentListManage(int pageid);
+        public IEnumerable<PageDto> GetListOfPages();
+        public IEnumerable<PageDto> GetListOfSearchedPages(string search);
         public IEnumerable<PageDto> GetListOfFollowedPages(int id);
     }
 }
