@@ -296,21 +296,31 @@ namespace xPatreon.Controllers
                 int.TryParse(Convert.ToString(HttpContext.Session.GetString("UserID")), out userid);
 
                 int contentidview = 0;
-                int.TryParse(Convert.ToString(HttpContext.Session.GetString("contentidview")), out contentidview);
-                var listComments = _userService.CommentsList(contentidview);
+                int.TryParse(Convert.ToString(HttpContext.Session.GetString("contentidview")), out contentidview);               
                 if (contentidview > 0)
                 {
                     model.CommentText = InputText;
                     model.User_id = userid;              
                     model.Content_ID = contentidview;
 
-                    _userService.AddComment(model);
+                    if (InputText != null)
+                    {
+                        _userService.AddComment(model);
+                    }
 
                     ViewBag.Title3 = _userService.ContentInfo(contentidview).Title;
                     ViewBag.MainContent = _userService.ContentInfo(contentidview).MainContent;
-                    ViewBag.Image = "/Images/" + _userService.ContentInfo(contentidview).Image;
+                    if (_userService.ContentInfo(contentidview).Image != null)
+                    {
+                        ViewBag.Image = "/Images/" + _userService.ContentInfo(contentidview).Image;
+                    }
+                    else
+                    {
+                        ViewBag.Image = null;
+                    }
                     ViewBag.UserImage =  _userService.UserInfo(userid).Image;
                 }
+                var listComments = _userService.CommentsList(contentidview);
                 return View(listComments);
             }
             else
