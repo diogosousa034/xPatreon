@@ -511,6 +511,10 @@ namespace Services.Implementation
                     page_id = post.Page_ID,
                     PageContent_ID = model.Content_ID,
                 };
+                if(newPostHistory.Image == null)
+                {
+                    newPostHistory.Image = post.Image;
+                }
 
                 _context.PostHistory.Add(newPostHistory);
 

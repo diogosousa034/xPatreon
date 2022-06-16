@@ -74,18 +74,21 @@
                     <div class="w-100 pr-2">
                         <input type="submit" value="@ViewBag.PublishEdit" id="PublishNowEdit" name="submit" class="btn btn-primary btn-lg rounded-pill w-100" />
                     </div>
-                    <a class="nav-link dropdown-toggle btn btn-primary rounded-pill" style="width:75px;" href="#" id="navbarDropdown"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#" onclick="PublishNow()">Publish now</a>
-                        <a class="dropdown-item" href="#" onclick="Schedule()">Schedule</a>
-                    </div>
+                    @if (ViewBag.PublishOrSchedule != null)
+                    {
+                        <a class="nav-link dropdown-toggle btn btn-primary rounded-pill" style="width:75px;" href="#" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#" onclick="PublishNow()">Publish now</a>
+                            <a class="dropdown-item" href="#" onclick="Schedule()">Schedule</a>
+                        </div>
+                    }
                 </div>
                 @*schedule area*@
                 <span id="ScheduleSpan">
                     <div class="border border-bottom-0 p-3">
                         <p class="font-weight-bold mb-0">SCHEDULE</p>
                         <p class="text-muted mb-0">Automatically publish your post at a specified time in the future.</p>
-                        <input class="form-control mt-2" id="datetimepicker" placeholder="Select a date" />
+                        <input class="form-control mt-2" id="datetimepicker" name="date" placeholder="Select a date" />
                     </div>
                 </span>
                 <div id="seeWho" class="border rounded-bottom rounded-top mt-0 p-3">
@@ -111,15 +114,17 @@
 <script>
 
     $('#ScheduleSpan').hide();
-    
-    function PublishNow(){;
 
-        $('#ScheduleSpan').hide();  
+    function PublishNow() {
+        ;
+
+        $('#ScheduleSpan').hide();
         $('#PublishNowEdit').attr('value', 'Publish now');
         $('#seeWho').addClass('rounded-top');
     }
 
-    function Schedule(){;
+    function Schedule() {
+        ;
 
         $('#ScheduleSpan').show();
         $('#PublishNowEdit').attr('value', 'Schedule');
@@ -130,9 +135,10 @@
         enableTime: true,
         dateFormat: "Y-m-d H:i",
         altInput: true,
-        altFormat: "F j, Y (h:S K)",
+        altFormat: "F j, Y (h:i K)",
     }
 
     flatpickr("#datetimepicker", config);
+
     document.getElementById("WhatAbout").defaultValue = "@ViewBag.MainContent";
 </script>

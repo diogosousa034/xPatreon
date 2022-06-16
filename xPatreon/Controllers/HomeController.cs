@@ -225,7 +225,10 @@ namespace xPatreon.Controllers
             if (submit == "Edit")
             {
                 content.Content_ID = Contentid;
-                content.Image = uniqueFileName;
+                if (uniqueFileName != null)
+                {
+                    content.Image = uniqueFileName;
+                }
                 content.Active = null;
                 _userService.EditContent(content);
             }            
