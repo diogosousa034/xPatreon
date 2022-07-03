@@ -204,6 +204,7 @@ namespace xPatreon.Controllers
                 {
                     ViewBag.PublishEdit = "Publish now";
                     ViewBag.Active = null;
+                    ViewBag.PublishOrSchedule = "PublishSchedule";
                 }
                 return View();
             }
